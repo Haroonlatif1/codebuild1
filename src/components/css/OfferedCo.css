@@ -1,0 +1,51 @@
+.offered-courses {
+    padding: 20px;
+    background-size: cover;
+    background-position: center;
+    background-image: url("/public/codebui2.png");
+    height: 100vh;
+  }
+  
+  .offered-courses .card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background: transparent;
+    backdrop-filter: blur(5px);
+  }
+  .offered-courses .card:hover {
+    border: 1px solid white;
+   
+  }
+  
+  
+  .offered-courses .card img {
+    border-radius: 10px 10px 0 0;
+  }
+  
+  .offered-courses .card-body {
+    padding: 20px;
+  }
+  
+  .offered-courses .card-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: aquamarine;
+  }
+  
+  .offered-courses .card-text {
+    margin-bottom: 20px;
+  }
+  
+  .offered-courses button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .offered-courses button:hover {
+    background-color: #0069d9;
+  }

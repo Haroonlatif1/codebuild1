@@ -1,0 +1,74 @@
+.contact-us {
+    padding: 20px;
+    text-align: center;
+    color: #fff;
+    background-image: url('/public/codebui-img.png');
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+  }
+  
+  .contact-us h1 {
+    margin-bottom: 20px;
+  }
+  
+  .social-links {
+    margin-bottom: 20px;
+  }
+  
+  .social-links a {
+    margin: 10px;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .social-links a:hover {
+    transform: scale(1.2);
+  }
+  
+  .contact-info {
+    margin-bottom: 20px;
+  }
+  
+  .contact-us-form {
+    max-width: 400px;
+    margin: 40px auto;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+
+  }
+  
+  .contact-us-form .form-group label {
+    color: #fff;
+    margin-bottom: 10px;
+  }
+  
+  .contact-us-form .form-control {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid white;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .contact-us-form .form-control::placeholder {
+    color: #ccc;
+  }
+  
+  .contact-us-form button[type="submit"] {
+    width: 100%;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .contact-us-form button[type="submit"]:hover {
+    background-color: #0069d9;
+  }
+
+
+  
