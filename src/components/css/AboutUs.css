@@ -1,133 +1,164 @@
 /* Global Background Color */
-@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playwrite+AR:wght@100..400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playwrite+AR:wght@100..400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Dosis:wght@200..800&family=Matemasie&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playwrite+AR:wght@100..400&display=swap");
+
 .about-us {
-  background: linear-gradient(135deg, #1e1e1e, #cccccc);
+  background: linear-gradient(135deg, #1e1e1e, #606060);
   color: #fff;
   padding: 20px 0;
 }
-  
 
-  /* Card Styles */
-  .card-border {
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease-in-out;
-    margin-top: 20px;
-    padding: 20px;
-  }
-  .card-border1 {
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease-in-out;
-    margin-top: 20px;
-    padding: 20px;
-  }
-  
-  .card-border:hover {
-    background-color: #444;
-    color: #ffa500;
-    transform: scale(1.02);
-  }
-
-
-  /* Card Title and Text Styles */
-  .card-title {
-    font-weight: bold;
-    font-size: 24px;
-    margin-bottom: 10px;
-    font-family: "Dosis", sans-serif;
+/* Card Styles */
+.about-us .card-border-team{
+  border: none !important;
+  margin-top: 10px;
+  padding: 20px;
+  background: transparent !important;
+  min-height: 420px;
+}
+.about-us .cardd {
+  border: none !important;
+  margin-top: 20px;
+  padding: 20px;
+  background: transparent !important;
+}
+.about-us .txt2 {
+  font-size: 20px !important;
+  color: rgb(236, 234, 234) !important;
+}
+/* counter */
+.about-us .card-border12 {
+  border: none !important;
+  margin-top: 20px;
+  padding: 20px;
+}
+.about-us .card-border1 {
+  border: none !important;
+  margin-top: 20px;
+  padding: 20px;
+  background: transparent !important;
+}
+/* Card Title and Text Styles */
+.about-us .card-title {
+  font-weight: bold;
+  font-size: 24px;
+  margin-bottom: 10px;
+  font-family: "Dosis", sans-serif;
   font-optical-sizing: auto;
   color: gray;
-  font-style: normal;
-  }
 
-  
-  .card-text {
-    font-size: 18px;
-    margin-bottom: 20px;
-    color: white;
-    font-family: "Dosis", sans-serif;
-  font-optical-sizing: auto;
   font-style: normal;
-  font-weight: 500;
-  }
-  
-  
-  /* Counter Styles */
-  .counter-col {
-    margin-bottom: 20px;
-    padding: 10px;
-  }
-    
+}
+
+.about-us .card-text {
+  font-size: 30px;
+  margin-bottom: 20px;
+  color: white;
+  font-family: "Caveat", cursive;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* Counter Styles */
+.counter-col {
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
 .counter-value {
-    font-size: 36px;
-    font-weight: bold;
-    font-family: "Dosis", sans-serif;
+  font-size: 36px;
+  background: transparent !important;
+  font-weight: bold;
+  font-family: "Dosis", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
-  }
-  
-
-  .carousel-inner img {
-    width: 100%;
-    height: 750px;
-  }
-  
-  .carousel-caption {
-    bottom: 0;
-    background-color: #1e1e1e;   
-     padding: 10px;
-    color: #fff;
-  }
-  
-  .card-border:hover .card-text, .card-border1:hover .card-text {
-    color: #ffa500 !important; 
-}
-  .card-border:hover .card-title, .card-border1:hover .card-title {
-    color: #ffa500 !important;
 }
 
+.carousel-inner img {
+  width: 100%;
+  height: 750px;
+}
+
+.carousel-caption {
+  bottom: 0;
+  background-color: #1e1e1e;
+  padding: 10px;
+  color: #fff;
+}
+
+.card-border:hover .card-text,
+.card-border1:hover .card-text
+,
+.card-border12:hover .card-text,.card-border-team:hover .card-text {
+  color: #ffa500 !important;
+}
+.card-border:hover .card-title,
+.card-border1:hover .card-title,
+.card-border12:hover .card-title {
+  color: #ffa500 !important;
+}
 
 .carousel-indicators,
 .carousel-control-prev,
 .carousel-control-next {
-    display: none;
+  display: none;
 }
 
-  @media (max-width: 768px) {
-    .carousel-inner img {
-      height: 300px;
-    }
+@media (max-width: 768px) {
+  .carousel-inner img {
+    height: 520px;
   }
+}
+
+@media (max-width: 576px) {
+  .carousel-inner img {
+    height: 320px;
+  }
+
   
-  @media (max-width: 576px) {
-    .carousel-inner img {
-      height: 200px;
-    }
+}
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .card-border {
+    margin-bottom: 20px;
   }
-  /* Responsive Styles */
-  @media (max-width: 768px) {
-    .card-border {
-      margin-bottom: 20px;
-    }
-    .card-border1 {
-      margin-bottom: 20px;
-    }
-    .counter-col {
-      margin-bottom: 10px;
-    }
+  .card-border1 {
+    margin-bottom: 20px;
   }
-  
-  @media (max-width: 576px) {
-    .card-border {
-      margin-bottom: 10px;
-    }
-    .card-border1 {
-      margin-bottom: 10px;
-    }
-    .counter-col {
-      margin-bottom: 5px;
-    }
+  .counter-col {
+    margin-bottom: 10px;
   }
+}
+
+@media (max-width: 576px) {
+  .card-border {
+    margin-bottom: 10px;
+  }
+  .card-border1 {
+    margin-bottom: 10px;
+  }
+  .counter-col {
+    margin-bottom: 5px;
+  }
+  .about-us .card-text {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: white;
+    font-family: "Caveat", cursive;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+  }
+  .about-us .card-border-team{
+    border: none !important;
+    background: transparent !important;
+    min-height: 250px;
+
+  }
+  .about-us .card-border12 {
+    border: none !important;
+    padding: 5px;
+  }
+
+}

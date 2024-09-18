@@ -1,0 +1,46 @@
+.footer {
+    background-color: #2B2B2B;
+    color: #fff !important;
+    padding: 20px 0;
+    transition: background-color 0.3s ease;
+  }
+  
+  .footer-column {
+    margin-bottom: 20px;
+  }
+  
+  .footer-column h5 {
+    margin-top: 0;
+    color: #ffa500;
+  }
+  
+  .footer-column p {
+    margin-bottom: 10px;
+  }
+  
+  .footer-column .list-group-item {
+    background-color: transparent;
+    border: none;
+    padding: 10px 0;
+    transition: color 0.3s ease;
+  }
+  
+  .footer-column .list-group-item a {
+    color: #808080 !important; /* Set initial color to gray */
+    text-decoration: none;
+  }
+  
+  .footer-column .list-group-item a:hover {
+    color: #fff !important; /* Change color to white on hover */
+  }
+  
+  .copyright {
+    margin-top: 20px;
+    color: #666;
+    transition: color 0.3s ease;
+  }
+  
+  .copyright:hover {
+    color: #ffa500;
+  }
+  

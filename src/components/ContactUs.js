@@ -12,7 +12,7 @@ function ContactUs() {
         <a href="https://www.instagram.com/codebuild1" target="_blank" rel="noreferrer">
           <FontAwesomeIcon icon={faInstagram} size="2x" color="#E1306C" />
         </a>
-        <a href="https://www.facebook.com/your-facebook-handle" target="_blank" rel="noreferrer">
+        <a href="https://www.facebook.com/profile.php?id=61563588339796" target="_blank" rel="noreferrer">
           <FontAwesomeIcon icon={faFacebook} size="2x" color="#4267B2" />
         </a>
         <a href="https://wa.me/+923284452954" target="_blank" rel="noreferrer">
@@ -23,7 +23,7 @@ function ContactUs() {
         </a>
       </div>
       <div className="contact-info">
-        <p>Phone: 123-456-7890</p>
+        <p>Phone: 0328-4452954</p>
         <p>Email: codecraft1122@gmail.com</p>
         <p>Address: 40-D near Furqan Surgical Hospital Gulshan-e-Ravi, Lahore, Pakistan</p>
       </div>

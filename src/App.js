@@ -5,6 +5,8 @@ import Home from "./components/Home";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ContactUs from "./components/ContactUs";
+import Footer from "./components/footer";
+
 import OfferedCourses from "./components/OfferedCourses";
 
 function App() {
@@ -16,9 +18,8 @@ function App() {
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/offeredcourses" element={<OfferedCourses />} />
-
-
       </Routes>
+      <Footer/>
     </BrowserRouter>
   );
 }

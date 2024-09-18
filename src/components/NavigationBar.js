@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navbar, Nav, NavDropdown, Container,Button } from 'react-bootstrap';
 import logo from '../components/logo.png';
+import {Link} from "react-router-dom"
 
 function NavigationBar() {
   return (
@@ -13,12 +14,12 @@ function NavigationBar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="/offeredcourses">Offered Courses</Nav.Link>
-            <Nav.Link href="/aboutus">About Us</Nav.Link>
-            <Nav.Link href="/contactus">Contact Us</Nav.Link>
+            <Nav.Link ><Link to="/offeredcourses" style={{textDecoration:"none",color:"gray"}}>Offered Courses</Link></Nav.Link>
+            <Nav.Link ><Link to="/aboutus" style={{textDecoration:"none",color:"gray"}}>About Us</Link></Nav.Link>
+            <Nav.Link ><Link to="/contactus" style={{textDecoration:"none",color:"gray"}}>Contact Us</Link></Nav.Link>
           </Nav>
           <Nav>
-            <Nav.Link href="#enroll">
+            <Nav.Link href="/">
               <Button variant='outline-primary'>Enroll Now</Button>
             </Nav.Link>
           </Nav>
