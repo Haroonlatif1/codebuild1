@@ -31,7 +31,7 @@ function OfferedCourses() {
               <Card.Img variant="top" src={course.image} alt='course' height={250} />
               <Card.Body className="card-content">
                 <Card.Title className="card-title text-white">{course.name}</Card.Title>
-                <Card.Text className="card-body text-white">{course.description}<br/>{course.duration}</Card.Text>
+                <Card.Text className="card-body text-white">{course.description}<br/>Duration: {course.duration} months</Card.Text>
                 <Button
                   onClick={() => clickHandler(course.name)}
                   variant="outline-primary"
@@ -62,41 +62,56 @@ const courses = [
     name: "Full Stack Web Development",
     description: "Learn full stack web development with our expert instructors.",
     image: "../../webdev.png",
+    duration:6
   },
   {
     name: 'Data Analysis with Python',
     description: 'Master data analysis with Python and become a data scientist.',
     image: '../../ds.jpg',
+    duration:6
+
   },
   {
     name: 'Business Development',
     description: 'Learn business development strategies and grow your business.',
     image: '../../bd.jpg',
+    duration:3
+
   },
   {
     name: 'Android App Development',
     description: 'Create Android apps with our comprehensive course.',
     image: '../../and.jpg',
+    duration:6
+
   },
   {
     name: 'MS Office',
     description: 'Master MS Office tools and become more productive.',
     image: '../../ms.jpg',
+    duration:3
+
   },
   {
     name: 'Ethical Hacking and Cyber Security',
     description: 'Learn ethical hacking and cyber security techniques.',
     image: '../../ethical.jpg',
+    duration:6
+
   },
   {
     name: 'Frontend web development With react',
     description: 'Learn frontend web development with react, git, github',
     image: '../../frontend.jpg',
+    duration:3
+
   },
   {
     name: 'Python programming',
     description: 'Learn python from Zero to hero level and start coding',
     image: '../../python.jpg',
+    duration:2
+
   },
 ];
 
