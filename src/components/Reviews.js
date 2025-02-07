@@ -1,21 +1,39 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./css/cubecomponent.css"; // Include the provided CSS here.
+import "./css/cubecomponent.css"; 
+import { Container } from "react-bootstrap";
 
 const info = [
-  { text: "A calming and tranquil color, linked to serenity, trust, and stability. It often represents the sky, water, and feelings of peace or coolness."
-    ,name:"Asad amin (Full stack web development student)"
-   },
-  { text: "A rich, luxurious color that blends the calm of blue and the energy of red. It symbolizes royalty, mystery, spirituality, and creativity." },
-  { text: "A bold and intense color, often associated with passion, energy, love, and danger. It evokes strong emotions and symbolizes power and excitement." },
-  { text: "A refreshing, natural color that symbolizes growth, health, and harmony. It’s often associated with nature, renewal, and balance." },
-  { text: "A bright and cheerful color that represents happiness, optimism, and warmth. It often symbolizes sunshine, creativity, and positivity." },
-  { text: "A vibrant, energetic color that combines the warmth of red and the cheerfulness of yellow. It often signifies enthusiasm, fun, and vitality." },
+  { 
+    text: "iff dfhdof dfdfdfd f dfdf df dfd",
+    name: "Asad amin (FSWD-Ai)"
+  },
+  { 
+    text: "Outstanding course and knowledgeable Mentor highly recommended",
+    name: "Asad amin (FSWD-Ai)"
+  },
+  { 
+    text: "A bold and intense color, often associated with passion, energy, love, and danger. It evokes strong emotions and symbolizes power and excitement.",
+    name: ""
+  },
+  { 
+    text: "A refreshing, natural color that symbolizes growth, health, and harmony. It’s often associated with nature, renewal, and balance.",
+    name: ""
+  },
+  { 
+    text: "A bright and cheerful color that represents happiness, optimism, and warmth. It often symbolizes sunshine, creativity, and positivity.",
+    name: ""
+  },
+  { 
+    text: "A vibrant, energetic color that combines the warmth of red and the cheerfulness of yellow. It often signifies enthusiasm, fun, and vitality.",
+    name: ""
+  },
 ];
 
 const InteractiveCards = () => {
   const cursorContainer = useRef(null);
   const cursor = useRef(null);
   const [cards, setCards] = useState([]);
+  const [hoveredCard, setHoveredCard] = useState(null);
 
   useEffect(() => {
     setCards(info);
@@ -33,13 +51,15 @@ const InteractiveCards = () => {
     };
   }, []);
 
-  const handleCardMouseOver = (index) => {
+  const handleCardMouseOver = (index, name) => {
+    setHoveredCard({ index, name });
     if (cursor.current) {
       cursor.current.style.backgroundColor = `var(--animate${index + 1})`;
     }
   };
 
   const handleCardMouseOut = () => {
+    setHoveredCard(null);
     if (cursor.current) {
       cursor.current.style.backgroundColor = "var(--initial)";
     }
@@ -53,7 +73,7 @@ const InteractiveCards = () => {
             <div
               className="card"
               key={index}
-              onMouseOver={() => handleCardMouseOver(index)}
+              onMouseOver={() => handleCardMouseOver(index, item.name)}
               onMouseOut={handleCardMouseOut}
             >
               <div className="inner-shadow">
@@ -61,9 +81,16 @@ const InteractiveCards = () => {
                   <div className="cursor-blur"></div>
                 </div>
               </div>
-              <h1>{index + 1}</h1>
+              <h1 
+                style={{
+                  fontSize: hoveredCard && hoveredCard.index === index ? '15px' : '80px',
+                  transition: 'font-size 0.5s ease-in-out',
+                }}
+              >
+                {hoveredCard && hoveredCard.index === index ? item.name : index + 1}
+              </h1>
               <div style={{ zIndex: 99 }}>
-                <p className="text">{item.text}<br></br>{item.name}</p>
+                <p className="text">{item.text}</p>
               </div>
             </div>
           ))}
@@ -72,6 +99,11 @@ const InteractiveCards = () => {
       <div className="cursor-container" ref={cursorContainer}>
         <div className="cursor" ref={cursor}></div>
       </div>
+      <Container>
+        <video src="">
+
+        </video>
+      </Container>
     </div>
   );
 };
