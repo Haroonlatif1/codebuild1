@@ -38,7 +38,7 @@ const Footer = () => {
         </Row>
         <Row>
           <Col md={12} className="text-center copyright">
-            <p>Copyright 2024 Codebuild. All rights reserved.</p>
+            <p>Copyright 2025 Codebuild. All rights reserved.</p>
           </Col>
         </Row>
       </Container>

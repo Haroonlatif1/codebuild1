@@ -1,42 +1,41 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./css/cubecomponent.css"; 
+import "./css/cubecomponent.css";
 import { Container } from "react-bootstrap";
 
-const info = [
+const testimonials = [
   { 
-    text: "iff dfhdof dfdfdfd f dfdf df dfd",
+    text: "I recently complete my Mern Stack course from this platform and learn lots of topics so I highly recommend this course for anyone.",
     name: "Asad amin (FSWD-Ai)"
+  },
+  { 
+    text: "Really enjoying the AI Web Dev Full Stack. Mr Muhammad Haroon teaches in a way that makes everything easy to understand, even the tricky parts. The course is hands-on and definitely worth it.",
+    name: "Hassan tanveer (FSWD-Ai)"
+  },
+  { 
+    text: "such a wonderful journey with code build academy. I learned a lot and  work on many real time projects that help me in gaining a job. highly recommend ",
+    name: "Mania malik "
   },
   { 
     text: "Outstanding course and knowledgeable Mentor highly recommended",
-    name: "Asad amin (FSWD-Ai)"
+    name: "Furqan shiekh (FSWD-AI)"
   },
   { 
-    text: "A bold and intense color, often associated with passion, energy, love, and danger. It evokes strong emotions and symbolizes power and excitement.",
-    name: ""
+    text: "Honestly Codebuild academy is really a passionate and amazing institute. Instructors are knowledgeable and professional also they offer some amazing courses in which they cover topics in a excellant way . Their Basic to advance courses are from scratch thats why everyone can learn from it even if you a begineer or have a NON-IT background ",
+    name: "Client 5"
   },
   { 
-    text: "A refreshing, natural color that symbolizes growth, health, and harmony. It’s often associated with nature, renewal, and balance.",
-    name: ""
-  },
-  { 
-    text: "A bright and cheerful color that represents happiness, optimism, and warmth. It often symbolizes sunshine, creativity, and positivity.",
-    name: ""
-  },
-  { 
-    text: "A vibrant, energetic color that combines the warmth of red and the cheerfulness of yellow. It often signifies enthusiasm, fun, and vitality.",
-    name: ""
+    text: "I am currently learning the Full-Stack Developer course at CodeBuild Academy, and I could be happier with my experience! The course is well-structured, covering everything from frontend to backend development in a way that is easy to understand. The instructors are knowledgeable and supportive, always ready to help with any doubts. The hands-on projects and real-world applications make learning even more engaging. If you're looking for a great place to learn full-stack development, I highly recommend CodeBuild Academy!",
+    name: "Zohaib ahmad (FSWD-AI)"
   },
 ];
 
 const InteractiveCards = () => {
   const cursorContainer = useRef(null);
   const cursor = useRef(null);
-  const [cards, setCards] = useState([]);
   const [hoveredCard, setHoveredCard] = useState(null);
+  const textRefs = useRef([]);
 
   useEffect(() => {
-    setCards(info);
     const handleMouseMove = (event) => {
       const { pageX: x, pageY: y } = event;
       if (cursorContainer.current) {
@@ -45,16 +44,21 @@ const InteractiveCards = () => {
     };
 
     document.addEventListener("mousemove", handleMouseMove);
-
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-    };
+    return () => document.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
   const handleCardMouseOver = (index, name) => {
     setHoveredCard({ index, name });
     if (cursor.current) {
       cursor.current.style.backgroundColor = `var(--animate${index + 1})`;
+    }
+    
+    // Only start scrolling if text is long (150+ chars)
+    const textElement = textRefs.current[index];
+    if (textElement && textElement.textContent.length > 150) {
+      textElement.style.animation = 'none';
+      void textElement.offsetWidth; // Trigger reflow
+      textElement.style.animation = 'scrollText 10s linear forwards';
     }
   };
 
@@ -63,18 +67,27 @@ const InteractiveCards = () => {
     if (cursor.current) {
       cursor.current.style.backgroundColor = "var(--initial)";
     }
+    
+    // Reset all animations
+    textRefs.current.forEach(el => {
+      if (el) el.style.animation = 'none';
+    });
   };
 
-  return (
+  return (<>
+  <div><h1 className="text-center mt-5 mb-5" style={{fontFamily: "Dosis, sans-serif", color:"white"}}>What Codebuilders say about us</h1></div>
     <div className="interactive-container abc container">
+      
       <div className="content">
+      
         <div className="cards">
-          {cards.map((item, index) => (
+          {testimonials.map((item, index) => (
             <div
-              className="card"
+              className={`card ${item.text.length > 150 ? 'long-text' : ''}`}
               key={index}
               onMouseOver={() => handleCardMouseOver(index, item.name)}
               onMouseOut={handleCardMouseOut}
+              aria-label={`Testimonial card ${index + 1}`}
             >
               <div className="inner-shadow">
                 <div className="cursor-blur-wrapper">
@@ -82,15 +95,22 @@ const InteractiveCards = () => {
                 </div>
               </div>
               <h1 
+                className="card-number"
                 style={{
-                  fontSize: hoveredCard && hoveredCard.index === index ? '15px' : '80px',
-                  transition: 'font-size 0.5s ease-in-out',
+                  fontSize: hoveredCard?.index === index ? '30px' : '70px',
+                  fontFamily:"revert"
                 }}
               >
-                {hoveredCard && hoveredCard.index === index ? item.name : index + 1}
+                {hoveredCard?.index === index ? item.name : index + 1}
               </h1>
-              <div style={{ zIndex: 99 }}>
-                <p className="text">{item.text}</p>
+              <div className="text-container">
+                <p 
+                  className="text" 
+                  ref={el => textRefs.current[index] = el}
+                  data-length={item.text.length}
+                >
+                  {item.text}
+                </p>
               </div>
             </div>
           ))}
@@ -100,11 +120,10 @@ const InteractiveCards = () => {
         <div className="cursor" ref={cursor}></div>
       </div>
       <Container>
-        <video src="">
-
-        </video>
+        <video src="" aria-hidden="true"></video>
       </Container>
-    </div>
+    </div></>
+  
   );
 };
 
