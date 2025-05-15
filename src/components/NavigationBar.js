@@ -82,14 +82,17 @@ function NavigationBar() {
                   </Nav.Link>
                 ))}
               </Nav>
-              <Button 
+              <button 
                 as={Link} 
-                to="/enroll" 
+                to="/" 
                 className="enroll-btn"
               >
                 <FaUserGraduate className="me-2" />
                 Enroll Now
-              </Button>
+              </button>
+              <button as={Link} 
+                to="/Verifycertificate" 
+                className="enroll-btn ">Verify your certificate</button>
             </>
           )}
 

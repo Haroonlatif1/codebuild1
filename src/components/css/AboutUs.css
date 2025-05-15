@@ -146,7 +146,7 @@
   color: #f0f0f0;
 }
 
-/* Cinematic Carousel */
+/* Cinematic Carousel
 .cinematic-carousel {
   border-radius: 15px;
   overflow: hidden;
@@ -169,7 +169,7 @@
 
 .cinematic-carousel .carousel-item.active img {
   transform: scale(1.1);
-}
+} */
 
 .image-overlay {
   position: absolute;

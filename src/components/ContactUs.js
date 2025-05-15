@@ -47,7 +47,7 @@ const ContactUs = () => {
     { icon: FaInstagram, color: "#E1306C", url: "https://www.instagram.com/codebuild1" },
     { icon: FaFacebook, color: "#4267B2", url: "https://www.facebook.com/profile.php?id=61563588339796" },
     { icon: FaWhatsapp, color: "#25D366", url: "https://wa.me/+923284452954" },
-    { icon: FaLinkedin, color: "#2867B2", url: "https://www.linkedin.com/in/your-linkedin-handle" }
+    { icon: FaLinkedin, color: "#2867B2", url: "https://www.linkedin.com/company/codebuild-academy" }
   ];
 
   const contactInfo = [

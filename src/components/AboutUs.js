@@ -237,7 +237,7 @@ function AboutUs() {
         <div className="hero-overlay"></div>
       </section>
 
-      <Container fluid className="about-us" ref={ref}>
+      <Container fluid className="about-us" ref={ref} style={{paddingTop:"20px"}}>
         {/* About Us Section */}
         <motion.section 
           className="about-section"
@@ -299,59 +299,7 @@ function AboutUs() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
               >
-                <Card className="glass-card">
-                  <CardBody>
-                    <CardTitle className="section-title">
-                      <motion.h4
-                        initial={{ x: -20, opacity: 0 }}
-                        whileInView={{ x: 0, opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.2, duration: 0.5 }}
-                      >
-                        Our Story
-                      </motion.h4>
-                    </CardTitle>
-                    <CardText className="section-text">
-                      <motion.p
-                        initial={{ x: 20, opacity: 0 }}
-                        whileInView={{ x: 0, opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.4, duration: 0.5 }}
-                      >
-                        Our institute has grown to become a leading provider of quality education, with a focus on innovation, creativity, and critical thinking. Our team of experienced instructors and industry experts are passionate about helping students achieve their full potential.
-                      </motion.p>
-                    </CardText>
-                    
-                    <motion.div
-                      initial={{ scale: 0.9, opacity: 0 }}
-                      whileInView={{ scale: 1, opacity: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: 0.6, duration: 0.8 }}
-                    >
-                      <Carousel fade indicators={false} className="cinematic-carousel">
-                        {carouselItems.map((item, index) => (
-                          <Carousel.Item key={index} interval={5000}>
-                            <div className="carousel-image-container">
-                              <img
-                                className="d-block w-100"
-                                src={item.image}
-                                alt={item.title}
-                              />
-                              <div 
-                                className="image-overlay"
-                                style={{ backgroundColor: item.overlay }}
-                              ></div>
-                            </div>
-                            <Carousel.Caption>
-                              <h3>{item.title}</h3>
-                              <p>{item.description}</p>
-                            </Carousel.Caption>
-                          </Carousel.Item>
-                        ))}
-                      </Carousel>
-                    </motion.div>
-                  </CardBody>
-                </Card>
+               
               </motion.div>
             </Col>
           </Row>
