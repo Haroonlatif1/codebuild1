@@ -1,0 +1,186 @@
+/* ===== STICKY NAVBAR WITH MOBILE BLUR OVERLAY ===== */
+:root {
+    /* Color Variables */
+    --dark-bg: rgba(20, 20, 20, 0.95);
+    --darker-bg: rgba(15, 15, 15, 0.98);
+    --accent-orange: #ffa500;
+    --text-white: rgba(255, 255, 255, 0.9);
+    
+    /* Size Variables */
+    --navbar-height: 80px;
+  }
+  
+  /* BASE NAVBAR STYLES */
+  .sticky-navbar {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: var(--navbar-height);
+    background: var(--dark-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 165, 0, 0.1);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  /* Scrolled State */
+  .sticky-navbar.scrolled {
+    background: var(--darker-bg);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Container for alignment */
+  .sticky-navbar .container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+  }
+  
+  /* BRAND LOGO STYLES */
+  .navbar-brand {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    text-decoration: none;
+    padding: 0;
+  }
+  
+  .navbar-logo {
+    width: 40px;
+    height: 40px;
+    margin-right: 12px;
+    transition: transform 0.3s ease;
+  }
+  
+  .navbar-logo:hover {
+    transform: rotate(10deg);
+  }
+  
+  .brand-text {
+    font-size: 1.4rem;
+    font-weight: 700;
+    background: linear-gradient(to right, #fff 50%, var(--accent-orange) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  /* DESKTOP NAVIGATION */
+  .desktop-nav {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+  
+  .nav-link-item {
+    position: relative;
+    color: var(--text-white) !important;
+    font-weight: 500;
+    font-size: 1.05rem;
+    margin: 0 1.2rem !important;
+    padding: 0.5rem 0 !important;
+    text-decoration: none !important;
+    transition: color 0.3s ease;
+  }
+  
+  .nav-link-item:hover {
+    color: var(--accent-orange) !important;
+  }
+  
+  /* ENROLL BUTTON */
+  .enroll-btn {
+    position: relative;
+    border: 2px solid var(--accent-orange);
+    background: transparent;
+    color: var(--accent-orange);
+    font-weight: 600;
+    padding: 0.6rem 1.5rem;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    margin-left: 5px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .enroll-btn:hover {
+    background: rgba(255, 165, 0, 0.1);
+    box-shadow: 0 0 15px rgba(255, 165, 0, 0.3);
+  }
+  
+  /* MOBILE TOGGLE BUTTON */
+  .mobile-toggle {
+    display: none; /* Hidden by default */
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 165, 0, 0.1);
+    border: 1px solid rgba(255, 165, 0, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    outline: none;
+  }
+  
+  .mobile-toggle:hover {
+    background: rgba(255, 165, 0, 0.2);
+  }
+  
+  /* MOBILE OVERLAY */
+  .mobile-overlay {
+    position: fixed;
+    top: var(--navbar-height);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .mobile-overlay::after {
+    content: "Menu";
+    color: var(--accent-orange);
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  
+  /* RESPONSIVE ADJUSTMENTS */
+  @media (max-width: 991.98px) {
+    /* Hide desktop navigation */
+    .desktop-nav {
+      display: none;
+    }
+    
+    /* Show mobile toggle */
+    .mobile-toggle {
+      display: flex;
+    }
+    
+    /* Adjust container padding */
+    .sticky-navbar .container {
+      padding: 0 1.5rem;
+    }
+  }
+  
+  @media (min-width: 992px) {
+    /* Ensure mobile elements are hidden on desktop */
+    .mobile-toggle,
+    .mobile-overlay {
+      display: none !important;
+    }
+  }
+  
+  /* CONTENT SPACING */
+  .main-content {
+    padding-top: var(--navbar-height);
+  }
