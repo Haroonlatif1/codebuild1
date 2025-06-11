@@ -3,7 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faStar, faRocket, faGraduationCap, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { useEffect, useState, useRef } from 'react';
+import { useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { ParallaxProvider, Parallax } from 'react-scroll-parallax';
 import Particles from 'react-tsparticles';
 import { loadFull } from 'tsparticles';
@@ -314,7 +315,7 @@ function OfferedCourses() {
           >
             <h3>Ready to start your journey?</h3>
             <Button className="cta-button">
-              Contact Our Advisors <FontAwesomeIcon icon={faChevronRight} />
+             <Link to="/contactus">Contact Our Advisors <FontAwesomeIcon icon={faChevronRight} /></Link> 
             </Button>
           </motion.div>
         </Container>

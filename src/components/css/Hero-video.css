@@ -1,0 +1,89 @@
+.will-change-transform {
+  will-change: transform, filter, opacity;
+}
+
+.float-element {
+  position: absolute;
+  font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: 15;
+  user-select: none;
+}
+
+.particle {
+  position: absolute;
+  font-size: clamp(0.4rem, 0.8vw, 0.6rem);
+  opacity: 0.25;
+  pointer-events: none;
+  z-index: 5;
+  user-select: none;
+}
+
+.surprise-element {
+  position: fixed;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.94);
+  color: #1f2937;
+  padding: 0.75rem 1.75rem;
+  border-radius: 10px;
+  font-size: clamp(0.875rem, 1.8vw, 1rem);
+  font-weight: bold;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  z-index: 30;
+  white-space: nowrap;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+@keyframes scroll {
+  0% {
+    top: 0.4rem;
+    opacity: 1;
+  }
+  50% {
+    top: 1rem;
+    opacity: 0.5;
+  }
+  100% {
+    top: 0.5rem;
+    opacity: 1;
+  }
+}
+
+@keyframes rotate {
+  0%, 100% {
+    opacity: 0.7;
+    transform: rotate(45deg) translateY(-2px);
+  }
+  50% {
+    opacity: 1;
+    transform: rotate(45deg) translateY(2px);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 1.8s infinite;
+}
+
+.animate-rotate {
+  animation: rotate 1.8s infinite;
+}
+
+@media (max-width: 640px) {
+  .surprise-element {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+
+  .hero-title {
+    line-height: 1.2;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .float-element {
+    transform: scale(1);
+  }
+}

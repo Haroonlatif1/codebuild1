@@ -3,7 +3,7 @@ import { Container, Row, Col, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { motion } from 'framer-motion';
 import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaChevronRight } from 'react-icons/fa';
 import "./css/footer.css";
-
+import { Link } from 'react-router-dom';
 const Footer = () => {
   const footerVariants = {
     hidden: { opacity: 0 },
@@ -50,25 +50,31 @@ const Footer = () => {
             </motion.div>
           </Col>
 
-          <Col md={3} className="footer-column">
-            <motion.div variants={itemVariants}>
-              <h5 className="footer-heading">Quick Links</h5>
-              <ListGroup className="footer-links">
-                {['Home', 'Courses', 'About Us', 'Contact Us'].map((item, index) => (
-                  <motion.div
-                    key={index}
-                    whileHover={{ x: 5 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                  >
-                    <ListGroupItem className="footer-link-item">
-                      <FaChevronRight className="link-icon" />
-                      <a href={`/${item.toLowerCase().replace(' ', '')}`}>{item}</a>
-                    </ListGroupItem>
-                  </motion.div>
-                ))}
-              </ListGroup>
-            </motion.div>
-          </Col>
+        <Col md={3} className="footer-column">
+  <motion.div variants={itemVariants}>
+    <h5 className="footer-heading">Quick Links</h5>
+    <ListGroup className="footer-links">
+      {[
+        { label: 'Home', path: '/' },
+        { label: 'Courses', path: '/offeredcourses' },
+        { label: 'About Us', path: '/aboutus' },
+        { label: 'Contact Us', path: '/contactus' },
+      ].map((item, index) => (
+        <motion.div
+          key={index}
+          whileHover={{ x: 5 }}
+          transition={{ type: "spring", stiffness: 300 }}
+        >
+          <ListGroupItem className="footer-link-item">
+            <FaChevronRight className="link-icon" />
+            <a href={item.path}>{item.label}</a>
+          </ListGroupItem>
+        </motion.div>
+      ))}
+    </ListGroup>
+  </motion.div>
+</Col>
+
 
           <Col md={3} className="footer-column">
             <motion.div variants={itemVariants}>
@@ -82,7 +88,7 @@ const Footer = () => {
                   >
                     <ListGroupItem className="footer-link-item">
                       <FaChevronRight className="link-icon" />
-                      <a href="#">{item}</a>
+                      <Link to="/privacy-policy">{item}</Link>
                     </ListGroupItem>
                   </motion.div>
                 ))}

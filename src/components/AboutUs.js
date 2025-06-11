@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Container, Row, Col, Card, CardBody, CardTitle, CardText, Carousel } from 'react-bootstrap';
+import { Container, Row, Col, Card, CardBody, CardTitle, CardText} from 'react-bootstrap';
 import {useNavigate} from "react-router-dom"
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { Parallax } from 'react-scroll-parallax';
+import { motion, useScroll, useTransform  } from 'framer-motion';
 import Particles from 'react-tsparticles';
 import { loadFull } from 'tsparticles';
 import "../components/css/AboutUs.css";
@@ -64,7 +63,7 @@ function AboutUs() {
         animate(0, 15, 2000, setCourses);
         animate(0, 7, 2000, setInstructors);
         animate(0, 300, 2000, setStudents);
-        animate(0, 92, 2000, setSuccessRate);
+        animate(0, 100, 2000, setSuccessRate);
       }
     };
 

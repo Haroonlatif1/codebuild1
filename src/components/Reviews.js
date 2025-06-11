@@ -1,6 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./css/cubecomponent.css";
 import { Container } from "react-bootstrap";
+import { gsap } from "gsap";
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+import VideoHero from "./Hero-video";
+
+// ================== ANIMATED VIDEO SECTION ==================
 
 const testimonials = [
   { 
@@ -21,7 +27,7 @@ const testimonials = [
   },
   { 
     text: "Honestly Codebuild academy is really a passionate and amazing institute. Instructors are knowledgeable and professional also they offer some amazing courses in which they cover topics in a excellant way . Their Basic to advance courses are from scratch thats why everyone can learn from it even if you a begineer or have a NON-IT background ",
-    name: "Client 5"
+    name: "Mansha (FSWD-AI) "
   },
   { 
     text: "I am currently learning the Full-Stack Developer course at CodeBuild Academy, and I could be happier with my experience! The course is well-structured, covering everything from frontend to backend development in a way that is easy to understand. The instructors are knowledgeable and supportive, always ready to help with any doubts. The hands-on projects and real-world applications make learning even more engaging. If you're looking for a great place to learn full-stack development, I highly recommend CodeBuild Academy!",
@@ -75,6 +81,10 @@ const InteractiveCards = () => {
   };
 
   return (<>
+
+      {/* <VideoHero/> */}
+          
+
   <div><h1 className="text-center mt-5 mb-5" style={{fontFamily: "Dosis, sans-serif", color:"white"}}>What Codebuilders say about us</h1></div>
     <div className="interactive-container abc container">
       

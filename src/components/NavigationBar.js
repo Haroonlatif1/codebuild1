@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Navbar, Nav, Container, Button } from 'react-bootstrap';
+import { Navbar, Nav, Container } from 'react-bootstrap';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from "react-router-dom";
-import { FaChevronDown, FaUserGraduate, FaTimes } from 'react-icons/fa';
+import { FaChevronDown, FaUserGraduate, FaTimes, FaCertificate } from 'react-icons/fa';
 import logo from '../components/logo.png';
 import './css/Navbar.css';
 
@@ -21,7 +21,7 @@ function NavigationBar() {
       setScrolled(window.scrollY > 10);
     };
 
-    handleResize(); // Initial check
+    handleResize();
     window.addEventListener('resize', handleResize);
     window.addEventListener('scroll', handleScroll);
     
@@ -82,17 +82,14 @@ function NavigationBar() {
                   </Nav.Link>
                 ))}
               </Nav>
-              <button 
-                as={Link} 
-                to="/" 
-                className="enroll-btn"
-              >
+              <Link to="/" className="enroll-btn">
                 <FaUserGraduate className="me-2" />
                 Enroll Now
-              </button>
-              <button as={Link} 
-                to="/Verifycertificate" 
-                className="enroll-btn ">Verify your certificate</button>
+              </Link>
+              <Link to="/certificate-verification" className="enroll-btn">
+                <FaCertificate className="me-2" />
+                Verify Certificate
+              </Link>
             </>
           )}
 
@@ -110,6 +107,42 @@ function NavigationBar() {
             </button>
           )}
         </Container>
+
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {mobileOpen && isMobile && (
+            <motion.div 
+              className="mobile-menu-container"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="mobile-menu">
+                {navLinks.map((link, index) => (
+                  <Link 
+                    to={link.path} 
+                    key={index}
+                    className="mobile-nav-link"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    {link.text}
+                  </Link>
+                ))}
+                <div className="mobile-buttons">
+                  <Link to="/" className="enroll-btn mobile-btn" onClick={() => setMobileOpen(false)}>
+                    <FaUserGraduate className="me-2" />
+                    Enroll Now
+                  </Link>
+                  <Link to="/certificate-verification" className="enroll-btn mobile-btn" onClick={() => setMobileOpen(false)}>
+                    <FaCertificate className="me-2" />
+                    Verify Certificate
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </Navbar>
     </>
   );
