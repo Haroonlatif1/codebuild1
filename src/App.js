@@ -14,8 +14,6 @@ import { useEffect } from "react";
 
 function App() {
 
-
-
 function ScrollToTop() {
   const { pathname } = useLocation();
 
