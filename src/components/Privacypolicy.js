@@ -104,7 +104,7 @@ const PrivacyPolicy = () => {
       >
         <motion.div className="privacy-header" variants={itemVariants}>
           <h1>Privacy <span className="highlight">Policy</span></h1>
-          <p>Last Updated: June 1, 2025</p>
+          <p>Last Updated: Jan 15, 2026</p>
         </motion.div>
 
         <motion.div className="privacy-body" variants={containerVariants}>
@@ -116,7 +116,7 @@ const PrivacyPolicy = () => {
             </p>
             <ul>
               <li>Name, email address, and contact details</li>
-              <li>Payment information for course purchases</li>
+              <li>Payment information for course purchases (with your consent)</li>
               <li>Technical data like IP address and browser type</li>
               <li>Course progress and performance data</li>
             </ul>
@@ -197,11 +197,11 @@ const PrivacyPolicy = () => {
             <div className="contact-info">
               <div className="contact-info-item">
                 <FiMail className="info-icon" />
-                <span>codebuildacademy.info</span>
+                <span>contact@codebuildacademy.com</span>
               </div>
               <div className="contact-info-item">
                 <FiPhone className="info-icon" />
-                <span>+92 328 4452 954</span>
+                <span>+92 328 4452954</span>
               </div>
             </div>
           </motion.section>

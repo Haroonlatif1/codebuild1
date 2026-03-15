@@ -1,378 +1,619 @@
-import { Container, Row, Col, Card, Button } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDownload, faStar, faRocket, faGraduationCap, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { ParallaxProvider, Parallax } from 'react-scroll-parallax';
-import Particles from 'react-tsparticles';
-import { loadFull } from 'tsparticles';
-import "../components/css/OfferedCo.css";
+import { useNavigate, Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDownload, faChevronRight, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
-function OfferedCourses() {
-  const navigate = useNavigate();
-  const [activeCard, setActiveCard] = useState(null);
-  const containerRef = useRef(null);
-  const particlesInit = async (engine) => {
-    await loadFull(engine);
-  };
-
-  const outlinehandler = () => {
-    alert("Updated course outlines are not available. Contact us on WhatsApp. Redirecting you to the contact page.");
-    setTimeout(() => {
-      navigate('/contactus');
-    }, 1000);
-  };
-
-  const clickHandler = (title) => {
-    navigate('/', { state: { title } });
-  };
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.3
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { y: 50, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.8,
-        ease: [0.16, 1, 0.3, 1]
-      }
-    }
-  };
-
-  const hoverVariants = {
-    rest: { scale: 1, zIndex: 1 },
-    hover: { 
-      scale: 1.05, 
-      zIndex: 10,
-      transition: {
-        duration: 0.4,
-        ease: [0.6, 0.01, -0.05, 0.95]
-      }
-    }
-  };
-
-  const imageVariants = {
-    rest: { scale: 1 },
-    hover: { scale: 1.1 }
-  };
-
-  return (
-    <ParallaxProvider>
-      <div className="cinematic-courses-container">
-        {/* Animated Background Particles */}
-        <Particles
-          id="tsparticles"
-          init={particlesInit}
-          options={{
-            particles: {
-              number: {
-                value: 40,
-                density: {
-                  enable: true,
-                  value_area: 800
-                }
-              },
-              color: {
-                value: ["#3a86ff", "#8338ec", "#ff006e"]
-              },
-              shape: {
-                type: "circle"
-              },
-              opacity: {
-                value: 0.5,
-                random: true,
-                anim: {
-                  enable: true,
-                  speed: 1,
-                  opacity_min: 0.1,
-                  sync: false
-                }
-              },
-              size: {
-                value: 3,
-                random: true,
-                anim: {
-                  enable: true,
-                  speed: 2,
-                  size_min: 0.3
-                }
-              },
-              line_linked: {
-                enable: true,
-                distance: 150,
-                color: "#ffffff",
-                opacity: 0.2,
-                width: 1
-              },
-              move: {
-                enable: true,
-                speed: 1,
-                direction: "none",
-                random: true,
-                straight: false,
-                out_mode: "out",
-                bounce: false,
-                attract: {
-                  enable: true,
-                  rotateX: 600,
-                  rotateY: 1200
-                }
-              }
-            },
-            interactivity: {
-              detect_on: "canvas",
-              events: {
-                onhover: {
-                  enable: true,
-                  mode: "grab"
-                },
-                onclick: {
-                  enable: true,
-                  mode: "push"
-                },
-                resize: true
-              },
-              modes: {
-                grab: {
-                  distance: 140,
-                  line_linked: {
-                    opacity: 0.5
-                  }
-                },
-                push: {
-                  particles_nb: 4
-                }
-              }
-            },
-            retina_detect: true
-          }}
-        />
-
-        {/* Parallax Scrolling Header */}
-        <div className="parallax-header">
-          <Parallax speed={-10}>
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1 }}
-              className="header-content"
-            >
-              <h1 className="cinematic-title">
-                <span className="title-line">Transform Your Future</span>
-                <span className="title-line">With Our Premium Courses</span>
-              </h1>
-              <motion.p 
-                className="cinematic-subtitle"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5, duration: 1 }}
-              >
-                Industry-leading programs taught by experts
-              </motion.p>
-            </motion.div>
-          </Parallax>
-        </div>
-
-        {/* Main Content */}
-        <Container fluid className="courses-main-container">
-          <Row className="justify-content-center">
-            <Col xs={12} className="text-center mb-5">
-              <motion.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-              >
-                <h2 className="section-title">
-                  <FontAwesomeIcon icon={faGraduationCap} className="title-icon" />
-                  Explore Our Catalog
-                  <FontAwesomeIcon icon={faGraduationCap} className="title-icon" />
-                </h2>
-                <p className="section-description">
-                  Hover over cards for details or scroll to discover more
-                </p>
-              </motion.div>
-            </Col>
-          </Row>
-
-          {/* Courses Grid */}
-          <motion.div
-            ref={containerRef}
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "0px 0px -100px 0px" }}
-            className="courses-grid-container"
-          >
-            <Row className="g-4 justify-content-center">
-              {courses.map((course, index) => (
-                <Col xs={12} sm={6} md={4} lg={6} xl={4} key={index}>
-                  <motion.div
-                    variants={itemVariants}
-                    whileHover="hover"
-                    whileTap={{ scale: 0.98 }}
-                    initial="rest"
-                    animate="rest"
-                    className="course-card-wrapper"
-                    onMouseEnter={() => setActiveCard(index)}
-                    onMouseLeave={() => setActiveCard(null)}
-                  >
-                    <motion.div 
-                      variants={hoverVariants}
-                      className={`course-card ${activeCard === index ? 'active' : ''}`}
-                    >
-                      <div className="card-image-container">
-                        <motion.div
-                          variants={imageVariants}
-                          className="image-overlay"
-                        />
-                        <Card.Img 
-                          variant="top" 
-                          src={course.image} 
-                          alt={course.name}
-                          className="card-image"
-                        />
-                        <div className="card-badge">
-                          <FontAwesomeIcon icon={faStar} className="me-1" />
-                          Featured
-                        </div>
-                      </div>
-                      <Card.Body className="card-content">
-                        <Card.Title className="card-title">
-                          {course.name}
-                          <motion.div 
-                            className="title-underline"
-                            initial={{ scaleX: 0 }}
-                            whileInView={{ scaleX: 1 }}
-                            transition={{ duration: 0.6, delay: index * 0.1 }}
-                            viewport={{ once: true }}
-                          />
-                        </Card.Title>
-                        <Card.Text className="card-body">
-                          {course.description}
-                          <div className="course-meta">
-                            <span className="duration">
-                              <FontAwesomeIcon icon={faRocket} className="me-2" />
-                              {course.duration} months intensive
-                            </span>
-                          </div>
-                        </Card.Text>
-                        <div className="card-actions">
-                          <motion.div 
-                            whileHover={{ scale: 1.05 }} 
-                            whileTap={{ scale: 0.95 }}
-                            className="action-button"
-                          >
-                            <Button
-                              onClick={() => clickHandler(course.name)}
-                              className="enroll-button"
-                            >
-                              Enroll Now <FontAwesomeIcon icon={faChevronRight} />
-                            </Button>
-                          </motion.div>
-                          <motion.div 
-                            whileHover={{ scale: 1.05 }} 
-                            whileTap={{ scale: 0.95 }}
-                            className="action-button"
-                          >
-                            <Button
-                              className="outline-button"
-                              onClick={outlinehandler}
-                            >
-                              <FontAwesomeIcon icon={faDownload} className="me-2" />
-                              Syllabus
-                            </Button>
-                          </motion.div>
-                        </div>
-                      </Card.Body>
-                    </motion.div>
-                  </motion.div>
-                </Col>
-              ))}
-            </Row>
-          </motion.div>
-
-          {/* Call to Action */}
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="cta-section"
-          >
-            <h3>Ready to start your journey?</h3>
-            <Button className="cta-button">
-             <Link to="/contactus">Contact Our Advisors <FontAwesomeIcon icon={faChevronRight} /></Link> 
-            </Button>
-          </motion.div>
-        </Container>
-      </div>
-    </ParallaxProvider>
-  );
-}
-
+/* ─── data ────────────────────────────────────────────────────── */
 const courses = [
   {
     name: "Full Stack Web Development",
-    description: "Master both frontend and backend technologies to build complete web applications from scratch with modern frameworks.",
+    desc: "Build complete web apps — frontend to backend — with modern frameworks and real deployments.",
     image: "../../webdev.png",
-    duration: 6
+    duration: 6, students: "2.4k", tag: "Popular",
+    skills: ["HTML/CSS", "React", "Node.js", "MongoDB"],
+    accent: "#1a4a2e",
   },
   {
-    name: 'Data Science with Python',
-    description: 'Harness Python for data manipulation, visualization, and machine learning with real-world datasets.',
-    image: '../../ds.jpg',
-    duration: 6
+    name: "Data Science with Python",
+    desc: "Harness Python for data analysis, visualization, and predictive machine learning models.",
+    image: "../../ds.jpg",
+    duration: 6, students: "1.8k", tag: "Hot",
+    skills: ["Pandas", "NumPy", "Matplotlib", "Sklearn"],
+    accent: "#1a2040",
   },
   {
-    name: 'Business Development Mastery',
-    description: 'Develop strategic thinking and practical skills to grow businesses exponentially in competitive markets.',
-    image: '../../bd.jpg',
-    duration: 3
+    name: "Full Stack with AI",
+    desc: "Combine full-stack engineering with real AI/ML integrations and LLM-powered features.",
+    image: "../../webdev.png",
+    duration: 6, students: "1.2k", tag: "Hot",
+    skills: ["React", "Python", "OpenAI", "FastAPI"],
+    accent: "#2e1a40",
   },
   {
-    name: 'Mobile App Development',
-    description: 'Create professional Android and iOS applications using modern cross-platform development practices.',
-    image: '../../and.jpg',
-    duration: 6
+    name: "Machine Learning",
+    desc: "Master ML algorithms, model training, evaluation, and production deployment pipelines.",
+    image: "../../ds.jpg",
+    duration: 5, students: "980", tag: "",
+    skills: ["TensorFlow", "PyTorch", "Scikit", "MLOps"],
+    accent: "#3a1a1a",
   },
   {
-    name: 'Microsoft Office Professional',
-    description: 'Become proficient in all MS Office applications for maximum productivity in business environments.',
-    image: '../../ms.jpg',
-    duration: 3
+    name: "Business Development",
+    desc: "Strategic thinking and practical tools to scale any business in competitive markets.",
+    image: "../../bd.jpg",
+    duration: 3, students: "1.5k", tag: "",
+    skills: ["Strategy", "Marketing", "Finance", "Sales"],
+    accent: "#2e2a10",
   },
   {
-    name: 'Cybersecurity & Ethical Hacking',
-    description: 'Learn cybersecurity techniques to protect systems and networks from sophisticated digital attacks.',
-    image: '../../ethical.jpg',
-    duration: 6
+    name: "Mobile App Development",
+    desc: "Build professional Android & iOS apps with modern cross-platform development tools.",
+    image: "../../and.jpg",
+    duration: 6, students: "870", tag: "",
+    skills: ["Flutter", "Dart", "Firebase", "REST APIs"],
+    accent: "#102a2e",
   },
   {
-    name: 'Frontend Development with React',
-    description: 'Build dynamic, responsive user interfaces with React, Redux, and modern JavaScript (ES6+).',
-    image: '../../frontend.jpg',
-    duration: 3
+    name: "MS Office Professional",
+    desc: "Master Excel, Word, PowerPoint and more for peak productivity in any workplace.",
+    image: "../../ms.jpg",
+    duration: 3, students: "3.1k", tag: "",
+    skills: ["Excel", "Word", "PowerPoint", "Access"],
+    accent: "#10102e",
   },
   {
-    name: 'Python Programming Bootcamp',
-    description: 'From fundamentals to advanced concepts - become a Python programming expert with hands-on projects.',
-    image: '../../python.jpg',
-    duration: 2
+    name: "Cybersecurity & Ethical Hacking",
+    desc: "Protect systems and networks from real-world threats using offensive and defensive techniques.",
+    image: "../../ethical.jpg",
+    duration: 6, students: "1.1k", tag: "New",
+    skills: ["Kali Linux", "Metasploit", "Wireshark", "OSINT"],
+    accent: "#3a1010",
+  },
+  {
+    name: "Frontend with React",
+    desc: "Build dynamic, responsive UIs with React, Redux, and modern JavaScript (ES6+).",
+    image: "../../frontend.jpg",
+    duration: 3, students: "2.0k", tag: "",
+    skills: ["React", "Redux", "Tailwind", "TypeScript"],
+    accent: "#102040",
+  },
+  {
+    name: "Python Bootcamp",
+    desc: "Zero to hero — become a Python expert through 50+ real hands-on projects.",
+    image: "../../python.jpg",
+    duration: 2, students: "4.2k", tag: "Popular",
+    skills: ["Python", "OOP", "APIs", "Automation"],
+    accent: "#102a1a",
+  },
+  {
+    name: "Blockchain Development",
+    desc: "Build smart contracts and decentralized apps on Ethereum and modern blockchain networks.",
+    image: "../../webdev.png",
+    duration: 4, students: "540", tag: "New",
+    skills: ["Solidity", "Web3.js", "Hardhat", "IPFS"],
+    accent: "#10103a",
+  },
+  {
+    name: "Robotics & Automation",
+    desc: "Embedded systems, IoT, and robotic automation with real hardware and software labs.",
+    image: "../../ds.jpg",
+    duration: 6, students: "320", tag: "New",
+    skills: ["Arduino", "ROS", "Python", "CAD"],
+    accent: "#2a102a",
   },
 ];
+
+
+
+/* ─── CSS ─────────────────────────────────────────────────────── */
+const css = `
+  @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@400;600;700;800&family=Bebas+Neue&display=swap');
+
+  .coc-wrap {
+    background: #09090e;
+    min-height: 100vh;
+    font-family: "Dosis", sans-serif;
+    color: #fff;
+    overflow-x: hidden;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .coc-wrap *, .coc-wrap *::before, .coc-wrap *::after {
+    box-sizing: border-box;
+  }
+
+  /* ── hero ── */
+  .coc-hero {
+    position: relative;
+    padding: 80px 32px 60px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .coc-hero-glow {
+    position: absolute;
+    width: 700px; height: 400px;
+    background: radial-gradient(ellipse, rgba(255,165,0,0.07) 0%, transparent 70%);
+    top: -60px; left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+  .coc-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #ffa500;
+    border: 1px solid rgba(255,165,0,0.22);
+    background: rgba(255,165,0,0.05);
+    padding: 5px 16px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  .coc-hero-h1 {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: clamp(50px, 8vw, 96px);
+    letter-spacing: 3px;
+    line-height: 0.92;
+    color: #fff;
+    margin-bottom: 18px;
+  }
+  .coc-hero-h1 em {
+    font-style: normal;
+    display: block;
+    -webkit-text-stroke: 1px #ffa500;
+    color: transparent;
+  }
+  .coc-hero-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,0.3);
+    max-width: 420px;
+    margin: 0 auto 36px;
+    line-height: 1.75;
+  }
+  .coc-stats {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 4px;
+    overflow: hidden;
+    background: #0d0d12;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .coc-stat {
+    flex: 1;
+    min-width: 100px;
+    padding: 14px 16px;
+    border-right: 1px solid rgba(255,255,255,0.07);
+    text-align: center;
+  }
+  .coc-stat:last-child { border-right: none; }
+  .coc-stat-n {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 22px;
+    color: #ffa500;
+    letter-spacing: 1px;
+    line-height: 1;
+  }
+  .coc-stat-l {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+    margin-top: 2px;
+  }
+
+  /* ── body ── */
+  .coc-body {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+    width: 100%;
+  }
+  .coc-section-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .coc-section-label-text {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 12px;
+    letter-spacing: 4px;
+    color: rgba(255,255,255,0.2);
+    white-space: nowrap;
+  }
+  .coc-section-label-line {
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.05);
+  }
+  .coc-section-label-count {
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: rgba(255,165,0,0.45);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  /* ── grid ── */
+  .coc-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    width: 100%;
+  }
+
+  /* ── card ── */
+  .coc-card {
+    background: #0f0f15;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .coc-card:hover {
+    border-color: rgba(255,165,0,0.3);
+    box-shadow:
+      0 16px 48px rgba(0,0,0,0.6),
+      0 0 0 1px rgba(255,165,0,0.08);
+  }
+
+  /* ── image area ── */
+  .coc-card-img-wrap {
+    position: relative;
+    height: 148px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .coc-card-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.75;
+    transition: opacity 0.5s ease, transform 0.7s cubic-bezier(0.22,1,0.36,1);
+    filter: saturate(0.7) brightness(0.85);
+  }
+  .coc-card:hover .coc-card-img {
+    opacity: 0.9;
+    transform: scale(1.05);
+    filter: saturate(0.9) brightness(0.95);
+  }
+
+  /* gradient vignette over image — blends into card */
+  .coc-card-img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(9,9,14,0.05) 0%,
+      rgba(9,9,14,0.3)  50%,
+      rgba(15,15,21,0.95) 100%
+    );
+    z-index: 1;
+  }
+
+  /* tag badge over image */
+  .coc-card-tag {
+    position: absolute;
+    top: 11px;
+    right: 11px;
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 2px;
+    background: rgba(255,165,0,0.18);
+    color: #ffa500;
+    border: 1px solid rgba(255,165,0,0.3);
+    z-index: 2;
+    backdrop-filter: blur(4px);
+  }
+
+  /* course number watermark */
+  .coc-card-num {
+    position: absolute;
+    bottom: 10px;
+    left: 13px;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 42px;
+    line-height: 1;
+    color: rgba(255,255,255,0.06);
+    z-index: 2;
+    letter-spacing: 2px;
+    user-select: none;
+  }
+
+  /* ── card body ── */
+  .coc-card-body {
+    padding: 15px 16px 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .coc-card-name {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 16px;
+    letter-spacing: 1px;
+    color: #fff;
+    line-height: 1.2;
+    transition: color 0.25s;
+  }
+  .coc-card:hover .coc-card-name { color: #ffa500; }
+
+  .coc-card-desc {
+    font-size: 11.5px;
+    color: rgba(255,255,255,0.32);
+    line-height: 1.65;
+    flex: 1;
+  }
+
+  /* skill pills */
+  .coc-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .coc-skill {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 2px;
+    background: rgba(255,255,255,0.04);
+    color: rgba(255,255,255,0.35);
+    border: 1px solid rgba(255,255,255,0.07);
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .coc-card:hover .coc-skill {
+    background: rgba(255,165,0,0.07);
+    color: rgba(255,165,0,0.65);
+    border-color: rgba(255,165,0,0.15);
+  }
+
+
+
+
+
+  /* ── card footer ── */
+  .coc-card-footer {
+    display: flex;
+    margin-top: 14px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  .coc-card-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    font-family: "Dosis", sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 11px 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    transition: background 0.2s, color 0.2s;
+    border-right: 1px solid rgba(255,255,255,0.04);
+    color: rgba(255,255,255,0.25);
+  }
+  .coc-card-btn:last-child { border-right: none; }
+  .coc-card-btn.primary {
+    color: rgba(255,165,0,0.75);
+    background: rgba(255,165,0,0.04);
+  }
+  .coc-card-btn.primary:hover {
+    background: #ffa500;
+    color: #09090e;
+  }
+  .coc-card-btn:not(.primary):hover {
+    background: rgba(255,255,255,0.03);
+    color: rgba(255,255,255,0.55);
+  }
+
+  /* ── CTA ── */
+  .coc-cta {
+    text-align: center;
+    padding: 56px 24px 72px;
+  }
+  .coc-cta-line {
+    width: 1px;
+    height: 48px;
+    background: linear-gradient(to bottom, transparent, rgba(255,165,0,0.45));
+    margin: 0 auto 26px;
+  }
+  .coc-cta-h {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: clamp(28px, 4vw, 48px);
+    letter-spacing: 3px;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .coc-cta-h em { color: #ffa500; font-style: normal; }
+  .coc-cta-p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.25);
+    margin-bottom: 26px;
+  }
+  .coc-cta-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 16px;
+    letter-spacing: 2.5px;
+    background: #ffa500;
+    color: #09090e;
+    border: 1px solid #ffa500;
+    border-radius: 3px;
+    padding: 12px 36px;
+    text-decoration: none;
+    transition: background 0.25s, color 0.25s;
+    box-shadow: 0 4px 20px rgba(255,165,0,0.2);
+  }
+  .coc-cta-link:hover {
+    background: transparent;
+    color: #ffa500;
+    box-shadow: none;
+  }
+
+  /* ── responsive ── */
+  @media (max-width: 1100px) {
+    .coc-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 780px) {
+    .coc-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .coc-hero { padding: 60px 20px 48px; }
+    .coc-body { padding: 0 16px 60px; }
+  }
+  @media (max-width: 480px) {
+    .coc-grid { grid-template-columns: 1fr; }
+    .coc-hero-h1 { font-size: 46px; }
+  }
+`;
+
+/* ─── card ────────────────────────────────────────────────────── */
+const CourseCard = ({ course, index, onEnroll, onSyllabus, animDelay }) => {
+
+  return (
+    <motion.div
+      className="coc-card"
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: animDelay, ease: [0.22, 1, 0.36, 1] }}
+    >
+      {/* image */}
+      <div className="coc-card-img-wrap">
+        <img src={course.image} alt={course.name} className="coc-card-img" />
+        <div className="coc-card-img-overlay" />
+        {/* watermark number */}
+        <span className="coc-card-num">{String(index + 1).padStart(2, '0')}</span>
+        {course.tag && <span className="coc-card-tag">{course.tag}</span>}
+      </div>
+
+      {/* content */}
+      <div className="coc-card-body">
+        <div className="coc-card-name">{course.name}</div>
+        <div className="coc-card-desc">{course.desc}</div>
+
+        <div className="coc-skills">
+          {course.skills.map(s => (
+            <span key={s} className="coc-skill">{s}</span>
+          ))}
+        </div>
+      </div>
+
+      {/* footer */}
+      <div className="coc-card-footer">
+        <button className="coc-card-btn primary" onClick={() => onEnroll(course.name)}>
+          Enroll Now <FontAwesomeIcon icon={faArrowRight} />
+        </button>
+        <button className="coc-card-btn" onClick={onSyllabus}>
+          <FontAwesomeIcon icon={faDownload} /> Syllabus
+        </button>
+      </div>
+    </motion.div>
+  );
+};
+
+/* ─── page ────────────────────────────────────────────────────── */
+function OfferedCourses() {
+  const navigate = useNavigate();
+  const onEnroll   = (title) => navigate('/', { state: { title } });
+  const onSyllabus = () => {
+    alert("Updated outlines not available. Contact us on WhatsApp. Redirecting...");
+    setTimeout(() => navigate('/contactus'), 1000);
+  };
+
+  return (
+    <>
+      <style>{css}</style>
+      <div className="coc-wrap">
+
+        {/* hero */}
+        <motion.div
+          className="coc-hero"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <div className="coc-hero-glow" />
+          <div className="coc-badge">🎓 CodeBuild Academy</div>
+          <h1 className="coc-hero-h1">
+            Transform Your<em>Future.</em>
+          </h1>
+          <p className="coc-hero-sub">
+            Industry-leading programs by working professionals. Real skills, real careers.
+          </p>
+          <div className="coc-stats">
+            {[["10K+","Students"],["95%","Placed"],["12","Courses"],["50+","Mentors"]].map(([n, l]) => (
+              <div className="coc-stat" key={l}>
+                <div className="coc-stat-n">{n}</div>
+                <div className="coc-stat-l">{l}</div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* grid */}
+        <div className="coc-body">
+          <div className="coc-section-label">
+            <span className="coc-section-label-text">All Courses</span>
+            <div className="coc-section-label-line" />
+            <span className="coc-section-label-count">{courses.length} available</span>
+          </div>
+
+          <div className="coc-grid">
+            {courses.map((course, i) => (
+              <CourseCard
+                key={i}
+                index={i}
+                course={course}
+                onEnroll={onEnroll}
+                onSyllabus={onSyllabus}
+                animDelay={Math.min(i * 0.05, 0.3)}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* CTA */}
+        <motion.div
+          className="coc-cta"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="coc-cta-line" />
+          <h3 className="coc-cta-h">Not Sure Where to <em>Start?</em></h3>
+          <p className="coc-cta-p">Free consultation — no commitment, no pressure.</p>
+          <Link to="/contactus" className="coc-cta-link">
+            Contact Our Advisors <FontAwesomeIcon icon={faChevronRight} />
+          </Link>
+        </motion.div>
+
+      </div>
+    </>
+  );
+}
 
 export default OfferedCourses;
