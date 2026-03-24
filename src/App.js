@@ -12,7 +12,7 @@ import ResetPassword     from "./components/ResetPassword";
 import NavigationBar           from "./components/NavigationBar";
 import Footer                  from "./components/footer";
 import BehaviourAI             from "./components/BehaviourAi";
-import Products from "./components/Products";
+import Products                from "./components/Products";
 import Home                    from "./components/Home";
 import AboutUs                 from "./components/AboutUs";
 import ContactUs               from "./components/ContactUs";
@@ -24,7 +24,9 @@ import Blog                    from "./components/Blog";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
-  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [pathname]);
   return null;
 }
 
@@ -43,7 +45,6 @@ const NotFound = () => (
 
 const PublicLayout = ({ children }) => (
   <>
-    <ScrollToTop />
     <BehaviourAI />
     <NavigationBar />
     {children}
@@ -52,29 +53,32 @@ const PublicLayout = ({ children }) => (
 );
 
 const AppRoutes = () => (
-  <Routes>
-    {/* Public */}
-    <Route path="/"                         element={<PublicLayout><Home /></PublicLayout>} />
-    <Route path="/aboutus"                  element={<PublicLayout><AboutUs /></PublicLayout>} />
-    <Route path="/contactus"               element={<PublicLayout><ContactUs /></PublicLayout>} />
-    <Route path="/offeredcourses"          element={<PublicLayout><OfferedCourses /></PublicLayout>} />
-    <Route path="/Products" element={<PublicLayout><Products/></PublicLayout>} />
-    <Route path="/Certificate-verification" element={<PublicLayout><CertificateVerification /></PublicLayout>} />
-    <Route path="/privacy-policy"          element={<PublicLayout><PrivacyPolicy /></PublicLayout>} />
-    <Route path="/daily-challenge"         element={<PublicLayout><DailyChallenge /></PublicLayout>} />
-    <Route path="/blog"                    element={<PublicLayout><Blog /></PublicLayout>} />
+  <>
+    <ScrollToTop />
+    <Routes>
+      {/* Public */}
+      <Route path="/"                         element={<PublicLayout><Home /></PublicLayout>} />
+      <Route path="/aboutus"                  element={<PublicLayout><AboutUs /></PublicLayout>} />
+      <Route path="/contactus"               element={<PublicLayout><ContactUs /></PublicLayout>} />
+      <Route path="/offeredcourses"          element={<PublicLayout><OfferedCourses /></PublicLayout>} />
+      <Route path="/Products"               element={<PublicLayout><Products /></PublicLayout>} />
+      <Route path="/Certificate-verification" element={<PublicLayout><CertificateVerification /></PublicLayout>} />
+      <Route path="/privacy-policy"          element={<PublicLayout><PrivacyPolicy /></PublicLayout>} />
+      <Route path="/daily-challenge"         element={<PublicLayout><DailyChallenge /></PublicLayout>} />
+      <Route path="/blog"                    element={<PublicLayout><Blog /></PublicLayout>} />
 
-    {/* Admin auth */}
-    <Route path="/cbdadmin/login"          element={<AdminLogin />} />
-    <Route path="/cbdadmin/reset-password" element={<ResetPassword />} />
+      {/* Admin auth */}
+      <Route path="/cbdadmin/login"          element={<AdminLogin />} />
+      <Route path="/cbdadmin/reset-password" element={<ResetPassword />} />
 
-    {/* Protected admin */}
-    <Route path="/cbdadmin"  element={<ProtectedRoute><AdminPanel /></ProtectedRoute>} />
-    <Route path="/cbdadmin/*" element={<ProtectedRoute><AdminPanel /></ProtectedRoute>} />
+      {/* Protected admin */}
+      <Route path="/cbdadmin"   element={<ProtectedRoute><AdminPanel /></ProtectedRoute>} />
+      <Route path="/cbdadmin/*" element={<ProtectedRoute><AdminPanel /></ProtectedRoute>} />
 
-    {/* 404 */}
-    <Route path="*" element={<PublicLayout><NotFound /></PublicLayout>} />
-  </Routes>
+      {/* 404 */}
+      <Route path="*" element={<PublicLayout><NotFound /></PublicLayout>} />
+    </Routes>
+  </>
 );
 
 function App() {

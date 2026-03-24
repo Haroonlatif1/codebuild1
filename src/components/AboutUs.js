@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 
 /* ─── data ────────────────────────────────────────────────────── */
 
-
 const missionItems = [
   'Providing high-quality education that meets industry standards',
   'Fostering a supportive learning environment that encourages growth',
@@ -21,7 +20,6 @@ const values = [
   { icon: '♦', title: 'Passion',          desc: 'For teaching and learning' },
 ];
 
-/* Unsplash images relevant to coding/education/tech */
 const galleryImages = [
   { url: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&q=80', caption: 'Our Lab' },
   { url: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80', caption: 'Live Lectures' },
@@ -29,6 +27,13 @@ const galleryImages = [
   { url: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=80', caption: 'Coding Sessions' },
   { url: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&q=80', caption: 'Our Campus' },
   { url: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80', caption: 'Workshops' },
+];
+
+const flags = [
+  { code: 'pk', name: 'Pakistan' },
+  { code: 'bd', name: 'Bangladesh' },
+  { code: 'kw', name: 'Kuwait' },
+  { code: 'ca', name: 'Canada' },
 ];
 
 /* ─── CSS ─────────────────────────────────────────────────────── */
@@ -74,7 +79,6 @@ const css = `
       linear-gradient(to bottom, transparent 50%, #09090e 100%);
     z-index: 1;
   }
-  /* grid overlay */
   .cau-hero-grid {
     position: absolute;
     inset: 0;
@@ -94,7 +98,7 @@ const css = `
   .cau-hero-eyebrow {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 3.5px;
@@ -102,9 +106,22 @@ const css = `
     color: #ffa500;
     border: 1px solid rgba(255,165,0,0.25);
     background: rgba(255,165,0,0.06);
-    padding: 5px 18px;
+    padding: 7px 20px;
     border-radius: 20px;
     margin-bottom: 22px;
+  }
+  .cau-hero-eyebrow img {
+    border-radius: 2px;
+    object-fit: cover;
+    display: inline-block;
+    vertical-align: middle;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  }
+  .cau-hero-eyebrow-divider {
+    width: 1px;
+    height: 12px;
+    background: rgba(255,165,0,0.3);
+    flex-shrink: 0;
   }
   .cau-hero-title {
     font-family: "Bebas Neue", sans-serif;
@@ -214,7 +231,6 @@ const css = `
     border-radius: 6px;
     pointer-events: none;
   }
-  /* orange corner accent */
   .cau-about-img-wrap::before {
     content: "";
     position: absolute;
@@ -225,7 +241,6 @@ const css = `
     z-index: 2;
     border-radius: 0 0 6px 0;
   }
-  .cau-about-text {}
   .cau-about-h {
     font-family: "Bebas Neue", sans-serif;
     font-size: clamp(36px, 5vw, 56px);
@@ -292,7 +307,6 @@ const css = `
     margin-top: 6px;
     display: block;
   }
-  /* orange bottom bar on hover */
   .cau-stat::after {
     content: "";
     position: absolute;
@@ -426,8 +440,6 @@ const css = `
     pointer-events: none;
   }
   .cau-gallery-item:hover::after { border-color: rgba(255,165,0,0.3); }
-
-
 
   /* ── section h2 ── */
   .cau-h2 {
@@ -565,13 +577,13 @@ const Stats = () => {
     if (ref.current) obs.observe(ref.current);
     return () => obs.disconnect();
   }, []);
-  const c1 = useCounter(15,  2000, fired);
-  const c2 = useCounter(7,   2000, fired);
-  const c3 = useCounter(300, 2000, fired);
-  const c4 = useCounter(100, 2000, fired);
+  const c1 = useCounter(20,   2000, fired);
+  const c2 = useCounter(7,    2000, fired);
+  const c3 = useCounter(1200, 2000, fired);
+  const c4 = useCounter(95,   2000, fired);
   const stats = [
     { val: c1, suffix: '+', label: 'Courses Offered' },
-    { val: c2, suffix: '+', label: 'Instructors' },
+    { val: c2, suffix: '+', label: 'Departments' },
     { val: c3, suffix: '+', label: 'Alumni Students' },
     { val: c4, suffix: '%', label: 'Success Rate' },
   ];
@@ -632,8 +644,22 @@ function AboutUs() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              🇵🇰 &nbsp;🇧🇩 &nbsp;🇰🇼 &nbsp;🇨🇦 &nbsp; International Institute
+              {flags.map(({ code, name }, i) => (
+                <React.Fragment key={code}>
+                  <img
+                    src={`https://flagcdn.com/w40/${code}.png`}
+                    srcSet={`https://flagcdn.com/w80/${code}.png 2x`}
+                    width="22"
+                    height="15"
+                    alt={name}
+                  />
+                  {i < flags.length - 1 && <span className="cau-hero-eyebrow-divider" />}
+                </React.Fragment>
+              ))}
+              <span className="cau-hero-eyebrow-divider" />
+              International Institute
             </motion.div>
+
             <h1 className="cau-hero-title">
               Building the<em>Future.</em>
             </h1>
@@ -776,7 +802,6 @@ function AboutUs() {
             ))}
           </div>
         </section>
-
 
         {/* ── CTA ── */}
         <div className="cau-cta">

@@ -273,6 +273,7 @@ const colVariants = {
   hidden: { y: 24, opacity: 0 },
   visible: { y: 0, opacity: 1, transition: { type: 'spring', stiffness: 90, damping: 18 } }
 };
+
 /* ─── data ────────────────────────────────────────────────────── */
 const quickLinks = [
   { label: 'Home',       path: '/' },
@@ -281,10 +282,16 @@ const quickLinks = [
   { label: 'Contact Us', path: '/contactus' },
 ];
 const resourceLinks = [
-  { label: 'Blog',            path: '/privacy-policy' },
-  { label: 'FAQs',            path: '/privacy-policy' },
-  { label: 'Terms of Use',    path: '/privacy-policy' },
-  { label: 'Privacy Policy',  path: '/privacy-policy' },
+  { label: 'Blog',           path: '/privacy-policy' },
+  { label: 'FAQs',           path: '/privacy-policy' },
+  { label: 'Terms of Use',   path: '/privacy-policy' },
+  { label: 'Privacy Policy', path: '/privacy-policy' },
+];
+const socialLinks = [
+  { label: 'Facebook',  href: 'https://www.facebook.com/profile.php?id=61563588339796' },
+  { label: 'LinkedIn',  href: 'https://www.linkedin.com/company/codebuild-academy' },
+  { label: 'YouTube',   href: 'https://www.youtube.com/@CodeBuildAcademy' },
+  { label: 'Instagram', href: 'https://www.instagram.com/codebuild1' },
 ];
 
 /* ─── component ───────────────────────────────────────────────── */
@@ -311,8 +318,16 @@ const Footer = () => (
             An international IT training institute — turning beginners into industry-ready professionals.
           </p>
           <div className="cbf-footer-socials">
-            {['Facebook', 'LinkedIn', 'YouTube', 'Instagram'].map(s => (
-              <a key={s} href="#" className="cbf-social-pill">{s}</a>
+            {socialLinks.map(({ label, href }) => (
+              <a
+                key={label}
+                href={href}
+                className="cbf-social-pill"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {label}
+              </a>
             ))}
           </div>
         </motion.div>
@@ -357,14 +372,14 @@ const Footer = () => (
             </motion.div>
             <motion.div className="cbf-contact-row" whileHover={{ x: 3 }} transition={{ type: 'spring', stiffness: 300 }}>
               <div className="cbf-contact-icon-wrap"><FaPhone size={13} /></div>
-              <p className="cbf-contact-text">0328-4452954</p>
+              <p className="cbf-contact-text">
+                <a href="tel:+923284452954">0328-4452954</a>
+              </p>
             </motion.div>
             <motion.div className="cbf-contact-row" whileHover={{ x: 3 }} transition={{ type: 'spring', stiffness: 300 }}>
               <div className="cbf-contact-icon-wrap"><FaEnvelope size={13} /></div>
               <p className="cbf-contact-text">
-                <a href="mailto:contact@codebuildacademy.com">contact@codebuildacademy.com
-                  
-                </a>
+                <a href="mailto:contact@codebuildacademy.com">contact@codebuildacademy.com</a>
               </p>
             </motion.div>
           </div>

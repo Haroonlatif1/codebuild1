@@ -52,8 +52,8 @@ const ContactUs = () => {
 
   const contactInfo = [
     { icon: FaPhone, text: "0328-4452954" },
-    { icon: FaEnvelope, text: "codecraft1122@gmail.com" },
-    { icon: FaMapMarkerAlt, text: "40-D near Furqan Surgical Hospital Gulshan-e-Ravi, Lahore, Pakistan" }
+    { icon: FaEnvelope, text: "contact@codebuildacademy.com" },
+    { icon: FaMapMarkerAlt, text: "Ravi block, iqbal town lahore Pakistan" }
   ];
 
   return (
