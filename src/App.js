@@ -12,6 +12,7 @@ import ResetPassword     from "./components/ResetPassword";
 import NavigationBar           from "./components/NavigationBar";
 import Footer                  from "./components/footer";
 import BehaviourAI             from "./components/BehaviourAi";
+import Products from "./components/Products";
 import Home                    from "./components/Home";
 import AboutUs                 from "./components/AboutUs";
 import ContactUs               from "./components/ContactUs";
@@ -57,6 +58,7 @@ const AppRoutes = () => (
     <Route path="/aboutus"                  element={<PublicLayout><AboutUs /></PublicLayout>} />
     <Route path="/contactus"               element={<PublicLayout><ContactUs /></PublicLayout>} />
     <Route path="/offeredcourses"          element={<PublicLayout><OfferedCourses /></PublicLayout>} />
+    <Route path="/Products" element={<PublicLayout><Products/></PublicLayout>} />
     <Route path="/Certificate-verification" element={<PublicLayout><CertificateVerification /></PublicLayout>} />
     <Route path="/privacy-policy"          element={<PublicLayout><PrivacyPolicy /></PublicLayout>} />
     <Route path="/daily-challenge"         element={<PublicLayout><DailyChallenge /></PublicLayout>} />

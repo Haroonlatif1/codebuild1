@@ -1914,11 +1914,288 @@ const VideoReviewsTab = ({ showToast }) => {
   );
 };
 
+
+const PROD_CATS = ["E-Book","Robotics Kit","Course Bundle","Merchandise"];
+const BADGE_COLORS = ["#ffa500","#22c55e","#00d4ff","#ef4444","#a855f7","#ffd700","#ff6b35"];
+const EMPTY_PROD = {
+  name:"", description:"", price:"", original_price:"", category:"E-Book",
+  images:[""], features:[""], badge:"", badge_color:"#ffa500",
+  buy_link:"", is_published:true, is_featured:false, stock:"", sort_order:0,
+};
+
+/* ─── PRODUCT FORM MODAL ─────────────────────────────────────────── */
+const ProductModal = ({ product, onSave, onClose }) => {
+  const [form, setForm] = useState(product
+    ? { ...product, images: product.images?.length ? product.images : [""], features: product.features?.length ? product.features : [""] }
+    : { ...EMPTY_PROD }
+  );
+  const [busy, setBusy] = useState(false);
+  const set = (k,v) => setForm(f=>({...f,[k]:v}));
+
+  const setImg = (i,v) => { const a=[...form.images]; a[i]=v; set("images",a); };
+  const addImg = () => set("images",[...form.images,""]);
+  const delImg = (i) => set("images",form.images.filter((_,idx)=>idx!==i));
+  const setFeat = (i,v) => { const a=[...form.features]; a[i]=v; set("features",a); };
+  const addFeat = () => set("features",[...form.features,""]);
+  const delFeat = (i) => set("features",form.features.filter((_,idx)=>idx!==i));
+
+  const save = async () => {
+    if (!form.name || !form.price) return;
+    setBusy(true);
+    const payload = {
+      ...form,
+      price: parseFloat(form.price)||0,
+      original_price: form.original_price ? parseFloat(form.original_price) : null,
+      stock: form.stock !== "" ? parseInt(form.stock) : null,
+      images:   form.images.filter(u=>u.trim()),
+      features: form.features.filter(f=>f.trim()),
+      badge:    form.badge.trim() || null,
+    };
+    delete payload.id; delete payload.created_at; delete payload.updated_at;
+    let err;
+    if (product?.id) {
+      ({error:err} = await supabase.from("products").update(payload).eq("id",product.id));
+    } else {
+      ({error:err} = await supabase.from("products").insert([payload]));
+    }
+    setBusy(false);
+    if (err) alert(err.message); else onSave();
+  };
+
+  return (
+    <div className="adm-overlay" onClick={e=>e.target===e.currentTarget&&onClose()}>
+      <div className="adm-modal" style={{maxWidth:740}}>
+        <div className="adm-modal-title">
+          {product?"Edit Product":"New Product"}
+          <button className="adm-btn-icon" onClick={onClose}>✕</button>
+        </div>
+        <div className="adm-form-grid">
+          {/* Name */}
+          <div className="adm-field adm-form-full">
+            <label className="adm-label">Product Name *</label>
+            <input className="adm-input" value={form.name} onChange={e=>set("name",e.target.value)} placeholder="e.g. Python Programming E-Book"/>
+          </div>
+          {/* Category + Sort */}
+          <div className="adm-field">
+            <label className="adm-label">Category</label>
+            <select className="adm-select" value={form.category} onChange={e=>set("category",e.target.value)}>
+              {PROD_CATS.map(c=><option key={c}>{c}</option>)}
+            </select>
+          </div>
+          <div className="adm-field">
+            <label className="adm-label">Sort Order</label>
+            <input className="adm-input" type="number" value={form.sort_order} onChange={e=>set("sort_order",+e.target.value)}/>
+          </div>
+          {/* Price */}
+          <div className="adm-field">
+            <label className="adm-label">Price (PKR) *</label>
+            <input className="adm-input" type="number" value={form.price} onChange={e=>set("price",e.target.value)} placeholder="999"/>
+          </div>
+          <div className="adm-field">
+            <label className="adm-label">Original Price (for discount — optional)</label>
+            <input className="adm-input" type="number" value={form.original_price||""} onChange={e=>set("original_price",e.target.value)} placeholder="1500"/>
+          </div>
+          {/* Stock */}
+          <div className="adm-field">
+            <label className="adm-label">Stock (leave blank = unlimited)</label>
+            <input className="adm-input" type="number" value={form.stock||""} onChange={e=>set("stock",e.target.value)} placeholder="Unlimited"/>
+          </div>
+          {/* Badge */}
+          <div className="adm-field">
+            <label className="adm-label">Badge Text (optional)</label>
+            <input className="adm-input" value={form.badge||""} onChange={e=>set("badge",e.target.value)} placeholder="Best Seller, New, Limited Stock…"/>
+          </div>
+          {/* Badge color */}
+          <div className="adm-field adm-form-full">
+            <label className="adm-label">Badge Color</label>
+            <div style={{display:"flex",gap:8,alignItems:"center",flexWrap:"wrap",paddingTop:4}}>
+              {BADGE_COLORS.map(col=>(
+                <div key={col} onClick={()=>set("badge_color",col)}
+                  style={{width:26,height:26,borderRadius:"50%",background:col,cursor:"pointer",
+                    border:`2px solid ${form.badge_color===col?"#fff":"transparent"}`,
+                    transform:form.badge_color===col?"scale(1.2)":"scale(1)",transition:"all .15s"}}/>
+              ))}
+              <input type="color" value={form.badge_color} onChange={e=>set("badge_color",e.target.value)}
+                style={{width:32,height:32,padding:2,border:"1px solid rgba(255,255,255,0.1)",borderRadius:8,cursor:"pointer"}}/>
+            </div>
+          </div>
+          {/* Description */}
+          <div className="adm-field adm-form-full">
+            <label className="adm-label">Description</label>
+            <textarea className="adm-textarea" rows={3} value={form.description||""} onChange={e=>set("description",e.target.value)} placeholder="What is this product? Who is it for?"/>
+          </div>
+          {/* Images */}
+          <div className="adm-field adm-form-full">
+            <label className="adm-label">Image URLs</label>
+            {form.images.map((url,i)=>(
+              <div key={i} style={{display:"flex",gap:8,marginBottom:8}}>
+                <input className="adm-input" value={url} onChange={e=>setImg(i,e.target.value)} placeholder={`Image ${i+1} URL`} style={{flex:1}}/>
+                {url && <img src={url} alt="" style={{width:48,height:36,objectFit:"cover",borderRadius:6,flexShrink:0}} onError={e=>e.target.style.display="none"}/>}
+                {form.images.length>1 && <button className="adm-btn-icon del" onClick={()=>delImg(i)}>✕</button>}
+              </div>
+            ))}
+            {form.images.length<6 && (
+              <button className="adm-btn adm-btn-ghost" style={{fontSize:10,padding:"5px 14px"}} onClick={addImg}>+ Add Image</button>
+            )}
+          </div>
+          {/* Features */}
+          <div className="adm-field adm-form-full">
+            <label className="adm-label">Features / What's Included (bullet points)</label>
+            {form.features.map((feat,i)=>(
+              <div key={i} style={{display:"flex",gap:8,marginBottom:7}}>
+                <input className="adm-input" value={feat} onChange={e=>setFeat(i,e.target.value)} placeholder={`Feature ${i+1}`} style={{flex:1}}/>
+                {form.features.length>1 && <button className="adm-btn-icon del" onClick={()=>delFeat(i)}>✕</button>}
+              </div>
+            ))}
+            <button className="adm-btn adm-btn-ghost" style={{fontSize:10,padding:"5px 14px"}} onClick={addFeat}>+ Add Feature</button>
+          </div>
+          {/* Buy link */}
+          <div className="adm-field adm-form-full">
+            <label className="adm-label">Buy Link (WhatsApp link or checkout URL)</label>
+            <input className="adm-input" value={form.buy_link||""} onChange={e=>set("buy_link",e.target.value)}
+              placeholder="https://wa.me/923001234567?text=I want to buy..."/>
+          </div>
+          {/* Toggles */}
+          <div className="adm-field">
+            <div className="adm-toggle-row">
+              <button className={`adm-toggle${form.is_featured?" on":""}`} onClick={()=>set("is_featured",!form.is_featured)} type="button"/>
+              <span style={{fontSize:12}}>{form.is_featured?"Featured — shown at top":"Regular product"}</span>
+            </div>
+          </div>
+          <div className="adm-field">
+            <div className="adm-toggle-row">
+              <button className={`adm-toggle${form.is_published?" on":""}`} onClick={()=>set("is_published",!form.is_published)} type="button"/>
+              <span style={{fontSize:12}}>{form.is_published?"Published":"Draft"}</span>
+            </div>
+          </div>
+        </div>
+        <div className="adm-form-footer">
+          <button className="adm-btn adm-btn-ghost" onClick={onClose}>Cancel</button>
+          <button className="adm-btn adm-btn-primary" disabled={busy||!form.name||!form.price} onClick={save}>
+            {busy?"Saving…":(product?"Save Changes":"Add Product")}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* ─── PRODUCTS TAB ───────────────────────────────────────────────── */
+const ProductsTab = ({ showToast }) => {
+  const [products, setProducts] = useState([]);
+  const [loading,  setLoading]  = useState(true);
+  const [modal,    setModal]    = useState(null);
+
+  const fetch = useCallback(async () => {
+    setLoading(true);
+    const { data, error } = await supabase.from("products").select("*")
+      .order("sort_order",{ascending:true}).order("created_at",{ascending:false});
+    if (error) showToast(error.message,true); else setProducts(data||[]);
+    setLoading(false);
+  },[showToast]);
+
+  useEffect(()=>{ fetch(); },[fetch]);
+
+  const del = async () => {
+    const {error} = await supabase.from("products").delete().eq("id",modal.product.id);
+    if (error) showToast(error.message,true); else { showToast("Product deleted"); fetch(); }
+    setModal(null);
+  };
+
+  const togglePub = async (p) => {
+    const {error} = await supabase.from("products").update({is_published:!p.is_published}).eq("id",p.id);
+    if (error) showToast(error.message,true); else { showToast(p.is_published?"Unpublished":"Published"); fetch(); }
+  };
+
+  const fmt = (n) => `PKR ${Number(n).toLocaleString()}`;
+
+  return (
+    <>
+      <div className="adm-actions">
+        <div className="adm-stat">🛒 {products.length} Total</div>
+        <div className="adm-stat">✅ {products.filter(p=>p.is_published).length} Published</div>
+        <div className="adm-stat">⭐ {products.filter(p=>p.is_featured).length} Featured</div>
+        <div style={{marginLeft:"auto"}}>
+          <button className="adm-btn adm-btn-primary" onClick={()=>setModal({mode:"add"})}>+ Add Product</button>
+        </div>
+      </div>
+
+      <div className="adm-table-wrap">
+        {loading ? <div className="adm-loader"><span/><span/><span/></div>
+        : products.length===0 ? (
+          <div className="adm-empty"><div className="adm-empty-icon">🛒</div>No products yet.</div>
+        ) : (
+          <table>
+            <thead><tr>
+              <th style={{width:80}}>Image</th><th>Name</th><th>Category</th>
+              <th>Price</th><th>Badge</th><th>Stock</th><th>Featured</th><th>Status</th><th>Actions</th>
+            </tr></thead>
+            <tbody>
+              {products.map(p=>(
+                <tr key={p.id}>
+                  <td className="adm-thumb-cell">
+                    {p.images?.[0]
+                      ? <img src={p.images[0]} alt="" style={{width:64,height:40,objectFit:"cover",borderRadius:6}}/>
+                      : <div className="adm-thumb-placeholder">📦</div>
+                    }
+                  </td>
+                  <td>
+                    <div style={{fontWeight:700,marginBottom:2}}>{p.name}</div>
+                    <div style={{fontSize:10,color:"rgba(255,255,255,0.3)"}}>{fmt(p.price)}{p.original_price?` · was ${fmt(p.original_price)}`:""}</div>
+                  </td>
+                  <td><span className="adm-tag" style={{background:"rgba(255,165,0,0.15)",color:"#ffa500"}}>{p.category}</span></td>
+                  <td style={{fontFamily:"monospace",fontWeight:700,color:"#ffa500",fontSize:13}}>{fmt(p.price)}</td>
+                  <td>
+                    {p.badge
+                      ? <span className="adm-tag" style={{background:p.badge_color||"#ffa500",color:"#07070f"}}>{p.badge}</span>
+                      : <span style={{color:"rgba(255,255,255,0.15)"}}>—</span>
+                    }
+                  </td>
+                  <td style={{color:"rgba(255,255,255,0.4)",fontSize:11.5}}>{p.stock==null?"∞":p.stock}</td>
+                  <td style={{textAlign:"center"}}>{p.is_featured?<span style={{color:"#ffd700",fontSize:14}}>⭐</span>:<span style={{color:"rgba(255,255,255,0.1)"}}>—</span>}</td>
+                  <td>
+                    <div className="adm-published" style={{cursor:"pointer"}} onClick={()=>togglePub(p)}>
+                      <div className="adm-pub-dot" style={{background:p.is_published?"#22c55e":"#555"}}/>
+                      <span style={{color:p.is_published?"#22c55e":"rgba(255,255,255,0.3)"}}>{p.is_published?"Published":"Draft"}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="adm-row-btns">
+                      <button className="adm-btn-icon" onClick={()=>setModal({mode:"edit",product:p})}>✏️</button>
+                      <button className="adm-btn-icon del" onClick={()=>setModal({mode:"delete",product:p})}>🗑️</button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
+
+      {modal?.mode==="add"    && <ProductModal onSave={()=>{showToast("Product added!");fetch();setModal(null);}} onClose={()=>setModal(null)}/>}
+      {modal?.mode==="edit"   && <ProductModal product={modal.product} onSave={()=>{showToast("Saved!");fetch();setModal(null);}} onClose={()=>setModal(null)}/>}
+      {modal?.mode==="delete" && (
+        <div className="adm-overlay" onClick={e=>e.target===e.currentTarget&&setModal(null)}>
+          <div className="adm-modal" style={{maxWidth:400,textAlign:"center"}}>
+            <div style={{fontSize:36,marginBottom:12}}>🗑️</div>
+            <div style={{fontSize:16,fontWeight:700,marginBottom:8}}>Delete product?</div>
+            <div style={{fontSize:12,color:"rgba(255,255,255,0.4)",marginBottom:22}}>{modal.product.name}</div>
+            <div style={{display:"flex",gap:10,justifyContent:"center"}}>
+              <button className="adm-btn adm-btn-ghost" onClick={()=>setModal(null)}>Cancel</button>
+              <button className="adm-btn adm-btn-danger" onClick={del}>Delete</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
+
 const AdminPanel = () => {
   const { session, signOut } = useAuth();
   const [tab,   setTab]   = useState("lectures");
   const [toast, setToast] = useState(null);
-  const [counts, setCounts] = useState({ lec:null, cert:null, chal:null, blog:null, vr:null });
+  const [counts, setCounts] = useState({ lec:null, cert:null, chal:null, blog:null, vr:null, prod:null });
 
   const showToast = useCallback((msg, err=false) => setToast({ msg, err }), []);
 
@@ -1929,7 +2206,8 @@ const AdminPanel = () => {
       supabase.from("challenges").select("id",{count:"exact",head:true}),
       supabase.from("posts").select("id",{count:"exact",head:true}),
       supabase.from("video_reviews").select("id",{count:"exact",head:true}),
-    ]).then(([l,c,ch,b,vr]) => setCounts({ lec:l.count, cert:c.count, chal:ch.count, blog:b.count, vr:vr.count }));
+      supabase.from("products").select("id",{count:"exact",head:true}),
+    ]).then(([l,c,ch,b,vr,pr]) => setCounts({ lec:l.count, cert:c.count, chal:ch.count, blog:b.count, vr:vr.count, prod:pr.count }));
   }, [toast]);
 
   return (
@@ -1970,6 +2248,9 @@ const AdminPanel = () => {
             <button className={`adm-tab${tab==="reviews"?" active":""}`} onClick={()=>setTab("reviews")}>
               🎬 Reviews {counts.vr!==null&&<span className="adm-tab-badge">{counts.vr}</span>}
             </button>
+            <button className={`adm-tab${tab==="products"?" active":""}`} onClick={()=>setTab("products")}>
+              🛒 Products {counts.prod!==null&&<span className="adm-tab-badge">{counts.prod}</span>}
+            </button>
           </div>
 
           {tab==="lectures"     && <LecturesTab     showToast={showToast}/>}
@@ -1977,6 +2258,7 @@ const AdminPanel = () => {
           {tab==="challenges"   && <ChallengesTab   showToast={showToast}/>}
           {tab==="blog"          && <BlogTab          showToast={showToast}/>}
           {tab==="reviews"       && <VideoReviewsTab  showToast={showToast}/>}
+          {tab==="products"      && <ProductsTab      showToast={showToast}/>}
         </div>
 
         {toast && <Toast msg={toast.msg} err={toast.err} onDone={()=>setToast(null)}/>}
