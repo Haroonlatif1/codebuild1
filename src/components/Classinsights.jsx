@@ -1,6 +1,63 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { supabase } from "./supabase/SupabaseClient";
 
+/* ─── Video platform detector ─────────────────────────────────────
+   Supports: YouTube, YouTube Shorts, Facebook embed, direct mp4/webm
+──────────────────────────────────────────────────────────────────── */
+const getVideoEmbed = (url = "") => {
+  if (!url) return { type: "unknown", src: "" };
+  if (url.includes("youtube.com/embed/")) {
+    return { type: "youtube", src: url + (url.includes("?") ? "&" : "?") + "autoplay=1&rel=0&modestbranding=1" };
+  }
+  if (url.includes("youtube.com/watch") || url.includes("youtu.be/") || url.includes("youtube.com/shorts/")) {
+    let id = "";
+    if (url.includes("youtu.be/"))       id = url.split("youtu.be/")[1]?.split("?")[0];
+    else if (url.includes("v="))         id = url.split("v=")[1]?.split("&")[0];
+    else if (url.includes("/shorts/"))   id = url.split("/shorts/")[1]?.split("?")[0];
+    if (id) return { type: "youtube", src: `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1` };
+  }
+  if (url.includes("facebook.com/plugins/video")) {
+    const u = url.includes("autoplay") ? url : url + (url.includes("?") ? "&autoplay=1" : "?autoplay=1");
+    return { type: "facebook", src: u };
+  }
+  if (url.includes("facebook.com") || url.includes("fb.watch")) {
+    const encoded = encodeURIComponent(url);
+    return { type: "facebook", src: `https://www.facebook.com/plugins/video.php?href=${encoded}&show_text=false&autoplay=1&allowfullscreen=true` };
+  }
+  if (url.match(/\.(mp4|webm|ogg)(\?|$)/i)) {
+    return { type: "mp4", src: url };
+  }
+  return { type: "unknown", src: url };
+};
+
+const VideoEmbed = ({ url, title = "" }) => {
+  const { type, src } = getVideoEmbed(url);
+  if (!src) return null;
+  if (type === "mp4") {
+    return <video src={src} controls autoPlay style={{width:"100%",height:"100%",display:"block"}}/>;
+  }
+  return (
+    <iframe
+      src={src}
+      title={title}
+      style={{width:"100%",height:"100%",border:"none",display:"block"}}
+      allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share; fullscreen"
+      allowFullScreen
+      scrolling="no"
+      frameBorder="0"
+    />
+  );
+};
+
+const getYTThumb = (url = "") => {
+  let id = "";
+  if (url.includes("/embed/"))   id = url.split("/embed/")[1]?.split("?")[0];
+  if (url.includes("youtu.be/")) id = url.split("youtu.be/")[1]?.split("?")[0];
+  if (url.includes("v="))        id = url.split("v=")[1]?.split("&")[0];
+  return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : null;
+};
+
+
 /* ═══════════════════════════════════════════════════════════════════
    CLASS INSIGHTS  —  CodeBuild Academy
    ✦ Original design 100% preserved
@@ -531,10 +588,7 @@ const VideoModal = ({ clip, onClose }) => {
     <div className="ci-modal-overlay" onClick={e=>e.target===e.currentTarget&&onClose()}>
       <div className="ci-modal-box">
         <div className="ci-modal-video">
-          {isYT
-            ? <iframe src={src} title={clip.title} allow="autoplay;encrypted-media;fullscreen" allowFullScreen />
-            : <video src={src} controls autoPlay style={{width:"100%",height:"100%"}} />
-          }
+          <VideoEmbed url={clip.video_url} title={clip.title}/>
           <button className="ci-modal-close-btn" onClick={onClose}>✕</button>
         </div>
         <div className="ci-modal-info">

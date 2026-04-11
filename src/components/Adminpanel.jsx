@@ -508,6 +508,26 @@ const css = `
   .adm-search:focus { border-color: rgba(255,165,0,0.35); }
   .adm-search::placeholder { color: rgba(255,255,255,0.2); }
 
+  /* ── FACEBOOK EMBED THUMB ── */
+  .adm-fb-thumb {
+    width: 64px; height: 40px;
+    background: linear-gradient(135deg,#1877f2,#0a5cc7);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 900; color: #fff;
+    font-family: Georgia, serif; flex-shrink: 0;
+  }
+
+  /* ── VIDEO URL HINT ── */
+  .adm-url-hints {
+    display: flex; gap: 6px; flex-wrap: wrap; margin-top: 5px;
+  }
+  .adm-url-hint {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 9px; font-weight: 800; letter-spacing: 0.5px;
+    padding: 2px 8px; border-radius: 4px;
+  }
+
   @media (max-width: 768px) {
     .adm-body { padding: 16px; }
     .adm-form-grid { grid-template-columns: 1fr; }
@@ -518,7 +538,138 @@ const css = `
     .adm-search { width: 100%; }
   }
 `;
-/* ─── TOAST HELPER ──────────────────────────────────────────────── */
+
+/* ─── FACEBOOK / VIDEO URL UTILITIES ───────────────────────────── */
+
+/**
+ * Detect URL type: "youtube" | "facebook" | "mp4" | "other"
+ */
+const getVideoType = (url = "") => {
+  if (!url) return "other";
+  if (/youtu\.be|youtube\.com/.test(url)) return "youtube";
+  if (/facebook\.com|fb\.watch/.test(url)) return "facebook";
+  if (/\.mp4(\?|$)/i.test(url)) return "mp4";
+  return "other";
+};
+
+/**
+ * Returns an embed src suitable for iframes.
+ * Facebook: wraps in /plugins/video.php if not already an embed URL.
+ */
+const getEmbedUrl = (url = "") => {
+  const type = getVideoType(url);
+  if (type === "youtube") {
+    if (url.includes("/embed/")) return url;
+    let id = "";
+    if (url.includes("youtu.be/")) id = url.split("youtu.be/")[1]?.split("?")[0];
+    else if (url.includes("v="))   id = url.split("v=")[1]?.split("&")[0];
+    return id ? `https://www.youtube.com/embed/${id}` : url;
+  }
+  if (type === "facebook") {
+    if (url.includes("plugins/video.php")) return url;
+    return `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&show_text=false&width=560`;
+  }
+  return url; // mp4 / other — used directly in <video src>
+};
+
+/**
+ * Auto-thumbnail: YouTube only. Facebook has no public thumbnail API.
+ */
+const getVideoThumb = (url = "") => {
+  const type = getVideoType(url);
+  if (type !== "youtube") return null;
+  let id = "";
+  if (url.includes("/embed/")) id = url.split("/embed/")[1]?.split("?")[0];
+  else if (url.includes("youtu.be/")) id = url.split("youtu.be/")[1]?.split("?")[0];
+  else if (url.includes("v=")) id = url.split("v=")[1]?.split("&")[0];
+  return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : null;
+};
+
+/**
+ * Small platform badge shown next to video URL fields.
+ */
+const VideoPlatformBadge = ({ url }) => {
+  const type = getVideoType(url);
+  if (!url || type === "other") return null;
+  const map = {
+    youtube:  { label: "YouTube",  bg: "#ff0000" },
+    facebook: { label: "Facebook", bg: "#1877f2" },
+    mp4:      { label: "MP4",      bg: "#444"    },
+  };
+  const { label, bg } = map[type];
+  return (
+    <span style={{
+      display:"inline-flex", alignItems:"center",
+      background:bg, color:"#fff",
+      fontSize:9, fontWeight:800, letterSpacing:"0.5px",
+      padding:"2px 7px", borderRadius:4, marginLeft:6, flexShrink:0,
+    }}>
+      {label}
+    </span>
+  );
+};
+
+/**
+ * Thumbnail cell that handles YouTube auto-thumb, Facebook placeholder, and custom thumb URLs.
+ */
+const VideoThumbCell = ({ videoUrl, thumbUrl }) => {
+  const autoThumb = thumbUrl || getVideoThumb(videoUrl);
+  const type = getVideoType(videoUrl);
+
+  if (autoThumb) {
+    return (
+      <img src={autoThumb} alt=""
+        style={{width:64,height:40,objectFit:"cover",borderRadius:6,display:"block"}}
+        onError={e => { e.target.style.display="none"; }}
+      />
+    );
+  }
+  if (type === "facebook") {
+    return <div className="adm-fb-thumb">f</div>;
+  }
+  return <div className="adm-thumb-placeholder">🎬</div>;
+};
+
+/**
+ * Hint row shown below video URL inputs — lists accepted platforms.
+ */
+const VideoUrlHints = () => (
+  <div className="adm-url-hints">
+    <span className="adm-url-hint" style={{background:"rgba(255,0,0,0.12)",color:"#ff6b6b"}}>▶ YouTube</span>
+    <span className="adm-url-hint" style={{background:"rgba(24,119,242,0.15)",color:"#5b9cf6"}}>f Facebook Reel / Post</span>
+    <span className="adm-url-hint" style={{background:"rgba(255,255,255,0.06)",color:"rgba(255,255,255,0.35)"}}>🎞 Direct .mp4</span>
+  </div>
+);
+
+/* ─── CONSTANTS ─────────────────────────────────────────────────── */
+const COLORS  = ["#ffa500","#ff6b35","#00d4ff","#ff3366","#a855f7","#22d3ee","#fbbf24","#10b981"];
+const TAGS    = ["Backend","Frontend","AI/ML","Security","Web3","React","Hardware","Python","Data","Mobile","Office","Blockchain"];
+const COURSES = [
+  "Full Stack Web Dev","Data Science","Full Stack with AI","Machine Learning",
+  "Business Development","Mobile App Dev","MS Office","Cybersecurity & Ethical Hacking",
+  "Frontend with React","Python Bootcamp","Blockchain Dev","Robotics & Automation", "Ai for kids 3 months", "Ai for kids 1 month"
+];
+const GRADES  = ["A+","A","A-","B+","B","B-","C","Pass","Distinction","Merit","Fail"];
+
+const EMPTY_LECTURE = {
+  title:"", course:COURSES[0], instructor:"", description:"",
+  video_url:"", thumb_url:"", duration:"", tag:"Backend",
+  color:"#ffa500", students:"0", is_published:true, sort_order:0,
+};
+
+const EMPTY_CERT = {
+  cert_id:"", student_name:"", course:COURSES[0],
+  issue_date:"", expiry_date:"", grade:"A+",
+  instructor:"", is_active:true, notes:"",
+};
+
+/* ─── TOAST ─────────────────────────────────────────────────────── */
+const Toast = ({ msg, err, onDone }) => {
+  useEffect(() => { const t = setTimeout(onDone, 3000); return () => clearTimeout(t); }, [onDone]);
+  return <div className={`adm-toast${err?" err":""}`}>{err?"❌":"✅"} {msg}</div>;
+};
+
+/* ─── LECTURE MODAL ─────────────────────────────────────────────── */
 const LectureModal = ({ lecture, onSave, onClose }) => {
   const [form, setForm] = useState(lecture ? { ...lecture } : { ...EMPTY_LECTURE });
   const [busy, setBusy] = useState(false);
@@ -574,21 +725,27 @@ const LectureModal = ({ lecture, onSave, onClose }) => {
 
           {/* Video URL */}
           <div className="adm-field adm-form-full">
-            <label className="adm-label">Video URL * (YouTube embed or .mp4)</label>
+            <label className="adm-label" style={{display:"flex",alignItems:"center"}}>
+              Video URL *
+              <VideoPlatformBadge url={form.video_url} />
+            </label>
             <input className="adm-input" value={form.video_url}
               onChange={e => set("video_url", e.target.value)}
-              placeholder="https://www.youtube.com/embed/VIDEOID  or  https://…/video.mp4" />
-            <span style={{ fontSize:10, color:"rgba(255,255,255,0.2)", marginTop:4 }}>
-              YouTube: paste the /embed/ URL from Share → Embed → copy src="…"
-            </span>
+              placeholder="YouTube, Facebook Reel/Post URL, or .mp4 link" />
+            <VideoUrlHints />
           </div>
 
           {/* Thumbnail */}
           <div className="adm-field adm-form-full">
-            <label className="adm-label">Thumbnail URL</label>
+            <label className="adm-label">Thumbnail URL (auto-generated for YouTube · required for Facebook)</label>
             <input className="adm-input" value={form.thumb_url}
               onChange={e => set("thumb_url", e.target.value)}
-              placeholder="https://… (Unsplash, Supabase Storage, etc.)" />
+              placeholder="https://… paste your thumbnail image URL" />
+            {getVideoType(form.video_url) === "facebook" && !form.thumb_url && (
+              <span style={{fontSize:10,color:"#f0a500",marginTop:4}}>
+                ⚠ Facebook videos have no auto-thumbnail — paste a custom thumbnail URL above.
+              </span>
+            )}
           </div>
 
           {/* Description */}
@@ -680,32 +837,6 @@ const DeleteConfirm = ({ lecture, onConfirm, onClose }) => (
     </div>
   </div>
 );
-const COLORS  = ["#ffa500","#ff6b35","#00d4ff","#ff3366","#a855f7","#22d3ee","#fbbf24","#10b981"];
-const TAGS    = ["Backend","Frontend","AI/ML","Security","Web3","React","Hardware","Python","Data","Mobile","Office","Blockchain"];
-const COURSES = [
-  "Full Stack Web Dev","Data Science","Full Stack with AI","Machine Learning",
-  "Business Development","Mobile App Dev","MS Office","Cybersecurity & Ethical Hacking",
-  "Frontend with React","Python Bootcamp","Blockchain Dev","Robotics & Automation",
-];
-const GRADES  = ["A+","A","A-","B+","B","B-","C","Pass","Distinction","Merit","Fail"];
-
-const EMPTY_LECTURE = {
-  title:"", course:COURSES[0], instructor:"", description:"",
-  video_url:"", thumb_url:"", duration:"", tag:"Backend",
-  color:"#ffa500", students:"0", is_published:true, sort_order:0,
-};
-
-const EMPTY_CERT = {
-  cert_id:"", student_name:"", course:COURSES[0],
-  issue_date:"", expiry_date:"", grade:"A+",
-  instructor:"", is_active:true, notes:"",
-};
-
-/* ─── TOAST ─────────────────────────────────────────────────────── */
-const Toast = ({ msg, err, onDone }) => {
-  useEffect(() => { const t = setTimeout(onDone, 3000); return () => clearTimeout(t); }, [onDone]);
-  return <div className={`adm-toast${err?" err":""}`}>{err?"❌":"✅"} {msg}</div>;
-};
 
 /* ─── CERT FORM MODAL ────────────────────────────────────────────── */
 const CertModal = ({ cert, onSave, onClose }) => {
@@ -713,7 +844,6 @@ const CertModal = ({ cert, onSave, onClose }) => {
   const [busy, setBusy] = useState(false);
   const set = (k,v) => setForm(f => ({ ...f, [k]:v }));
 
-  // Auto-generate cert_id if new
   useEffect(() => {
     if (!cert && !form.cert_id) {
       const year = new Date().getFullYear();
@@ -750,7 +880,6 @@ const CertModal = ({ cert, onSave, onClose }) => {
         </div>
 
         <div className="adm-form-grid">
-          {/* Cert ID */}
           <div className="adm-field">
             <label className="adm-label">Certificate ID * (unique)</label>
             <input className="adm-input" value={form.cert_id}
@@ -761,7 +890,6 @@ const CertModal = ({ cert, onSave, onClose }) => {
             </span>
           </div>
 
-          {/* Student name */}
           <div className="adm-field">
             <label className="adm-label">Student Name *</label>
             <input className="adm-input" value={form.student_name}
@@ -769,7 +897,6 @@ const CertModal = ({ cert, onSave, onClose }) => {
               placeholder="Full name as on certificate" />
           </div>
 
-          {/* Course */}
           <div className="adm-field">
             <label className="adm-label">Course *</label>
             <select className="adm-select" value={form.course} onChange={e => set("course", e.target.value)}>
@@ -777,7 +904,6 @@ const CertModal = ({ cert, onSave, onClose }) => {
             </select>
           </div>
 
-          {/* Instructor */}
           <div className="adm-field">
             <label className="adm-label">Instructor</label>
             <input className="adm-input" value={form.instructor}
@@ -785,21 +911,18 @@ const CertModal = ({ cert, onSave, onClose }) => {
               placeholder="Sir / Ma'am Name" />
           </div>
 
-          {/* Issue Date */}
           <div className="adm-field">
             <label className="adm-label">Issue Date *</label>
             <input className="adm-input" type="date" value={form.issue_date}
               onChange={e => set("issue_date", e.target.value)} />
           </div>
 
-          {/* Expiry Date */}
           <div className="adm-field">
             <label className="adm-label">Expiry Date (leave blank = never)</label>
             <input className="adm-input" type="date" value={form.expiry_date||""}
               onChange={e => set("expiry_date", e.target.value)} />
           </div>
 
-          {/* Grade */}
           <div className="adm-field">
             <label className="adm-label">Grade</label>
             <select className="adm-select" value={form.grade} onChange={e => set("grade", e.target.value)}>
@@ -807,7 +930,6 @@ const CertModal = ({ cert, onSave, onClose }) => {
             </select>
           </div>
 
-          {/* Notes */}
           <div className="adm-field">
             <label className="adm-label">Internal Notes</label>
             <input className="adm-input" value={form.notes||""}
@@ -815,7 +937,6 @@ const CertModal = ({ cert, onSave, onClose }) => {
               placeholder="Admin-only notes (not shown publicly)" />
           </div>
 
-          {/* Active toggle */}
           <div className="adm-field adm-form-full">
             <div className="adm-toggle-row">
               <button className={`adm-toggle${form.is_active?" on":""}`}
@@ -905,7 +1026,6 @@ const CertificatesTab = ({ showToast }) => {
 
   const active   = certs.filter(c => c.is_active).length;
   const revoked  = certs.filter(c => !c.is_active).length;
-
   const fmtDate = (d) => d ? new Date(d).toLocaleDateString("en-GB", { day:"2-digit", month:"short", year:"numeric" }) : "—";
 
   return (
@@ -1115,10 +1235,13 @@ const LecturesTab = ({ showToast }) => {
                 >
                   <td><span className="adm-drag-handle" title="Drag to reorder">⠿</span></td>
                   <td className="adm-thumb-cell">
-                    {lec.thumb_url ? <img src={lec.thumb_url} alt=""/> : <div className="adm-thumb-placeholder">🎬</div>}
+                    <VideoThumbCell videoUrl={lec.video_url} thumbUrl={lec.thumb_url} />
                   </td>
                   <td>
-                    <div style={{fontWeight:700, marginBottom:2}}>{lec.title}</div>
+                    <div style={{fontWeight:700, marginBottom:2, display:"flex", alignItems:"center", gap:4}}>
+                      {lec.title}
+                      <VideoPlatformBadge url={lec.video_url} />
+                    </div>
                     <div style={{fontSize:10.5, color:"rgba(255,255,255,0.3)"}}>{lec.instructor}</div>
                   </td>
                   <td style={{color:"rgba(255,255,255,0.45)", fontSize:11.5}}>{lec.course}</td>
@@ -1395,17 +1518,19 @@ const ChallengesTab = ({ showToast }) => {
   );
 };
 
-/* ─── MAIN ADMIN PANEL ───────────────────────────────────────────── */
-
+/* ─── BLOG ───────────────────────────────────────────────────────── */
 const POST_CATS = ["News","University Visit","Social","Event","Achievement","Behind the Scenes"];
 const EMPTY_POST = {
   title:"", caption:"", category:"News",
-  images:[""], tags:[], is_published:true, is_featured:false,
+  images:[""], video_url:"", tags:[], is_published:true, is_featured:false,
 };
 
 /* ─── POST FORM MODAL ────────────────────────────────────────────── */
 const PostModal = ({ post, onSave, onClose }) => {
-  const [form, setForm] = useState(post ? { ...post, images: post.images?.length ? post.images : [""], tags: post.tags || [] } : { ...EMPTY_POST });
+  const [form, setForm] = useState(post
+    ? { ...post, images: post.images?.length ? post.images : [""], tags: post.tags || [], video_url: post.video_url || "" }
+    : { ...EMPTY_POST }
+  );
   const [busy, setBusy] = useState(false);
   const [tagInput, setTagInput] = useState("");
   const set = (k,v) => setForm(f=>({...f,[k]:v}));
@@ -1422,6 +1547,7 @@ const PostModal = ({ post, onSave, onClose }) => {
     const payload = {
       ...form,
       images: form.images.filter(u=>u.trim()),
+      video_url: form.video_url?.trim() || null,
     };
     delete payload.id; delete payload.created_at; delete payload.updated_at;
     let err;
@@ -1465,6 +1591,21 @@ const PostModal = ({ post, onSave, onClose }) => {
           <div className="adm-field adm-form-full">
             <label className="adm-label">Caption / Post Text</label>
             <textarea className="adm-textarea" rows={4} value={form.caption||""} onChange={e=>set("caption",e.target.value)} placeholder="Write what happened, the story behind the photos..."/>
+          </div>
+          {/* ── Video URL (NEW) ── */}
+          <div className="adm-field adm-form-full">
+            <label className="adm-label" style={{display:"flex",alignItems:"center"}}>
+              Video URL (optional — Reel, post or YouTube)
+              <VideoPlatformBadge url={form.video_url} />
+            </label>
+            <input className="adm-input" value={form.video_url||""} onChange={e=>set("video_url",e.target.value)}
+              placeholder="Paste a Facebook Reel/Post URL, YouTube link, or .mp4…"/>
+            <VideoUrlHints />
+            {getVideoType(form.video_url) === "facebook" && (
+              <span style={{fontSize:10,color:"#5b9cf6",marginTop:4,display:"block"}}>
+                ℹ Facebook Reels & posts embed automatically via the official Facebook Video Plugin.
+              </span>
+            )}
           </div>
           {/* Images */}
           <div className="adm-field adm-form-full">
@@ -1592,7 +1733,7 @@ const BlogTab = ({ showToast }) => {
           <table>
             <thead>
               <tr>
-                <th style={{width:70}}>Image</th>
+                <th style={{width:70}}>Media</th>
                 <th>Title</th>
                 <th>Category</th>
                 <th>Tags</th>
@@ -1606,13 +1747,19 @@ const BlogTab = ({ showToast }) => {
               {filtered.map(post=>(
                 <tr key={post.id}>
                   <td className="adm-thumb-cell">
-                    {post.images?.[0]
-                      ? <img src={post.images[0]} alt="" style={{width:64,height:40,objectFit:"cover",borderRadius:6}}/>
-                      : <div className="adm-thumb-placeholder">📸</div>
+                    {/* Show video thumb if video_url present, else first image */}
+                    {post.video_url
+                      ? <VideoThumbCell videoUrl={post.video_url} thumbUrl={post.images?.[0]} />
+                      : post.images?.[0]
+                        ? <img src={post.images[0]} alt="" style={{width:64,height:40,objectFit:"cover",borderRadius:6}}/>
+                        : <div className="adm-thumb-placeholder">📸</div>
                     }
                   </td>
                   <td>
-                    <div style={{fontWeight:700,marginBottom:2}}>{post.title}</div>
+                    <div style={{fontWeight:700,marginBottom:2,display:"flex",alignItems:"center",gap:4}}>
+                      {post.title}
+                      {post.video_url && <VideoPlatformBadge url={post.video_url} />}
+                    </div>
                     {post.images?.length>1 && <div style={{fontSize:10,color:"rgba(255,255,255,0.3)"}}>{post.images.length} images</div>}
                   </td>
                   <td>
@@ -1670,7 +1817,7 @@ const BlogTab = ({ showToast }) => {
   );
 };
 
-
+/* ─── VIDEO REVIEWS ──────────────────────────────────────────────── */
 const REVIEW_COURSES = [
   "Full Stack Web Dev","Data Science","Full Stack with AI","Machine Learning",
   "Business Development","Mobile App Dev","MS Office","Cybersecurity & Ethical Hacking",
@@ -1723,25 +1870,43 @@ const ReviewModal = ({ review, onSave, onClose }) => {
             </select>
           </div>
           <div className="adm-field adm-form-full">
-            <label className="adm-label">Video URL * (YouTube embed or .mp4)</label>
+            <label className="adm-label" style={{display:"flex",alignItems:"center"}}>
+              Video URL *
+              <VideoPlatformBadge url={form.video_url} />
+            </label>
             <input className="adm-input" value={form.video_url}
               onChange={e=>set("video_url",e.target.value)}
-              placeholder="https://www.youtube.com/embed/VIDEO_ID"/>
-            <span style={{fontSize:10,color:"rgba(255,255,255,0.2)",marginTop:4,display:"block"}}>
-              YouTube: Share → Embed → copy the src="…" URL
-            </span>
+              placeholder="YouTube, Facebook Reel/Post URL, or .mp4 link"/>
+            <VideoUrlHints />
+            {getVideoType(form.video_url) === "facebook" && (
+              <span style={{fontSize:10,color:"#5b9cf6",marginTop:4,display:"block"}}>
+                ℹ Facebook Reels & posts embed automatically — add a custom thumbnail below.
+              </span>
+            )}
           </div>
           <div className="adm-field adm-form-full">
-            <label className="adm-label">Thumbnail URL (leave blank to auto-use YouTube thumbnail)</label>
+            <label className="adm-label">
+              Thumbnail URL
+              {getVideoType(form.video_url) === "youtube"
+                ? " (auto-generated from YouTube — optional override)"
+                : getVideoType(form.video_url) === "facebook"
+                ? " (required for Facebook — paste a screenshot or custom image)"
+                : " (optional)"}
+            </label>
             <input className="adm-input" value={form.thumb_url||""}
               onChange={e=>set("thumb_url",e.target.value)}
-              placeholder="https://… (optional — auto-generated for YouTube)"/>
+              placeholder="https://… custom thumbnail URL"/>
+            {getVideoType(form.video_url) === "facebook" && !form.thumb_url && (
+              <span style={{fontSize:10,color:"#f0a500",marginTop:4,display:"block"}}>
+                ⚠ Facebook has no auto-thumbnail — paste one above so a preview shows in the table.
+              </span>
+            )}
           </div>
           <div className="adm-field adm-form-full">
             <label className="adm-label">Short Quote (shown on card)</label>
             <input className="adm-input" value={form.short_quote||""}
               onChange={e=>set("short_quote",e.target.value)}
-              placeholder='e.g. "Got hired 3 weeks after graduating!"'/>
+              placeholder='"Got hired 3 weeks after graduating!"'/>
           </div>
           <div className="adm-field">
             <label className="adm-label">Rating (1–5)</label>
@@ -1812,11 +1977,6 @@ const VideoReviewsTab = ({ showToast }) => {
     else { showToast(r.is_published?"Unpublished":"Published"); fetch(); }
   };
 
-  const getYTThumb = (url) => {
-    const m = url?.match(/embed\/([a-zA-Z0-9_-]+)/);
-    return m ? `https://img.youtube.com/vi/${m[1]}/hqdefault.jpg` : null;
-  };
-
   return (
     <>
       <div className="adm-actions">
@@ -1851,45 +2011,44 @@ const VideoReviewsTab = ({ showToast }) => {
               </tr>
             </thead>
             <tbody>
-              {reviews.map(r => {
-                const thumb = r.thumb_url || getYTThumb(r.video_url);
-                return (
-                  <tr key={r.id}>
-                    <td className="adm-thumb-cell">
-                      {thumb
-                        ? <img src={thumb} alt="" style={{width:64,height:40,objectFit:"cover",borderRadius:6}}/>
-                        : <div className="adm-thumb-placeholder">🎬</div>
-                      }
-                    </td>
-                    <td style={{fontWeight:700}}>{r.student_name}</td>
-                    <td style={{color:"rgba(255,255,255,0.45)",fontSize:11.5}}>{r.course}</td>
-                    <td style={{color:"rgba(255,255,255,0.38)",fontSize:11.5,fontStyle:"italic",maxWidth:180,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>
-                      {r.short_quote ? `"${r.short_quote}"` : "—"}
-                    </td>
-                    <td>
-                      <div style={{display:"flex",gap:2}}>
-                        {[1,2,3,4,5].map(n=>(
-                          <span key={n} style={{fontSize:13,color:n<=r.rating?"#ffa500":"rgba(255,255,255,0.12)"}}>★</span>
-                        ))}
-                      </div>
-                    </td>
-                    <td>
-                      <div className="adm-published" style={{cursor:"pointer"}} onClick={()=>togglePublish(r)}>
-                        <div className="adm-pub-dot" style={{background:r.is_published?"#22c55e":"#555"}}/>
-                        <span style={{color:r.is_published?"#22c55e":"rgba(255,255,255,0.3)"}}>
-                          {r.is_published?"Published":"Draft"}
-                        </span>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="adm-row-btns">
-                        <button className="adm-btn-icon" onClick={()=>setModal({mode:"edit",review:r})}>✏️</button>
-                        <button className="adm-btn-icon del" onClick={()=>setModal({mode:"delete",review:r})}>🗑️</button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
+              {reviews.map(r => (
+                <tr key={r.id}>
+                  <td className="adm-thumb-cell">
+                    <VideoThumbCell videoUrl={r.video_url} thumbUrl={r.thumb_url} />
+                  </td>
+                  <td>
+                    <div style={{fontWeight:700,display:"flex",alignItems:"center",gap:4}}>
+                      {r.student_name}
+                      <VideoPlatformBadge url={r.video_url} />
+                    </div>
+                  </td>
+                  <td style={{color:"rgba(255,255,255,0.45)",fontSize:11.5}}>{r.course}</td>
+                  <td style={{color:"rgba(255,255,255,0.38)",fontSize:11.5,fontStyle:"italic",maxWidth:180,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>
+                    {r.short_quote ? `"${r.short_quote}"` : "—"}
+                  </td>
+                  <td>
+                    <div style={{display:"flex",gap:2}}>
+                      {[1,2,3,4,5].map(n=>(
+                        <span key={n} style={{fontSize:13,color:n<=r.rating?"#ffa500":"rgba(255,255,255,0.12)"}}>★</span>
+                      ))}
+                    </div>
+                  </td>
+                  <td>
+                    <div className="adm-published" style={{cursor:"pointer"}} onClick={()=>togglePublish(r)}>
+                      <div className="adm-pub-dot" style={{background:r.is_published?"#22c55e":"#555"}}/>
+                      <span style={{color:r.is_published?"#22c55e":"rgba(255,255,255,0.3)"}}>
+                        {r.is_published?"Published":"Draft"}
+                      </span>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="adm-row-btns">
+                      <button className="adm-btn-icon" onClick={()=>setModal({mode:"edit",review:r})}>✏️</button>
+                      <button className="adm-btn-icon del" onClick={()=>setModal({mode:"delete",review:r})}>🗑️</button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         )}
@@ -1914,7 +2073,7 @@ const VideoReviewsTab = ({ showToast }) => {
   );
 };
 
-
+/* ─── PRODUCTS ───────────────────────────────────────────────────── */
 const PROD_CATS = ["E-Book","Robotics Kit","Course Bundle","Merchandise"];
 const BADGE_COLORS = ["#ffa500","#22c55e","#00d4ff","#ef4444","#a855f7","#ffd700","#ff6b35"];
 const EMPTY_PROD = {
@@ -1970,12 +2129,10 @@ const ProductModal = ({ product, onSave, onClose }) => {
           <button className="adm-btn-icon" onClick={onClose}>✕</button>
         </div>
         <div className="adm-form-grid">
-          {/* Name */}
           <div className="adm-field adm-form-full">
             <label className="adm-label">Product Name *</label>
             <input className="adm-input" value={form.name} onChange={e=>set("name",e.target.value)} placeholder="e.g. Python Programming E-Book"/>
           </div>
-          {/* Category + Sort */}
           <div className="adm-field">
             <label className="adm-label">Category</label>
             <select className="adm-select" value={form.category} onChange={e=>set("category",e.target.value)}>
@@ -1986,7 +2143,6 @@ const ProductModal = ({ product, onSave, onClose }) => {
             <label className="adm-label">Sort Order</label>
             <input className="adm-input" type="number" value={form.sort_order} onChange={e=>set("sort_order",+e.target.value)}/>
           </div>
-          {/* Price */}
           <div className="adm-field">
             <label className="adm-label">Price (PKR) *</label>
             <input className="adm-input" type="number" value={form.price} onChange={e=>set("price",e.target.value)} placeholder="999"/>
@@ -1995,17 +2151,14 @@ const ProductModal = ({ product, onSave, onClose }) => {
             <label className="adm-label">Original Price (for discount — optional)</label>
             <input className="adm-input" type="number" value={form.original_price||""} onChange={e=>set("original_price",e.target.value)} placeholder="1500"/>
           </div>
-          {/* Stock */}
           <div className="adm-field">
             <label className="adm-label">Stock (leave blank = unlimited)</label>
             <input className="adm-input" type="number" value={form.stock||""} onChange={e=>set("stock",e.target.value)} placeholder="Unlimited"/>
           </div>
-          {/* Badge */}
           <div className="adm-field">
             <label className="adm-label">Badge Text (optional)</label>
             <input className="adm-input" value={form.badge||""} onChange={e=>set("badge",e.target.value)} placeholder="Best Seller, New, Limited Stock…"/>
           </div>
-          {/* Badge color */}
           <div className="adm-field adm-form-full">
             <label className="adm-label">Badge Color</label>
             <div style={{display:"flex",gap:8,alignItems:"center",flexWrap:"wrap",paddingTop:4}}>
@@ -2019,12 +2172,10 @@ const ProductModal = ({ product, onSave, onClose }) => {
                 style={{width:32,height:32,padding:2,border:"1px solid rgba(255,255,255,0.1)",borderRadius:8,cursor:"pointer"}}/>
             </div>
           </div>
-          {/* Description */}
           <div className="adm-field adm-form-full">
             <label className="adm-label">Description</label>
             <textarea className="adm-textarea" rows={3} value={form.description||""} onChange={e=>set("description",e.target.value)} placeholder="What is this product? Who is it for?"/>
           </div>
-          {/* Images */}
           <div className="adm-field adm-form-full">
             <label className="adm-label">Image URLs</label>
             {form.images.map((url,i)=>(
@@ -2038,7 +2189,6 @@ const ProductModal = ({ product, onSave, onClose }) => {
               <button className="adm-btn adm-btn-ghost" style={{fontSize:10,padding:"5px 14px"}} onClick={addImg}>+ Add Image</button>
             )}
           </div>
-          {/* Features */}
           <div className="adm-field adm-form-full">
             <label className="adm-label">Features / What's Included (bullet points)</label>
             {form.features.map((feat,i)=>(
@@ -2049,13 +2199,11 @@ const ProductModal = ({ product, onSave, onClose }) => {
             ))}
             <button className="adm-btn adm-btn-ghost" style={{fontSize:10,padding:"5px 14px"}} onClick={addFeat}>+ Add Feature</button>
           </div>
-          {/* Buy link */}
           <div className="adm-field adm-form-full">
             <label className="adm-label">Buy Link (WhatsApp link or checkout URL)</label>
             <input className="adm-input" value={form.buy_link||""} onChange={e=>set("buy_link",e.target.value)}
               placeholder="https://wa.me/923001234567?text=I want to buy..."/>
           </div>
-          {/* Toggles */}
           <div className="adm-field">
             <div className="adm-toggle-row">
               <button className={`adm-toggle${form.is_featured?" on":""}`} onClick={()=>set("is_featured",!form.is_featured)} type="button"/>
@@ -2191,6 +2339,7 @@ const ProductsTab = ({ showToast }) => {
   );
 };
 
+/* ─── MAIN ADMIN PANEL ───────────────────────────────────────────── */
 const AdminPanel = () => {
   const { session, signOut } = useAuth();
   const [tab,   setTab]   = useState("lectures");
@@ -2264,6 +2413,46 @@ const AdminPanel = () => {
         {toast && <Toast msg={toast.msg} err={toast.err} onDone={()=>setToast(null)}/>}
       </div>
     </>
+  );
+};
+
+/* ─── FRONTEND EMBED HELPER (export for use in your public pages) ─ */
+/**
+ * Use this in your public-facing lecture player / review card / blog post
+ * to render the correct embed for any video URL stored in the DB.
+ *
+ * Usage:
+ *   import { VideoEmbed } from "./AdminPanel";
+ *   <VideoEmbed url={lecture.video_url} title={lecture.title} />
+ */
+export const VideoEmbed = ({ url = "", title = "", style = {} }) => {
+  const type = getVideoType(url);
+  const embedUrl = getEmbedUrl(url);
+
+  if (type === "mp4") {
+    return (
+      <video controls style={{ width:"100%", borderRadius:8, ...style }}>
+        <source src={url} type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    );
+  }
+
+  // YouTube & Facebook both use iframe embeds
+  return (
+    <iframe
+      src={embedUrl}
+      title={title}
+      allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+      allowFullScreen
+      style={{
+        width: "100%",
+        aspectRatio: "16/9",
+        border: "none",
+        borderRadius: 8,
+        ...style,
+      }}
+    />
   );
 };
 

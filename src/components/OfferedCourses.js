@@ -564,7 +564,7 @@ function OfferedCourses() {
             Industry-leading programs by working professionals. Real skills, real careers.
           </p>
           <div className="coc-stats">
-            {[["10K+","Students"],["95%","Placed"],["12","Courses"],["50+","Mentors"]].map(([n, l]) => (
+            {[["1000+","Students"],["95%","Placed"],["20+","Courses"],["7+","Departments"]].map(([n, l]) => (
               <div className="coc-stat" key={l}>
                 <div className="coc-stat-n">{n}</div>
                 <div className="coc-stat-l">{l}</div>

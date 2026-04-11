@@ -1,6 +1,83 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { supabase } from "./supabase/SupabaseClient";
 
+/* ─── Video platform detector ─────────────────────────────────────
+   Supports: YouTube, YouTube Shorts, Facebook embed, direct mp4/webm
+──────────────────────────────────────────────────────────────────── */
+const Stars = ({ rating = 5, size = 12 }) => {
+  const total = 5;
+
+  return (
+    <>
+      {Array.from({ length: total }, (_, i) => (
+        <span
+          key={i}
+          className="vr-star"
+          style={{
+            fontSize: size,
+            color: i < rating ? "#ffa500" : "rgba(255,255,255,0.25)"
+          }}
+        >
+          ★
+        </span>
+      ))}
+    </>
+  );
+};
+const getVideoEmbed = (url = "") => {
+  if (!url) return { type: "unknown", src: "" };
+  if (url.includes("youtube.com/embed/")) {
+    return { type: "youtube", src: url + (url.includes("?") ? "&" : "?") + "autoplay=1&rel=0&modestbranding=1" };
+  }
+  if (url.includes("youtube.com/watch") || url.includes("youtu.be/") || url.includes("youtube.com/shorts/")) {
+    let id = "";
+    if (url.includes("youtu.be/"))       id = url.split("youtu.be/")[1]?.split("?")[0];
+    else if (url.includes("v="))         id = url.split("v=")[1]?.split("&")[0];
+    else if (url.includes("/shorts/"))   id = url.split("/shorts/")[1]?.split("?")[0];
+    if (id) return { type: "youtube", src: `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1` };
+  }
+  if (url.includes("facebook.com/plugins/video")) {
+    const u = url.includes("autoplay") ? url : url + (url.includes("?") ? "&autoplay=1" : "?autoplay=1");
+    return { type: "facebook", src: u };
+  }
+  if (url.includes("facebook.com") || url.includes("fb.watch")) {
+    const encoded = encodeURIComponent(url);
+    return { type: "facebook", src: `https://www.facebook.com/plugins/video.php?href=${encoded}&show_text=false&autoplay=1&allowfullscreen=true` };
+  }
+  if (url.match(/\.(mp4|webm|ogg)(\?|$)/i)) {
+    return { type: "mp4", src: url };
+  }
+  return { type: "unknown", src: url };
+};
+
+const VideoEmbed = ({ url, title = "" }) => {
+  const { type, src } = getVideoEmbed(url);
+  if (!src) return null;
+  if (type === "mp4") {
+    return <video src={src} controls autoPlay style={{width:"100%",height:"100%",display:"block"}}/>;
+  }
+  return (
+    <iframe
+      src={src}
+      title={title}
+      style={{width:"100%",height:"100%",border:"none",display:"block"}}
+      allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share; fullscreen"
+      allowFullScreen
+      scrolling="no"
+      frameBorder="0"
+    />
+  );
+};
+
+const getYTThumb = (url = "") => {
+  let id = "";
+  if (url.includes("/embed/"))   id = url.split("/embed/")[1]?.split("?")[0];
+  if (url.includes("youtu.be/")) id = url.split("youtu.be/")[1]?.split("?")[0];
+  if (url.includes("v="))        id = url.split("v=")[1]?.split("&")[0];
+  return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : null;
+};
+
+
 /* ═══════════════════════════════════════════════════════════════════
    VIDEO REVIEWS — CodeBuild Academy
    ✦ Horizontal scrolling row of student review cards
@@ -230,26 +307,10 @@ const css = `
 }
 `;
 
-/* ── helpers ── */
-const Stars = ({ rating, size = 12 }) => (
-  <div style={{ display:"flex", gap:2 }}>
-    {[1,2,3,4,5].map(i => (
-      <span key={i} style={{ fontSize:size, color: i<=rating ? "#ffa500" : "rgba(255,255,255,0.12)" }}>★</span>
-    ))}
-  </div>
-);
-
-const getYTThumb = (url) => {
-  const m = url.match(/embed\/([a-zA-Z0-9_-]+)/);
-  return m ? `https://img.youtube.com/vi/${m[1]}/hqdefault.jpg` : null;
-};
 
 /* ── Video Modal ── */
 const VideoModal = ({ review, onClose }) => {
-  const isYT = review.video_url?.includes("youtube.com");
-  const src  = isYT
-    ? `${review.video_url}?autoplay=1&rel=0&modestbranding=1`
-    : review.video_url;
+  // platform detection handled by VideoEmbed
   const initials = review.student_name.split(" ").map(n=>n[0]).join("").toUpperCase().slice(0,2);
 
   useEffect(() => {
@@ -263,10 +324,7 @@ const VideoModal = ({ review, onClose }) => {
     <div className="vr-modal-overlay" onClick={e=>e.target===e.currentTarget&&onClose()}>
       <div className="vr-modal">
         <div className="vr-modal-video">
-          {isYT
-            ? <iframe src={src} title={review.student_name} allow="autoplay;encrypted-media;fullscreen" allowFullScreen/>
-            : <video src={src} controls autoPlay style={{width:"100%",height:"100%"}}/>
-          }
+          <VideoEmbed url={review.video_url} title={review.student_name}/>
           <button className="vr-modal-close" onClick={onClose}>✕</button>
         </div>
         <div className="vr-modal-info">
@@ -331,7 +389,7 @@ const VideoReviews = () => {
             <div className="vr-track-wrap">
               <div className="vr-track" ref={trackRef}>
                 {reviews.map(review => {
-                  const thumb = review.thumb_url || getYTThumb(review.video_url) || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80";
+                  const thumb = review.thumb_url || getYTThumb(review.video_url || '') || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80";
                   return (
                     <div key={review.id} className="vr-card" onClick={() => setPlaying(review)}>
                       <div className="vr-thumb">

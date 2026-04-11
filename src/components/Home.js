@@ -20,12 +20,13 @@ const Home = () => {
     script.type = 'text/javascript'
     script.crossOrigin = 'anonymous'
     document.body.appendChild(script)
+    
   }, [])
 
   return (
     <div style={{ backgroundColor: "black" }}>
       <Form />
-
+      
       <div><WhyUs /></div>
       <div><Blog/></div>
       <div><VideoReviews /></div>
