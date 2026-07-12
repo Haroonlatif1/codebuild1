@@ -35,7 +35,7 @@ const whyUsData = [
 ];
 
 const stats = [
-  { value: "1000+", label: "Students Trained" },
+  { value: "1200+", label: "Students Trained" },
   { value: "95%",  label: "Placement Rate" },
   { value: "3",  label: "Countries Reached" },
   { value: "20+",  label: "Courses Offered" },

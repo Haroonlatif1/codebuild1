@@ -51,9 +51,9 @@ const ContactUs = () => {
   ];
 
   const contactInfo = [
-    { icon: FaPhone, text: "0328-4452954" },
+    { icon: FaPhone, text: "0328-4452954 , 0324-8423974" },
     { icon: FaEnvelope, text: "contact@codebuildacademy.com" },
-    { icon: FaMapMarkerAlt, text: "Ravi block, iqbal town lahore Pakistan" }
+    { icon: FaMapMarkerAlt, text: "Ravi block, iqbal town Lahore Pakistan , 58-A2 Tipu Rd gulberg 3 Lahore Pakistan" }
   ];
 
   return (

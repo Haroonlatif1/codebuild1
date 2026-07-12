@@ -28,7 +28,7 @@ const Home = () => {
   return (
     <div style={{ backgroundColor: "black", position: "relative" }}>
 
-      {/* Welcome Modal */}
+      {/* Welcome Modal
       {showModal && (
         <div style={{
           position: "fixed",
@@ -86,7 +86,7 @@ const Home = () => {
             </button>
           </div>
         </div>
-      )}
+      )} */}
 
       <Form />
       <WhyUs />
