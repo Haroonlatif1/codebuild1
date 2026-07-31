@@ -8,6 +8,7 @@ import { supabase } from "./supabase/SupabaseClient";
    ✦ Full CRUD: add / edit / delete lectures
    ✦ Drag-and-drop reorder
    ✦ Toggle publish/unpublish
+   ✦ Competition Submissions viewer
    ✦ Dark theme matching site design
    Route: /cbdadmin  (add to App.jsx)
 ════════════════════════════════════════════════════════════════════ */
@@ -128,10 +129,12 @@ const css = `
     border: 1px solid rgba(255,255,255,0.06);
     border-radius: 12px;
     overflow: hidden;
+    overflow-x: auto;
   }
   table {
     width: 100%;
     border-collapse: collapse;
+    min-width: 600px;
   }
   th {
     padding: 13px 16px;
@@ -143,6 +146,7 @@ const css = `
     color: rgba(255,255,255,0.25);
     border-bottom: 1px solid rgba(255,255,255,0.05);
     background: rgba(255,255,255,0.02);
+    white-space: nowrap;
   }
   td {
     padding: 14px 16px;
@@ -454,6 +458,7 @@ const css = `
     border-radius: 10px;
     padding: 4px;
     width: fit-content;
+    flex-wrap: wrap;
   }
   .adm-tab {
     font-family: "Dosis", sans-serif;
@@ -528,6 +533,42 @@ const css = `
     padding: 2px 8px; border-radius: 4px;
   }
 
+  /* ── COMPETITION SUBMISSION DETAILS ── */
+  .adm-comp-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .adm-comp-detail .label {
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+  }
+  .adm-comp-detail .value {
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.7);
+    word-break: break-all;
+  }
+  .adm-comp-detail .value a {
+    color: #ffa500;
+    text-decoration: none;
+  }
+  .adm-comp-detail .value a:hover {
+    text-decoration: underline;
+  }
+  .adm-comp-link {
+    color: #ffa500;
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .adm-comp-link:hover {
+    text-decoration: underline;
+  }
+
   @media (max-width: 768px) {
     .adm-body { padding: 16px; }
     .adm-form-grid { grid-template-columns: 1fr; }
@@ -581,10 +622,9 @@ const getVideoThumb = (url = "") => {
   let id = "";
   if (url.includes("/embed/")) id = url.split("/embed/")[1]?.split("?")[0];
   else if (url.includes("youtu.be/")) id = url.split("youtu.be/")[1]?.split("?")[0];
-  else if (url.includes("v=")) id = url.split("v=")[1]?.split("&")[0];
+  else if (url.includes("v=")) id = url.split("v=")[1]?.split("&")[0];  // ← FIXED: removed extra quote
   return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : null;
 };
-
 /**
  * Small platform badge shown next to video URL fields.
  */
@@ -2339,24 +2379,201 @@ const ProductsTab = ({ showToast }) => {
   );
 };
 
+/* ─── COMPETITION SUBMISSIONS TAB ────────────────────────────────── */
+const CompetitionTab = ({ showToast }) => {
+  const [submissions, setSubmissions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
+
+  const fetchSubmissions = useCallback(async () => {
+    setLoading(true);
+    const { data, error } = await supabase
+      .from("competition_submissions")
+      .select("*")
+      .order("submitted_at", { ascending: false });
+    if (error) {
+      showToast(error.message, true);
+      setSubmissions([]);
+    } else {
+      setSubmissions(data || []);
+    }
+    setLoading(false);
+  }, [showToast]);
+
+  useEffect(() => {
+    fetchSubmissions();
+  }, [fetchSubmissions]);
+
+  const filtered = submissions.filter(s =>
+    !search ||
+    s.name?.toLowerCase().includes(search.toLowerCase()) ||
+    s.batch?.toLowerCase().includes(search.toLowerCase()) ||
+    s.phone?.includes(search) ||
+    s.certificate_id?.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const fmtDate = (d) => d ? new Date(d).toLocaleString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
+  }) : "—";
+
+  const total = submissions.length;
+
+  return (
+    <>
+      <div className="adm-actions">
+        <div className="adm-stat">🏆 {total} Submissions</div>
+        <input
+          className="adm-search"
+          placeholder="Search by name / batch / phone / ID…"
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+        />
+        <div style={{ marginLeft: "auto" }}>
+          <button
+            className="adm-btn adm-btn-ghost"
+            onClick={fetchSubmissions}
+            style={{ fontSize: 10 }}
+          >
+            🔄 Refresh
+          </button>
+        </div>
+      </div>
+
+      <div className="adm-table-wrap">
+        {loading ? (
+          <div className="adm-loader"><span/><span/><span/></div>
+        ) : filtered.length === 0 ? (
+          <div className="adm-empty">
+            <div className="adm-empty-icon">🏆</div>
+            {search ? "No submissions match your search." : "No competition submissions yet."}
+          </div>
+        ) : (
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Batch</th>
+                <th>Project Code</th>
+                <th>Screen Recording</th>
+                <th>Certificate ID</th>
+                <th>IP Address</th>
+                <th>Submitted At</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map((sub, idx) => (
+                <tr key={sub.id}>
+                  <td style={{ color: "rgba(255,255,255,0.3)", fontWeight: 700 }}>#{idx + 1}</td>
+                  <td>
+                    <div style={{ fontWeight: 700 }}>{sub.name}</div>
+                  </td>
+                  <td style={{ color: "rgba(255,255,255,0.6)" }}>{sub.phone || "—"}</td>
+                  <td>
+                    <span className="adm-tag" style={{ background: "rgba(255,165,0,0.15)", color: "#ffa500" }}>
+                      {sub.batch}
+                    </span>
+                  </td>
+                  <td>
+                    {sub.project_code_url ? (
+                      <a
+                        href={sub.project_code_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="adm-comp-link"
+                      >
+                        📦 Download
+                      </a>
+                    ) : (
+                      <span style={{ color: "rgba(255,255,255,0.2)" }}>—</span>
+                    )}
+                  </td>
+                  <td>
+                    {sub.screen_recording_url ? (
+                      <a
+                        href={sub.screen_recording_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="adm-comp-link"
+                      >
+                        🎬 Watch
+                      </a>
+                    ) : (
+                      <span style={{ color: "rgba(255,255,255,0.2)" }}>—</span>
+                    )}
+                  </td>
+                  <td>
+                    <code style={{
+                      background: "rgba(255,165,0,0.08)",
+                      border: "1px solid rgba(255,165,0,0.15)",
+                      borderRadius: 4,
+                      padding: "2px 7px",
+                      fontSize: 10,
+                      fontFamily: "monospace",
+                      color: "#ffa500",
+                      letterSpacing: 0.5,
+                    }}>
+                      {sub.certificate_id || "—"}
+                    </code>
+                  </td>
+                  <td style={{ color: "rgba(255,255,255,0.3)", fontSize: 11, fontFamily: "monospace" }}>
+                    {sub.ip_address || "—"}
+                  </td>
+                  <td style={{ color: "rgba(255,255,255,0.4)", fontSize: 11, whiteSpace: "nowrap" }}>
+                    {fmtDate(sub.submitted_at)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
+    </>
+  );
+};
+
 /* ─── MAIN ADMIN PANEL ───────────────────────────────────────────── */
 const AdminPanel = () => {
   const { session, signOut } = useAuth();
   const [tab,   setTab]   = useState("lectures");
   const [toast, setToast] = useState(null);
-  const [counts, setCounts] = useState({ lec:null, cert:null, chal:null, blog:null, vr:null, prod:null });
+  const [counts, setCounts] = useState({ 
+    lec: null, 
+    cert: null, 
+    chal: null, 
+    blog: null, 
+    vr: null, 
+    prod: null,
+    comp: null 
+  });
 
-  const showToast = useCallback((msg, err=false) => setToast({ msg, err }), []);
+  const showToast = useCallback((msg, err = false) => setToast({ msg, err }), []);
 
   useEffect(() => {
     Promise.all([
-      supabase.from("lectures").select("id",{count:"exact",head:true}),
-      supabase.from("certificates").select("id",{count:"exact",head:true}),
-      supabase.from("challenges").select("id",{count:"exact",head:true}),
-      supabase.from("posts").select("id",{count:"exact",head:true}),
-      supabase.from("video_reviews").select("id",{count:"exact",head:true}),
-      supabase.from("products").select("id",{count:"exact",head:true}),
-    ]).then(([l,c,ch,b,vr,pr]) => setCounts({ lec:l.count, cert:c.count, chal:ch.count, blog:b.count, vr:vr.count, prod:pr.count }));
+      supabase.from("lectures").select("id", { count: "exact", head: true }),
+      supabase.from("certificates").select("id", { count: "exact", head: true }),
+      supabase.from("challenges").select("id", { count: "exact", head: true }),
+      supabase.from("posts").select("id", { count: "exact", head: true }),
+      supabase.from("video_reviews").select("id", { count: "exact", head: true }),
+      supabase.from("products").select("id", { count: "exact", head: true }),
+      supabase.from("competition_submissions").select("id", { count: "exact", head: true }),
+    ]).then(([l, c, ch, b, vr, pr, comp]) => 
+      setCounts({ 
+        lec: l.count, 
+        cert: c.count, 
+        chal: ch.count, 
+        blog: b.count, 
+        vr: vr.count, 
+        prod: pr.count,
+        comp: comp.count 
+      })
+    );
   }, [toast]);
 
   return (
@@ -2379,7 +2596,7 @@ const AdminPanel = () => {
 
         <div className="adm-body">
           <div className="adm-page-title">Dashboard</div>
-          <div className="adm-page-sub">Manage lectures, certificates, challenges, blog posts and video reviews</div>
+          <div className="adm-page-sub">Manage lectures, certificates, challenges, blog posts, video reviews, products & competition submissions</div>
 
           <div className="adm-tabs">
             <button className={`adm-tab${tab==="lectures"?" active":""}`} onClick={()=>setTab("lectures")}>
@@ -2400,14 +2617,18 @@ const AdminPanel = () => {
             <button className={`adm-tab${tab==="products"?" active":""}`} onClick={()=>setTab("products")}>
               🛒 Products {counts.prod!==null&&<span className="adm-tab-badge">{counts.prod}</span>}
             </button>
+            <button className={`adm-tab${tab==="competition"?" active":""}`} onClick={()=>setTab("competition")}>
+              🏆 Competition {counts.comp!==null&&<span className="adm-tab-badge">{counts.comp}</span>}
+            </button>
           </div>
 
           {tab==="lectures"     && <LecturesTab     showToast={showToast}/>}
           {tab==="certificates" && <CertificatesTab showToast={showToast}/>}
           {tab==="challenges"   && <ChallengesTab   showToast={showToast}/>}
-          {tab==="blog"          && <BlogTab          showToast={showToast}/>}
-          {tab==="reviews"       && <VideoReviewsTab  showToast={showToast}/>}
-          {tab==="products"      && <ProductsTab      showToast={showToast}/>}
+          {tab==="blog"         && <BlogTab         showToast={showToast}/>}
+          {tab==="reviews"      && <VideoReviewsTab showToast={showToast}/>}
+          {tab==="products"     && <ProductsTab     showToast={showToast}/>}
+          {tab==="competition"  && <CompetitionTab  showToast={showToast}/>}
         </div>
 
         {toast && <Toast msg={toast.msg} err={toast.err} onDone={()=>setToast(null)}/>}
@@ -2416,15 +2637,7 @@ const AdminPanel = () => {
   );
 };
 
-/* ─── FRONTEND EMBED HELPER (export for use in your public pages) ─ */
-/**
- * Use this in your public-facing lecture player / review card / blog post
- * to render the correct embed for any video URL stored in the DB.
- *
- * Usage:
- *   import { VideoEmbed } from "./AdminPanel";
- *   <VideoEmbed url={lecture.video_url} title={lecture.title} />
- */
+/* ─── FRONTEND EMBED HELPER ──────────────────────────────────────── */
 export const VideoEmbed = ({ url = "", title = "", style = {} }) => {
   const type = getVideoType(url);
   const embedUrl = getEmbedUrl(url);
@@ -2438,7 +2651,6 @@ export const VideoEmbed = ({ url = "", title = "", style = {} }) => {
     );
   }
 
-  // YouTube & Facebook both use iframe embeds
   return (
     <iframe
       src={embedUrl}

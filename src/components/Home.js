@@ -5,6 +5,7 @@ import WhyUs from './Whyus'
 import ClassInsights from './Classinsights'
 import VideoReviews from './VideoReviews'
 import Blog from './Blog'
+import Competition from './Competition'
 
 const Home = () => {
   const [showModal, setShowModal] = useState(true)
@@ -87,7 +88,7 @@ const Home = () => {
           </div>
         </div>
       )} */}
-
+      <Competition />
       <Form />
       <WhyUs />
       <Blog />
