@@ -88,7 +88,7 @@ const Home = () => {
           </div>
         </div>
       )} */}
-      <Competition />
+      {/* <Competition /> */}
       <Form />
       <WhyUs />
       <Blog />
