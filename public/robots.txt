@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /cbdadmin
+Disallow: /checkout
+Allow: /
+
+Sitemap: https://codebuild.pk/sitemap.xml

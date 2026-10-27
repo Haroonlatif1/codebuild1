@@ -1,0 +1,951 @@
+[
+ {
+  "lang": "python",
+  "level": "easy",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "print(type(3.0))",
+  "options": [
+   "<class 'float'>",
+   "<class 'int'>",
+   "<class 'str'>",
+   "<class 'double'>"
+  ],
+  "answer": 0,
+  "why": "3.0 has a decimal point, so Python treats it as a float.",
+  "verify": true,
+  "id": "python-easy-mcq-1"
+ },
+ {
+  "lang": "python",
+  "level": "easy",
+  "kind": "mcq",
+  "q": "Which symbol starts a single-line comment in Python?",
+  "code": null,
+  "options": [
+   "#",
+   "//",
+   "/*",
+   "--"
+  ],
+  "answer": 0,
+  "why": "Python uses # for comments; everything after it on the line is ignored.",
+  "verify": false,
+  "id": "python-easy-mcq-2"
+ },
+ {
+  "lang": "python",
+  "level": "easy",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "print(7 // 2)",
+  "options": [
+   "3",
+   "3.5",
+   "4",
+   "2"
+  ],
+  "answer": 0,
+  "why": "// is floor division: 7 divided by 2 is 3.5, floored to 3.",
+  "verify": true,
+  "id": "python-easy-mcq-3"
+ },
+ {
+  "lang": "python",
+  "level": "easy",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "print(\"Hi\" * 3)",
+  "options": [
+   "HiHiHi",
+   "Hi3",
+   "Hi Hi Hi",
+   "Error"
+  ],
+  "answer": 0,
+  "why": "Multiplying a string by an integer repeats it.",
+  "verify": true,
+  "id": "python-easy-mcq-4"
+ },
+ {
+  "lang": "python",
+  "level": "easy",
+  "kind": "mcq",
+  "q": "Which is a valid variable name in Python?",
+  "code": null,
+  "options": [
+   "my_name",
+   "2name",
+   "my-name",
+   "class"
+  ],
+  "answer": 0,
+  "why": "Names can't start with a digit, can't contain '-', and can't be a keyword like class.",
+  "verify": false,
+  "id": "python-easy-mcq-5"
+ },
+ {
+  "lang": "python",
+  "level": "easy",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "fruits = [\"a\", \"b\", \"c\"]\nprint(fruits[-1])",
+  "options": [
+   "c",
+   "a",
+   "b",
+   "Error"
+  ],
+  "answer": 0,
+  "why": "Index -1 means the last item of the list.",
+  "verify": true,
+  "id": "python-easy-mcq-6"
+ },
+ {
+  "lang": "python",
+  "level": "easy",
+  "kind": "mcq",
+  "q": "Which keyword defines a function?",
+  "code": null,
+  "options": [
+   "def",
+   "func",
+   "function",
+   "define"
+  ],
+  "answer": 0,
+  "why": "Functions are created with def.",
+  "verify": false,
+  "id": "python-easy-mcq-7"
+ },
+ {
+  "lang": "python",
+  "level": "easy",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "print(10 % 3)",
+  "options": [
+   "1",
+   "3",
+   "0",
+   "3.33"
+  ],
+  "answer": 0,
+  "why": "% is the remainder operator: 10 ÷ 3 leaves remainder 1.",
+  "verify": true,
+  "id": "python-easy-mcq-8"
+ },
+ {
+  "lang": "python",
+  "level": "medium",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "d = {\"a\": 1, \"b\": 2}\nd[\"c\"] = 3\nprint(len(d))",
+  "options": [
+   "3",
+   "2",
+   "4",
+   "Error"
+  ],
+  "answer": 0,
+  "why": "Assigning a new key adds it, so the dictionary ends with 3 items.",
+  "verify": true,
+  "id": "python-medium-mcq-1"
+ },
+ {
+  "lang": "python",
+  "level": "medium",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "print([x * x for x in range(4)])",
+  "options": [
+   "[0, 1, 4, 9]",
+   "[1, 4, 9, 16]",
+   "[0, 1, 2, 3]",
+   "[0, 2, 4, 6]"
+  ],
+  "answer": 0,
+  "why": "range(4) gives 0..3 and each value is squared.",
+  "verify": true,
+  "id": "python-medium-mcq-2"
+ },
+ {
+  "lang": "python",
+  "level": "medium",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "s = \"python\"\nprint(s[1:4])",
+  "options": [
+   "yth",
+   "yt",
+   "ytho",
+   "pyt"
+  ],
+  "answer": 0,
+  "why": "Slices include the start index and exclude the end index: characters 1, 2, 3.",
+  "verify": true,
+  "id": "python-medium-mcq-3"
+ },
+ {
+  "lang": "python",
+  "level": "medium",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "print(bool([]))",
+  "options": [
+   "False",
+   "True",
+   "None",
+   "Error"
+  ],
+  "answer": 0,
+  "why": "An empty list is falsy, so bool([]) is False.",
+  "verify": true,
+  "id": "python-medium-mcq-4"
+ },
+ {
+  "lang": "python",
+  "level": "medium",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "def f(x, y=2):\n    return x * y\n\nprint(f(3))",
+  "options": [
+   "6",
+   "5",
+   "32",
+   "Error"
+  ],
+  "answer": 0,
+  "why": "y uses its default value 2, so f(3) returns 3 * 2.",
+  "verify": true,
+  "id": "python-medium-mcq-5"
+ },
+ {
+  "lang": "python",
+  "level": "medium",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "t = (1, 2, 3)\ntry:\n    t[0] = 9\nexcept Exception as e:\n    print(type(e).__name__)",
+  "options": [
+   "TypeError",
+   "IndexError",
+   "ValueError",
+   "Nothing — it works"
+  ],
+  "answer": 0,
+  "why": "Tuples are immutable, so item assignment raises TypeError.",
+  "verify": true,
+  "id": "python-medium-mcq-6"
+ },
+ {
+  "lang": "python",
+  "level": "medium",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "print(sorted(\"banana\"))",
+  "options": [
+   "['a', 'a', 'a', 'b', 'n', 'n']",
+   "['b', 'a', 'n', 'a', 'n', 'a']",
+   "banana",
+   "['a', 'b', 'n']"
+  ],
+  "answer": 0,
+  "why": "sorted() returns a new sorted list of the characters.",
+  "verify": true,
+  "id": "python-medium-mcq-7"
+ },
+ {
+  "lang": "python",
+  "level": "medium",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "print(list(map(lambda x: x + 1, [1, 2, 3])))",
+  "options": [
+   "[2, 3, 4]",
+   "[1, 2, 3]",
+   "<map object>",
+   "[3, 4, 5]"
+  ],
+  "answer": 0,
+  "why": "list() forces the map to produce values; each element gets +1.",
+  "verify": true,
+  "id": "python-medium-mcq-8"
+ },
+ {
+  "lang": "python",
+  "level": "hard",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "def add(x, lst=[]):\n    lst.append(x)\n    return lst\n\nprint(add(1))\nprint(add(2))",
+  "options": [
+   "[1] / [1, 2]",
+   "[1] / [2]",
+   "[1, 2] / [1, 2]",
+   "Error"
+  ],
+  "answer": 0,
+  "why": "The default list is created once when the function is defined and shared between calls — a classic gotcha.",
+  "verify": true,
+  "id": "python-hard-mcq-1"
+ },
+ {
+  "lang": "python",
+  "level": "hard",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "gen = (x for x in range(3))\nprint(list(gen))\nprint(list(gen))",
+  "options": [
+   "[0, 1, 2] / []",
+   "[0, 1, 2] / [0, 1, 2]",
+   "[] / []",
+   "[0, 1, 2] / Error"
+  ],
+  "answer": 0,
+  "why": "A generator can be consumed only once; the second list() finds it exhausted.",
+  "verify": true,
+  "id": "python-hard-mcq-2"
+ },
+ {
+  "lang": "python",
+  "level": "hard",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "fs = [lambda: i for i in range(3)]\nprint([f() for f in fs])",
+  "options": [
+   "[2, 2, 2]",
+   "[0, 1, 2]",
+   "[0, 0, 0]",
+   "[1, 2, 3]"
+  ],
+  "answer": 0,
+  "why": "The lambdas look up i when called, after the loop finished (i == 2). This is late binding.",
+  "verify": true,
+  "id": "python-hard-mcq-3"
+ },
+ {
+  "lang": "python",
+  "level": "hard",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "print(0.1 + 0.2 == 0.3)",
+  "options": [
+   "False",
+   "True",
+   "Error",
+   "None"
+  ],
+  "answer": 0,
+  "why": "Floating-point numbers can't represent 0.1 and 0.2 exactly; the sum is 0.30000000000000004.",
+  "verify": true,
+  "id": "python-hard-mcq-4"
+ },
+ {
+  "lang": "python",
+  "level": "hard",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "a = [[1], [2]]\nb = a.copy()\nb[0].append(9)\nprint(a)",
+  "options": [
+   "[[1, 9], [2]]",
+   "[[1], [2]]",
+   "[[1, 9], [2, 9]]",
+   "[[9], [2]]"
+  ],
+  "answer": 0,
+  "why": "copy() is shallow: the inner lists are shared, so appending through b changes a too.",
+  "verify": true,
+  "id": "python-hard-mcq-5"
+ },
+ {
+  "lang": "python",
+  "level": "hard",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "print(*[1, 2, 3], sep=\"-\")",
+  "options": [
+   "1-2-3",
+   "1 2 3",
+   "[1, 2, 3]",
+   "123"
+  ],
+  "answer": 0,
+  "why": "* unpacks the list into separate arguments; sep controls what goes between them.",
+  "verify": true,
+  "id": "python-hard-mcq-6"
+ },
+ {
+  "lang": "python",
+  "level": "hard",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "print(isinstance(True, int))",
+  "options": [
+   "True",
+   "False",
+   "Error",
+   "None"
+  ],
+  "answer": 0,
+  "why": "bool is a subclass of int in Python, so True is an instance of int.",
+  "verify": true,
+  "id": "python-hard-mcq-7"
+ },
+ {
+  "lang": "python",
+  "level": "hard",
+  "kind": "mcq",
+  "q": "What is the average time complexity of checking `x in my_set` for a Python set?",
+  "code": null,
+  "options": [
+   "O(1)",
+   "O(n)",
+   "O(log n)",
+   "O(n log n)"
+  ],
+  "answer": 0,
+  "why": "Sets are hash tables, so membership tests take constant time on average.",
+  "verify": false,
+  "id": "python-hard-mcq-8"
+ },
+ {
+  "lang": "python",
+  "level": "easy",
+  "kind": "task",
+  "title": "Sum of a list",
+  "statement": "Return the sum of all the numbers in the list. An empty list should return 0.",
+  "fn": "sum_list",
+  "examples": [
+   {
+    "call": "sum_list([1, 2, 3])",
+    "out": "6"
+   },
+   {
+    "call": "sum_list([])",
+    "out": "0"
+   }
+  ],
+  "starter": "def sum_list(nums):\n    # write your code here\n    pass\n",
+  "hint": "Start with a total of 0 and add each number to it in a loop.",
+  "solution": "def sum_list(nums):\n    total = 0\n    for n in nums:\n        total += n\n    return total",
+  "tests": [
+   [
+    [
+     [
+      1,
+      2,
+      3
+     ]
+    ],
+    6
+   ],
+   [
+    [
+     []
+    ],
+    0
+   ],
+   [
+    [
+     [
+      -5,
+      5,
+      10
+     ]
+    ],
+    10
+   ],
+   [
+    [
+     [
+      2.5,
+      2.5
+     ]
+    ],
+    5.0
+   ]
+  ],
+  "id": "python-easy-task-1"
+ },
+ {
+  "lang": "python",
+  "level": "easy",
+  "kind": "task",
+  "title": "Even or odd",
+  "statement": "Return true if the number is even, otherwise false.",
+  "fn": "is_even",
+  "examples": [
+   {
+    "call": "is_even(4)",
+    "out": "True"
+   },
+   {
+    "call": "is_even(7)",
+    "out": "False"
+   }
+  ],
+  "starter": "def is_even(n):\n    # write your code here\n    pass\n",
+  "hint": "A number is even when the remainder after dividing by 2 is 0.",
+  "solution": "def is_even(n):\n    return n % 2 == 0",
+  "tests": [
+   [
+    [
+     4
+    ],
+    true
+   ],
+   [
+    [
+     7
+    ],
+    false
+   ],
+   [
+    [
+     0
+    ],
+    true
+   ],
+   [
+    [
+     -2
+    ],
+    true
+   ]
+  ],
+  "id": "python-easy-task-2"
+ },
+ {
+  "lang": "python",
+  "level": "easy",
+  "kind": "task",
+  "title": "Reverse a string",
+  "statement": "Return the string written backwards.",
+  "fn": "reverse_string",
+  "examples": [
+   {
+    "call": "reverse_string(\"abc\")",
+    "out": "\"cba\""
+   },
+   {
+    "call": "reverse_string(\"\")",
+    "out": "\"\""
+   }
+  ],
+  "starter": "def reverse_string(s):\n    # write your code here\n    pass\n",
+  "hint": "Python slices with [::-1]. In JavaScript: split into characters, reverse, join.",
+  "solution": "def reverse_string(s):\n    return s[::-1]",
+  "tests": [
+   [
+    [
+     "abc"
+    ],
+    "cba"
+   ],
+   [
+    [
+     ""
+    ],
+    ""
+   ],
+   [
+    [
+     "a"
+    ],
+    "a"
+   ],
+   [
+    [
+     "Hello"
+    ],
+    "olleH"
+   ]
+  ],
+  "id": "python-easy-task-3"
+ },
+ {
+  "lang": "python",
+  "level": "medium",
+  "kind": "task",
+  "title": "Count the vowels",
+  "statement": "Return how many vowels (a, e, i, o, u — upper or lower case) are in the text.",
+  "fn": "count_vowels",
+  "examples": [
+   {
+    "call": "count_vowels(\"hello\")",
+    "out": "2"
+   },
+   {
+    "call": "count_vowels(\"xyz\")",
+    "out": "0"
+   }
+  ],
+  "starter": "def count_vowels(s):\n    # write your code here\n    pass\n",
+  "hint": "Convert to lower case first so you only check five letters.",
+  "solution": "def count_vowels(s):\n    return sum(1 for ch in s.lower() if ch in \"aeiou\")",
+  "tests": [
+   [
+    [
+     "hello"
+    ],
+    2
+   ],
+   [
+    [
+     "xyz"
+    ],
+    0
+   ],
+   [
+    [
+     "AEIOU"
+    ],
+    5
+   ],
+   [
+    [
+     "Programming"
+    ],
+    3
+   ]
+  ],
+  "id": "python-medium-task-1"
+ },
+ {
+  "lang": "python",
+  "level": "medium",
+  "kind": "task",
+  "title": "Palindrome check",
+  "statement": "Return true if the text reads the same forwards and backwards, ignoring upper/lower case and any character that is not a letter or digit.",
+  "fn": "is_palindrome",
+  "examples": [
+   {
+    "call": "is_palindrome(\"Racecar\")",
+    "out": "True"
+   },
+   {
+    "call": "is_palindrome(\"A man, a plan, a canal: Panama\")",
+    "out": "True"
+   }
+  ],
+  "starter": "def is_palindrome(s):\n    # write your code here\n    pass\n",
+  "hint": "Build a cleaned version containing only letters and digits in lower case, then compare it with its reverse.",
+  "solution": "def is_palindrome(s):\n    cleaned = [c.lower() for c in s if c.isalnum()]\n    return cleaned == cleaned[::-1]",
+  "tests": [
+   [
+    [
+     "Racecar"
+    ],
+    true
+   ],
+   [
+    [
+     "A man, a plan, a canal: Panama"
+    ],
+    true
+   ],
+   [
+    [
+     "hello"
+    ],
+    false
+   ],
+   [
+    [
+     ""
+    ],
+    true
+   ]
+  ],
+  "id": "python-medium-task-2"
+ },
+ {
+  "lang": "python",
+  "level": "medium",
+  "kind": "task",
+  "title": "FizzBuzz",
+  "statement": "Return a list of strings for 1..n: \"Fizz\" for multiples of 3, \"Buzz\" for multiples of 5, \"FizzBuzz\" for both, otherwise the number as a string.",
+  "fn": "fizz_buzz",
+  "examples": [
+   {
+    "call": "fizz_buzz(5)",
+    "out": "[\"1\", \"2\", \"Fizz\", \"4\", \"Buzz\"]"
+   },
+   {
+    "call": "fizz_buzz(15)",
+    "out": "[\"1\", \"2\", \"Fizz\", \"4\", \"Buzz\", \"Fizz\", \"7\", \"8\", \"Fizz\", \"Buzz\", \"11\", \"Fizz\", \"13\", \"14\", \"FizzBuzz\"]"
+   }
+  ],
+  "starter": "def fizz_buzz(n):\n    # write your code here\n    pass\n",
+  "hint": "Check the multiple-of-15 case first, otherwise it will be caught by the Fizz or Buzz branch.",
+  "solution": "def fizz_buzz(n):\n    out = []\n    for i in range(1, n + 1):\n        if i % 15 == 0:\n            out.append(\"FizzBuzz\")\n        elif i % 3 == 0:\n            out.append(\"Fizz\")\n        elif i % 5 == 0:\n            out.append(\"Buzz\")\n        else:\n            out.append(str(i))\n    return out",
+  "tests": [
+   [
+    [
+     5
+    ],
+    [
+     "1",
+     "2",
+     "Fizz",
+     "4",
+     "Buzz"
+    ]
+   ],
+   [
+    [
+     15
+    ],
+    [
+     "1",
+     "2",
+     "Fizz",
+     "4",
+     "Buzz",
+     "Fizz",
+     "7",
+     "8",
+     "Fizz",
+     "Buzz",
+     "11",
+     "Fizz",
+     "13",
+     "14",
+     "FizzBuzz"
+    ]
+   ],
+   [
+    [
+     1
+    ],
+    [
+     "1"
+    ]
+   ]
+  ],
+  "id": "python-medium-task-3"
+ },
+ {
+  "lang": "python",
+  "level": "hard",
+  "kind": "task",
+  "title": "Two Sum",
+  "statement": "Given a list of numbers and a target, return the two indexes [i, j] (with i < j) whose values add up to the target. Exactly one solution exists.",
+  "fn": "two_sum",
+  "examples": [
+   {
+    "call": "two_sum([2, 7, 11, 15], 9)",
+    "out": "[0, 1]"
+   },
+   {
+    "call": "two_sum([3, 2, 4], 6)",
+    "out": "[1, 2]"
+   }
+  ],
+  "starter": "def two_sum(nums, target):\n    # write your code here\n    pass\n",
+  "hint": "Store each number's index in a dictionary/Map as you go, and look up target - current before storing.",
+  "solution": "def two_sum(nums, target):\n    seen = {}\n    for j, n in enumerate(nums):\n        if target - n in seen:\n            return [seen[target - n], j]\n        seen[n] = j",
+  "tests": [
+   [
+    [
+     [
+      2,
+      7,
+      11,
+      15
+     ],
+     9
+    ],
+    [
+     0,
+     1
+    ]
+   ],
+   [
+    [
+     [
+      3,
+      2,
+      4
+     ],
+     6
+    ],
+    [
+     1,
+     2
+    ]
+   ],
+   [
+    [
+     [
+      3,
+      3
+     ],
+     6
+    ],
+    [
+     0,
+     1
+    ]
+   ],
+   [
+    [
+     [
+      -1,
+      -2,
+      -3,
+      -4,
+      -5
+     ],
+     -8
+    ],
+    [
+     2,
+     4
+    ]
+   ]
+  ],
+  "id": "python-hard-task-1"
+ },
+ {
+  "lang": "python",
+  "level": "hard",
+  "kind": "task",
+  "title": "Group the anagrams",
+  "statement": "Group words that are anagrams of each other. Return a list of groups; sort the words inside each group alphabetically, and sort the groups by their first word.",
+  "fn": "group_anagrams",
+  "examples": [
+   {
+    "call": "group_anagrams([\"eat\", \"tea\", \"tan\", \"ate\", \"nat\", \"bat\"])",
+    "out": "[[\"ate\", \"eat\", \"tea\"], [\"bat\"], [\"nat\", \"tan\"]]"
+   },
+   {
+    "call": "group_anagrams([\"a\"])",
+    "out": "[[\"a\"]]"
+   }
+  ],
+  "starter": "def group_anagrams(words):\n    # write your code here\n    pass\n",
+  "hint": "Two words are anagrams when their sorted letters are identical — use the sorted letters as a dictionary key.",
+  "solution": "def group_anagrams(words):\n    groups = {}\n    for w in words:\n        groups.setdefault(\"\".join(sorted(w)), []).append(w)\n    result = [sorted(g) for g in groups.values()]\n    return sorted(result, key=lambda g: g[0])",
+  "tests": [
+   [
+    [
+     [
+      "eat",
+      "tea",
+      "tan",
+      "ate",
+      "nat",
+      "bat"
+     ]
+    ],
+    [
+     [
+      "ate",
+      "eat",
+      "tea"
+     ],
+     [
+      "bat"
+     ],
+     [
+      "nat",
+      "tan"
+     ]
+    ]
+   ],
+   [
+    [
+     [
+      "a"
+     ]
+    ],
+    [
+     [
+      "a"
+     ]
+    ]
+   ],
+   [
+    [
+     []
+    ],
+    []
+   ],
+   [
+    [
+     [
+      "abc",
+      "bca",
+      "cab",
+      "xyz"
+     ]
+    ],
+    [
+     [
+      "abc",
+      "bca",
+      "cab"
+     ],
+     [
+      "xyz"
+     ]
+    ]
+   ]
+  ],
+  "id": "python-hard-task-2"
+ },
+ {
+  "lang": "python",
+  "level": "hard",
+  "kind": "task",
+  "title": "Longest substring without repeats",
+  "statement": "Return the length of the longest substring that contains no repeated character.",
+  "fn": "longest_unique_substring",
+  "examples": [
+   {
+    "call": "longest_unique_substring(\"abcabcbb\")",
+    "out": "3"
+   },
+   {
+    "call": "longest_unique_substring(\"bbbbb\")",
+    "out": "1"
+   }
+  ],
+  "starter": "def longest_unique_substring(s):\n    # write your code here\n    pass\n",
+  "hint": "Slide a window: remember the last index of each character, and move the window start just past a repeat.",
+  "solution": "def longest_unique_substring(s):\n    last = {}\n    start = best = 0\n    for i, ch in enumerate(s):\n        if ch in last and last[ch] >= start:\n            start = last[ch] + 1\n        last[ch] = i\n        best = max(best, i - start + 1)\n    return best",
+  "tests": [
+   [
+    [
+     "abcabcbb"
+    ],
+    3
+   ],
+   [
+    [
+     "bbbbb"
+    ],
+    1
+   ],
+   [
+    [
+     "pwwkew"
+    ],
+    3
+   ],
+   [
+    [
+     ""
+    ],
+    0
+   ],
+   [
+    [
+     "dvdf"
+    ],
+    3
+   ]
+  ],
+  "id": "python-hard-task-3"
+ }
+]

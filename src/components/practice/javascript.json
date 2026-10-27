@@ -1,0 +1,951 @@
+[
+ {
+  "lang": "javascript",
+  "level": "easy",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "console.log(typeof \"5\");",
+  "options": [
+   "string",
+   "number",
+   "undefined",
+   "object"
+  ],
+  "answer": 0,
+  "why": "Anything in quotes is a string, even if it looks like a number.",
+  "verify": true,
+  "id": "javascript-easy-mcq-1"
+ },
+ {
+  "lang": "javascript",
+  "level": "easy",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "console.log(2 + \"2\");",
+  "options": [
+   "22",
+   "4",
+   "\"4\"",
+   "NaN"
+  ],
+  "answer": 0,
+  "why": "With a string present, + concatenates instead of adding.",
+  "verify": true,
+  "id": "javascript-easy-mcq-2"
+ },
+ {
+  "lang": "javascript",
+  "level": "easy",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "console.log(5 - \"2\");",
+  "options": [
+   "3",
+   "52",
+   "NaN",
+   "\"3\""
+  ],
+  "answer": 0,
+  "why": "The - operator converts the string to a number first.",
+  "verify": true,
+  "id": "javascript-easy-mcq-3"
+ },
+ {
+  "lang": "javascript",
+  "level": "easy",
+  "kind": "mcq",
+  "q": "Which keyword declares a variable that cannot be reassigned?",
+  "code": null,
+  "options": [
+   "const",
+   "var",
+   "let",
+   "static"
+  ],
+  "answer": 0,
+  "why": "const creates a binding that can't be reassigned.",
+  "verify": false,
+  "id": "javascript-easy-mcq-4"
+ },
+ {
+  "lang": "javascript",
+  "level": "easy",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "console.log(Math.max(4, 9, 2));",
+  "options": [
+   "9",
+   "4",
+   "2",
+   "NaN"
+  ],
+  "answer": 0,
+  "why": "Math.max returns the largest argument.",
+  "verify": true,
+  "id": "javascript-easy-mcq-5"
+ },
+ {
+  "lang": "javascript",
+  "level": "easy",
+  "kind": "mcq",
+  "q": "Which array method adds an item to the end?",
+  "code": null,
+  "options": [
+   "push()",
+   "pop()",
+   "shift()",
+   "unshift()"
+  ],
+  "answer": 0,
+  "why": "push() appends; pop() removes the last item.",
+  "verify": false,
+  "id": "javascript-easy-mcq-6"
+ },
+ {
+  "lang": "javascript",
+  "level": "easy",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "console.log(\"5\" == 5);",
+  "options": [
+   "true",
+   "false",
+   "undefined",
+   "Error"
+  ],
+  "answer": 0,
+  "why": "== compares after type conversion, so \"5\" and 5 are equal.",
+  "verify": true,
+  "id": "javascript-easy-mcq-7"
+ },
+ {
+  "lang": "javascript",
+  "level": "easy",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "console.log(Boolean(\"\"));",
+  "options": [
+   "false",
+   "true",
+   "undefined",
+   "\"\""
+  ],
+  "answer": 0,
+  "why": "An empty string is falsy.",
+  "verify": true,
+  "id": "javascript-easy-mcq-8"
+ },
+ {
+  "lang": "javascript",
+  "level": "medium",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "console.log([1, 2, 3].map(x => x * 2));",
+  "options": [
+   "[ 2, 4, 6 ]",
+   "[ 1, 2, 3 ]",
+   "[ 1, 4, 9 ]",
+   "undefined"
+  ],
+  "answer": 0,
+  "why": "map() returns a new array with each value doubled.",
+  "verify": true,
+  "id": "javascript-medium-mcq-1"
+ },
+ {
+  "lang": "javascript",
+  "level": "medium",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "console.log(typeof null);",
+  "options": [
+   "object",
+   "null",
+   "undefined",
+   "number"
+  ],
+  "answer": 0,
+  "why": "A famous quirk: typeof null is \"object\".",
+  "verify": true,
+  "id": "javascript-medium-mcq-2"
+ },
+ {
+  "lang": "javascript",
+  "level": "medium",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "console.log([...\"abc\"].reverse().join(\"\"));",
+  "options": [
+   "cba",
+   "abc",
+   "[\"c\",\"b\",\"a\"]",
+   "Error"
+  ],
+  "answer": 0,
+  "why": "Spread turns the string into characters, which are reversed and joined back.",
+  "verify": true,
+  "id": "javascript-medium-mcq-3"
+ },
+ {
+  "lang": "javascript",
+  "level": "medium",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "let a;\nconsole.log(a);",
+  "options": [
+   "undefined",
+   "null",
+   "0",
+   "Error"
+  ],
+  "answer": 0,
+  "why": "A declared variable with no value is undefined.",
+  "verify": true,
+  "id": "javascript-medium-mcq-4"
+ },
+ {
+  "lang": "javascript",
+  "level": "medium",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "console.log([1, 2, 3, 4].filter(n => n % 2 === 0));",
+  "options": [
+   "[ 2, 4 ]",
+   "[ 1, 3 ]",
+   "[ 1, 2, 3, 4 ]",
+   "[ true, false ]"
+  ],
+  "answer": 0,
+  "why": "filter() keeps only the items where the callback returns true.",
+  "verify": true,
+  "id": "javascript-medium-mcq-5"
+ },
+ {
+  "lang": "javascript",
+  "level": "medium",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "const o = { a: 1 };\no.b = 2;\nconsole.log(Object.keys(o).length);",
+  "options": [
+   "2",
+   "1",
+   "3",
+   "undefined"
+  ],
+  "answer": 0,
+  "why": "const prevents reassignment, not changing the object's properties.",
+  "verify": true,
+  "id": "javascript-medium-mcq-6"
+ },
+ {
+  "lang": "javascript",
+  "level": "medium",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "console.log(1 < 2 < 3, 3 > 2 > 1);",
+  "options": [
+   "true false",
+   "true true",
+   "false false",
+   "false true"
+  ],
+  "answer": 0,
+  "why": "1 < 2 is true, then true < 3 becomes 1 < 3 (true). 3 > 2 is true, then true > 1 becomes 1 > 1 (false).",
+  "verify": true,
+  "id": "javascript-medium-mcq-7"
+ },
+ {
+  "lang": "javascript",
+  "level": "medium",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "console.log([10, 9, 1].sort());",
+  "options": [
+   "[ 1, 10, 9 ]",
+   "[ 1, 9, 10 ]",
+   "[ 10, 9, 1 ]",
+   "[ 9, 10, 1 ]"
+  ],
+  "answer": 0,
+  "why": "sort() without a comparator sorts items as strings, so \"10\" comes before \"9\".",
+  "verify": true,
+  "id": "javascript-medium-mcq-8"
+ },
+ {
+  "lang": "javascript",
+  "level": "hard",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "for (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 0);\n}",
+  "options": [
+   "3 / 3 / 3",
+   "0 / 1 / 2",
+   "2 / 2 / 2",
+   "undefined / undefined / undefined"
+  ],
+  "answer": 0,
+  "why": "var is function-scoped, so all callbacks share one i, which is 3 when the timers fire.",
+  "verify": true,
+  "id": "javascript-hard-mcq-1"
+ },
+ {
+  "lang": "javascript",
+  "level": "hard",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "for (let i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 0);\n}",
+  "options": [
+   "0 / 1 / 2",
+   "3 / 3 / 3",
+   "0 / 0 / 0",
+   "2 / 1 / 0"
+  ],
+  "answer": 0,
+  "why": "let creates a fresh binding for each loop iteration.",
+  "verify": true,
+  "id": "javascript-hard-mcq-2"
+ },
+ {
+  "lang": "javascript",
+  "level": "hard",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "console.log(0.1 + 0.2);",
+  "options": [
+   "0.30000000000000004",
+   "0.3",
+   "0.30",
+   "NaN"
+  ],
+  "answer": 0,
+  "why": "Binary floating-point can't represent 0.1 and 0.2 exactly.",
+  "verify": true,
+  "id": "javascript-hard-mcq-3"
+ },
+ {
+  "lang": "javascript",
+  "level": "hard",
+  "kind": "mcq",
+  "q": "What is the order of the output?",
+  "code": "console.log(1);\nsetTimeout(() => console.log(2));\nPromise.resolve().then(() => console.log(3));\nconsole.log(4);",
+  "options": [
+   "1 / 4 / 3 / 2",
+   "1 / 2 / 3 / 4",
+   "1 / 4 / 2 / 3",
+   "1 / 3 / 4 / 2"
+  ],
+  "answer": 0,
+  "why": "Synchronous code first (1, 4), then microtasks (promise → 3), then timers (2).",
+  "verify": true,
+  "id": "javascript-hard-mcq-4"
+ },
+ {
+  "lang": "javascript",
+  "level": "hard",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "console.log([] + {});",
+  "options": [
+   "[object Object]",
+   "[]",
+   "{}",
+   "NaN"
+  ],
+  "answer": 0,
+  "why": "Both operands are converted to strings: \"\" + \"[object Object]\".",
+  "verify": true,
+  "id": "javascript-hard-mcq-5"
+ },
+ {
+  "lang": "javascript",
+  "level": "hard",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "const o = {\n  n: \"x\",\n  f() { return (() => this.n)(); }\n};\nconsole.log(o.f());",
+  "options": [
+   "x",
+   "undefined",
+   "Error",
+   "window"
+  ],
+  "answer": 0,
+  "why": "Arrow functions use the this of the surrounding method, here the object o.",
+  "verify": true,
+  "id": "javascript-hard-mcq-6"
+ },
+ {
+  "lang": "javascript",
+  "level": "hard",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "console.log(NaN === NaN);",
+  "options": [
+   "false",
+   "true",
+   "undefined",
+   "Error"
+  ],
+  "answer": 0,
+  "why": "NaN is the only value that is not equal to itself. Use Number.isNaN() to test.",
+  "verify": true,
+  "id": "javascript-hard-mcq-7"
+ },
+ {
+  "lang": "javascript",
+  "level": "hard",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "console.log(typeof foo);\nvar foo = 1;\nfunction foo() {}",
+  "options": [
+   "function",
+   "undefined",
+   "number",
+   "object"
+  ],
+  "answer": 0,
+  "why": "Function declarations are hoisted above var assignments, so foo is already the function.",
+  "verify": true,
+  "id": "javascript-hard-mcq-8"
+ },
+ {
+  "lang": "javascript",
+  "level": "easy",
+  "kind": "task",
+  "title": "Sum of a list",
+  "statement": "Return the sum of all the numbers in the list. An empty list should return 0.",
+  "fn": "sumList",
+  "examples": [
+   {
+    "call": "sumList([1, 2, 3])",
+    "out": "6"
+   },
+   {
+    "call": "sumList([])",
+    "out": "0"
+   }
+  ],
+  "starter": "function sumList(nums) {\n  // write your code here\n}\n",
+  "hint": "Start with a total of 0 and add each number to it in a loop.",
+  "solution": "function sumList(nums) {\n  let total = 0;\n  for (const n of nums) total += n;\n  return total;\n}",
+  "tests": [
+   [
+    [
+     [
+      1,
+      2,
+      3
+     ]
+    ],
+    6
+   ],
+   [
+    [
+     []
+    ],
+    0
+   ],
+   [
+    [
+     [
+      -5,
+      5,
+      10
+     ]
+    ],
+    10
+   ],
+   [
+    [
+     [
+      2.5,
+      2.5
+     ]
+    ],
+    5.0
+   ]
+  ],
+  "id": "javascript-easy-task-1"
+ },
+ {
+  "lang": "javascript",
+  "level": "easy",
+  "kind": "task",
+  "title": "Even or odd",
+  "statement": "Return true if the number is even, otherwise false.",
+  "fn": "isEven",
+  "examples": [
+   {
+    "call": "isEven(4)",
+    "out": "true"
+   },
+   {
+    "call": "isEven(7)",
+    "out": "false"
+   }
+  ],
+  "starter": "function isEven(n) {\n  // write your code here\n}\n",
+  "hint": "A number is even when the remainder after dividing by 2 is 0.",
+  "solution": "function isEven(n) {\n  return n % 2 === 0;\n}",
+  "tests": [
+   [
+    [
+     4
+    ],
+    true
+   ],
+   [
+    [
+     7
+    ],
+    false
+   ],
+   [
+    [
+     0
+    ],
+    true
+   ],
+   [
+    [
+     -2
+    ],
+    true
+   ]
+  ],
+  "id": "javascript-easy-task-2"
+ },
+ {
+  "lang": "javascript",
+  "level": "easy",
+  "kind": "task",
+  "title": "Reverse a string",
+  "statement": "Return the string written backwards.",
+  "fn": "reverseString",
+  "examples": [
+   {
+    "call": "reverseString(\"abc\")",
+    "out": "\"cba\""
+   },
+   {
+    "call": "reverseString(\"\")",
+    "out": "\"\""
+   }
+  ],
+  "starter": "function reverseString(s) {\n  // write your code here\n}\n",
+  "hint": "Python slices with [::-1]. In JavaScript: split into characters, reverse, join.",
+  "solution": "function reverseString(s) {\n  return s.split(\"\").reverse().join(\"\");\n}",
+  "tests": [
+   [
+    [
+     "abc"
+    ],
+    "cba"
+   ],
+   [
+    [
+     ""
+    ],
+    ""
+   ],
+   [
+    [
+     "a"
+    ],
+    "a"
+   ],
+   [
+    [
+     "Hello"
+    ],
+    "olleH"
+   ]
+  ],
+  "id": "javascript-easy-task-3"
+ },
+ {
+  "lang": "javascript",
+  "level": "medium",
+  "kind": "task",
+  "title": "Count the vowels",
+  "statement": "Return how many vowels (a, e, i, o, u — upper or lower case) are in the text.",
+  "fn": "countVowels",
+  "examples": [
+   {
+    "call": "countVowels(\"hello\")",
+    "out": "2"
+   },
+   {
+    "call": "countVowels(\"xyz\")",
+    "out": "0"
+   }
+  ],
+  "starter": "function countVowels(s) {\n  // write your code here\n}\n",
+  "hint": "Convert to lower case first so you only check five letters.",
+  "solution": "function countVowels(s) {\n  let n = 0;\n  for (const ch of s.toLowerCase()) if (\"aeiou\".includes(ch)) n++;\n  return n;\n}",
+  "tests": [
+   [
+    [
+     "hello"
+    ],
+    2
+   ],
+   [
+    [
+     "xyz"
+    ],
+    0
+   ],
+   [
+    [
+     "AEIOU"
+    ],
+    5
+   ],
+   [
+    [
+     "Programming"
+    ],
+    3
+   ]
+  ],
+  "id": "javascript-medium-task-1"
+ },
+ {
+  "lang": "javascript",
+  "level": "medium",
+  "kind": "task",
+  "title": "Palindrome check",
+  "statement": "Return true if the text reads the same forwards and backwards, ignoring upper/lower case and any character that is not a letter or digit.",
+  "fn": "isPalindrome",
+  "examples": [
+   {
+    "call": "isPalindrome(\"Racecar\")",
+    "out": "true"
+   },
+   {
+    "call": "isPalindrome(\"A man, a plan, a canal: Panama\")",
+    "out": "true"
+   }
+  ],
+  "starter": "function isPalindrome(s) {\n  // write your code here\n}\n",
+  "hint": "Build a cleaned version containing only letters and digits in lower case, then compare it with its reverse.",
+  "solution": "function isPalindrome(s) {\n  const cleaned = s.toLowerCase().replace(/[^a-z0-9]/g, \"\");\n  return cleaned === cleaned.split(\"\").reverse().join(\"\");\n}",
+  "tests": [
+   [
+    [
+     "Racecar"
+    ],
+    true
+   ],
+   [
+    [
+     "A man, a plan, a canal: Panama"
+    ],
+    true
+   ],
+   [
+    [
+     "hello"
+    ],
+    false
+   ],
+   [
+    [
+     ""
+    ],
+    true
+   ]
+  ],
+  "id": "javascript-medium-task-2"
+ },
+ {
+  "lang": "javascript",
+  "level": "medium",
+  "kind": "task",
+  "title": "FizzBuzz",
+  "statement": "Return a list of strings for 1..n: \"Fizz\" for multiples of 3, \"Buzz\" for multiples of 5, \"FizzBuzz\" for both, otherwise the number as a string.",
+  "fn": "fizzBuzz",
+  "examples": [
+   {
+    "call": "fizzBuzz(5)",
+    "out": "[\"1\", \"2\", \"Fizz\", \"4\", \"Buzz\"]"
+   },
+   {
+    "call": "fizzBuzz(15)",
+    "out": "[\"1\", \"2\", \"Fizz\", \"4\", \"Buzz\", \"Fizz\", \"7\", \"8\", \"Fizz\", \"Buzz\", \"11\", \"Fizz\", \"13\", \"14\", \"FizzBuzz\"]"
+   }
+  ],
+  "starter": "function fizzBuzz(n) {\n  // write your code here\n}\n",
+  "hint": "Check the multiple-of-15 case first, otherwise it will be caught by the Fizz or Buzz branch.",
+  "solution": "function fizzBuzz(n) {\n  const out = [];\n  for (let i = 1; i <= n; i++) {\n    if (i % 15 === 0) out.push(\"FizzBuzz\");\n    else if (i % 3 === 0) out.push(\"Fizz\");\n    else if (i % 5 === 0) out.push(\"Buzz\");\n    else out.push(String(i));\n  }\n  return out;\n}",
+  "tests": [
+   [
+    [
+     5
+    ],
+    [
+     "1",
+     "2",
+     "Fizz",
+     "4",
+     "Buzz"
+    ]
+   ],
+   [
+    [
+     15
+    ],
+    [
+     "1",
+     "2",
+     "Fizz",
+     "4",
+     "Buzz",
+     "Fizz",
+     "7",
+     "8",
+     "Fizz",
+     "Buzz",
+     "11",
+     "Fizz",
+     "13",
+     "14",
+     "FizzBuzz"
+    ]
+   ],
+   [
+    [
+     1
+    ],
+    [
+     "1"
+    ]
+   ]
+  ],
+  "id": "javascript-medium-task-3"
+ },
+ {
+  "lang": "javascript",
+  "level": "hard",
+  "kind": "task",
+  "title": "Two Sum",
+  "statement": "Given a list of numbers and a target, return the two indexes [i, j] (with i < j) whose values add up to the target. Exactly one solution exists.",
+  "fn": "twoSum",
+  "examples": [
+   {
+    "call": "twoSum([2, 7, 11, 15], 9)",
+    "out": "[0, 1]"
+   },
+   {
+    "call": "twoSum([3, 2, 4], 6)",
+    "out": "[1, 2]"
+   }
+  ],
+  "starter": "function twoSum(nums, target) {\n  // write your code here\n}\n",
+  "hint": "Store each number's index in a dictionary/Map as you go, and look up target - current before storing.",
+  "solution": "function twoSum(nums, target) {\n  const seen = new Map();\n  for (let j = 0; j < nums.length; j++) {\n    const need = target - nums[j];\n    if (seen.has(need)) return [seen.get(need), j];\n    seen.set(nums[j], j);\n  }\n}",
+  "tests": [
+   [
+    [
+     [
+      2,
+      7,
+      11,
+      15
+     ],
+     9
+    ],
+    [
+     0,
+     1
+    ]
+   ],
+   [
+    [
+     [
+      3,
+      2,
+      4
+     ],
+     6
+    ],
+    [
+     1,
+     2
+    ]
+   ],
+   [
+    [
+     [
+      3,
+      3
+     ],
+     6
+    ],
+    [
+     0,
+     1
+    ]
+   ],
+   [
+    [
+     [
+      -1,
+      -2,
+      -3,
+      -4,
+      -5
+     ],
+     -8
+    ],
+    [
+     2,
+     4
+    ]
+   ]
+  ],
+  "id": "javascript-hard-task-1"
+ },
+ {
+  "lang": "javascript",
+  "level": "hard",
+  "kind": "task",
+  "title": "Group the anagrams",
+  "statement": "Group words that are anagrams of each other. Return a list of groups; sort the words inside each group alphabetically, and sort the groups by their first word.",
+  "fn": "groupAnagrams",
+  "examples": [
+   {
+    "call": "groupAnagrams([\"eat\", \"tea\", \"tan\", \"ate\", \"nat\", \"bat\"])",
+    "out": "[[\"ate\", \"eat\", \"tea\"], [\"bat\"], [\"nat\", \"tan\"]]"
+   },
+   {
+    "call": "groupAnagrams([\"a\"])",
+    "out": "[[\"a\"]]"
+   }
+  ],
+  "starter": "function groupAnagrams(words) {\n  // write your code here\n}\n",
+  "hint": "Two words are anagrams when their sorted letters are identical — use the sorted letters as a dictionary key.",
+  "solution": "function groupAnagrams(words) {\n  const groups = new Map();\n  for (const w of words) {\n    const key = w.split(\"\").sort().join(\"\");\n    if (!groups.has(key)) groups.set(key, []);\n    groups.get(key).push(w);\n  }\n  const result = [...groups.values()].map(g => g.sort());\n  return result.sort((a, b) => (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));\n}",
+  "tests": [
+   [
+    [
+     [
+      "eat",
+      "tea",
+      "tan",
+      "ate",
+      "nat",
+      "bat"
+     ]
+    ],
+    [
+     [
+      "ate",
+      "eat",
+      "tea"
+     ],
+     [
+      "bat"
+     ],
+     [
+      "nat",
+      "tan"
+     ]
+    ]
+   ],
+   [
+    [
+     [
+      "a"
+     ]
+    ],
+    [
+     [
+      "a"
+     ]
+    ]
+   ],
+   [
+    [
+     []
+    ],
+    []
+   ],
+   [
+    [
+     [
+      "abc",
+      "bca",
+      "cab",
+      "xyz"
+     ]
+    ],
+    [
+     [
+      "abc",
+      "bca",
+      "cab"
+     ],
+     [
+      "xyz"
+     ]
+    ]
+   ]
+  ],
+  "id": "javascript-hard-task-2"
+ },
+ {
+  "lang": "javascript",
+  "level": "hard",
+  "kind": "task",
+  "title": "Longest substring without repeats",
+  "statement": "Return the length of the longest substring that contains no repeated character.",
+  "fn": "longestUniqueSubstring",
+  "examples": [
+   {
+    "call": "longestUniqueSubstring(\"abcabcbb\")",
+    "out": "3"
+   },
+   {
+    "call": "longestUniqueSubstring(\"bbbbb\")",
+    "out": "1"
+   }
+  ],
+  "starter": "function longestUniqueSubstring(s) {\n  // write your code here\n}\n",
+  "hint": "Slide a window: remember the last index of each character, and move the window start just past a repeat.",
+  "solution": "function longestUniqueSubstring(s) {\n  const last = new Map();\n  let start = 0, best = 0;\n  for (let i = 0; i < s.length; i++) {\n    const ch = s[i];\n    if (last.has(ch) && last.get(ch) >= start) start = last.get(ch) + 1;\n    last.set(ch, i);\n    best = Math.max(best, i - start + 1);\n  }\n  return best;\n}",
+  "tests": [
+   [
+    [
+     "abcabcbb"
+    ],
+    3
+   ],
+   [
+    [
+     "bbbbb"
+    ],
+    1
+   ],
+   [
+    [
+     "pwwkew"
+    ],
+    3
+   ],
+   [
+    [
+     ""
+    ],
+    0
+   ],
+   [
+    [
+     "dvdf"
+    ],
+    3
+   ]
+  ],
+  "id": "javascript-hard-task-3"
+ }
+]

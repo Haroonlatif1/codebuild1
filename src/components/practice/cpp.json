@@ -1,0 +1,750 @@
+[
+ {
+  "lang": "cpp",
+  "level": "easy",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "#include <iostream>\nusing namespace std;\nint main() {\n  cout << 5 / 2;\n}",
+  "options": [
+   "2",
+   "2.5",
+   "3",
+   "Error"
+  ],
+  "answer": 0,
+  "why": "Both operands are int, so integer division discards the fraction.",
+  "verify": true,
+  "id": "cpp-easy-mcq-1"
+ },
+ {
+  "lang": "cpp",
+  "level": "easy",
+  "kind": "mcq",
+  "q": "Which header is needed for cout?",
+  "code": null,
+  "options": [
+   "<iostream>",
+   "<stdio.h>",
+   "<string>",
+   "<cmath>"
+  ],
+  "answer": 0,
+  "why": "cin and cout live in <iostream>.",
+  "verify": false,
+  "id": "cpp-easy-mcq-2"
+ },
+ {
+  "lang": "cpp",
+  "level": "easy",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "#include <iostream>\nusing namespace std;\nint main() {\n  int x = 10;\n  x += 5;\n  cout << x;\n}",
+  "options": [
+   "15",
+   "10",
+   "5",
+   "105"
+  ],
+  "answer": 0,
+  "why": "x starts at 10 and x += 5 makes it 15.",
+  "verify": true,
+  "id": "cpp-easy-mcq-3"
+ },
+ {
+  "lang": "cpp",
+  "level": "easy",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "#include <iostream>\nusing namespace std;\nint main() {\n  char c = 'A';\n  cout << (int)c;\n}",
+  "options": [
+   "65",
+   "A",
+   "a",
+   "97"
+  ],
+  "answer": 0,
+  "why": "Casting a char to int gives its ASCII code; 'A' is 65.",
+  "verify": true,
+  "id": "cpp-easy-mcq-4"
+ },
+ {
+  "lang": "cpp",
+  "level": "easy",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "#include <iostream>\nusing namespace std;\nint main() {\n  int arr[5];\n  cout << sizeof(arr) / sizeof(arr[0]);\n}",
+  "options": [
+   "5",
+   "4",
+   "20",
+   "Error"
+  ],
+  "answer": 0,
+  "why": "The total size divided by the size of one element gives the element count.",
+  "verify": true,
+  "id": "cpp-easy-mcq-5"
+ },
+ {
+  "lang": "cpp",
+  "level": "easy",
+  "kind": "mcq",
+  "q": "Every simple statement in C++ ends with…",
+  "code": null,
+  "options": [
+   "a semicolon ;",
+   "a full stop .",
+   "a colon :",
+   "nothing"
+  ],
+  "answer": 0,
+  "why": "The semicolon terminates a statement.",
+  "verify": false,
+  "id": "cpp-easy-mcq-6"
+ },
+ {
+  "lang": "cpp",
+  "level": "easy",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "#include <iostream>\nusing namespace std;\nint main() {\n  cout << 7 % 3;\n}",
+  "options": [
+   "1",
+   "2",
+   "3",
+   "0"
+  ],
+  "answer": 0,
+  "why": "% gives the remainder: 7 = 2×3 + 1.",
+  "verify": true,
+  "id": "cpp-easy-mcq-7"
+ },
+ {
+  "lang": "cpp",
+  "level": "easy",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "#include <iostream>\nusing namespace std;\nint main() {\n  bool b = 5;\n  cout << b;\n}",
+  "options": [
+   "1",
+   "5",
+   "true",
+   "0"
+  ],
+  "answer": 0,
+  "why": "Any non-zero value converts to true, and a bool prints as 1.",
+  "verify": true,
+  "id": "cpp-easy-mcq-8"
+ },
+ {
+  "lang": "cpp",
+  "level": "medium",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "#include <iostream>\nusing namespace std;\nint main() {\n  int a = 5;\n  int *p = &a;\n  *p = 9;\n  cout << a;\n}",
+  "options": [
+   "9",
+   "5",
+   "Address",
+   "Error"
+  ],
+  "answer": 0,
+  "why": "p points to a, so *p = 9 changes a itself.",
+  "verify": true,
+  "id": "cpp-medium-mcq-1"
+ },
+ {
+  "lang": "cpp",
+  "level": "medium",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n  vector<int> v = {1, 2, 3};\n  v.push_back(4);\n  cout << v.size();\n}",
+  "options": [
+   "4",
+   "3",
+   "5",
+   "0"
+  ],
+  "answer": 0,
+  "why": "push_back adds an element, so the vector now has 4 items.",
+  "verify": true,
+  "id": "cpp-medium-mcq-2"
+ },
+ {
+  "lang": "cpp",
+  "level": "medium",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "#include <iostream>\nusing namespace std;\nint main() {\n  int i = 3;\n  cout << i++ << \" \" << i;\n}",
+  "options": [
+   "3 4",
+   "3 3",
+   "4 4",
+   "4 3"
+  ],
+  "answer": 0,
+  "why": "i++ yields the old value (3), then i becomes 4.",
+  "verify": true,
+  "id": "cpp-medium-mcq-3"
+ },
+ {
+  "lang": "cpp",
+  "level": "medium",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "#include <iostream>\n#include <string>\nusing namespace std;\nint main() {\n  string s = \"abc\";\n  s += \"de\";\n  cout << s.length();\n}",
+  "options": [
+   "5",
+   "3",
+   "2",
+   "abcde"
+  ],
+  "answer": 0,
+  "why": "After appending \"de\" the string is \"abcde\", which has length 5.",
+  "verify": true,
+  "id": "cpp-medium-mcq-4"
+ },
+ {
+  "lang": "cpp",
+  "level": "medium",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "#include <iostream>\nusing namespace std;\nint main() {\n  int a[3] = {1, 2, 3};\n  cout << a[1] + a[2];\n}",
+  "options": [
+   "5",
+   "3",
+   "23",
+   "Error"
+  ],
+  "answer": 0,
+  "why": "a[1] is 2 and a[2] is 3.",
+  "verify": true,
+  "id": "cpp-medium-mcq-5"
+ },
+ {
+  "lang": "cpp",
+  "level": "medium",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "#include <iostream>\nusing namespace std;\nvoid f(int &x) { x *= 2; }\nint main() {\n  int n = 4;\n  f(n);\n  cout << n;\n}",
+  "options": [
+   "8",
+   "4",
+   "0",
+   "Error"
+  ],
+  "answer": 0,
+  "why": "The parameter is a reference, so the function doubles the caller's variable.",
+  "verify": true,
+  "id": "cpp-medium-mcq-6"
+ },
+ {
+  "lang": "cpp",
+  "level": "medium",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "#include <iostream>\nusing namespace std;\nint main() {\n  cout << (5 > 3 && 2 > 4);\n}",
+  "options": [
+   "0",
+   "1",
+   "true",
+   "false"
+  ],
+  "answer": 0,
+  "why": "5 > 3 is true but 2 > 4 is false, so && gives false, printed as 0.",
+  "verify": true,
+  "id": "cpp-medium-mcq-7"
+ },
+ {
+  "lang": "cpp",
+  "level": "medium",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "#include <iostream>\nusing namespace std;\nint main() {\n  for (int i = 0; i < 3; i++) cout << i;\n}",
+  "options": [
+   "012",
+   "123",
+   "0 1 2",
+   "0123"
+  ],
+  "answer": 0,
+  "why": "i takes the values 0, 1, 2 and each is printed without separators.",
+  "verify": true,
+  "id": "cpp-medium-mcq-8"
+ },
+ {
+  "lang": "cpp",
+  "level": "hard",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "#include <iostream>\nusing namespace std;\nint main() {\n  int a[] = {10, 20, 30};\n  int *p = a;\n  cout << *(p + 2);\n}",
+  "options": [
+   "30",
+   "20",
+   "10",
+   "Address"
+  ],
+  "answer": 0,
+  "why": "p+2 points at the third element; * reads its value.",
+  "verify": true,
+  "id": "cpp-hard-mcq-1"
+ },
+ {
+  "lang": "cpp",
+  "level": "hard",
+  "kind": "mcq",
+  "q": "What does `const int* p` mean?",
+  "code": null,
+  "options": [
+   "p points to an int that cannot be changed through p",
+   "p cannot point anywhere else",
+   "p is a constant integer",
+   "p must be initialised to 0"
+  ],
+  "answer": 0,
+  "why": "The const applies to the int being pointed at. `int* const p` would make the pointer itself constant.",
+  "verify": false,
+  "id": "cpp-hard-mcq-2"
+ },
+ {
+  "lang": "cpp",
+  "level": "hard",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "#include <iostream>\nusing namespace std;\nstruct A { ~A() { cout << \"A\"; } };\nstruct B { ~B() { cout << \"B\"; } };\nint main() {\n  A a;\n  B b;\n}",
+  "options": [
+   "BA",
+   "AB",
+   "A",
+   "B"
+  ],
+  "answer": 0,
+  "why": "Local objects are destroyed in reverse order of construction.",
+  "verify": true,
+  "id": "cpp-hard-mcq-3"
+ },
+ {
+  "lang": "cpp",
+  "level": "hard",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "#include <iostream>\nusing namespace std;\nstruct Base { virtual void f() { cout << \"B\"; } virtual ~Base() {} };\nstruct Derived : Base { void f() override { cout << \"D\"; } };\nint main() {\n  Base* p = new Derived;\n  p->f();\n  delete p;\n}",
+  "options": [
+   "D",
+   "B",
+   "BD",
+   "Compile error"
+  ],
+  "answer": 0,
+  "why": "f() is virtual, so the call is resolved at run time from the real object type (Derived).",
+  "verify": true,
+  "id": "cpp-hard-mcq-4"
+ },
+ {
+  "lang": "cpp",
+  "level": "hard",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "#include <iostream>\nusing namespace std;\nint main() {\n  int x = 1;\n  auto f = [x]() mutable { x++; return x; };\n  cout << f() << f() << x;\n}",
+  "options": [
+   "231",
+   "221",
+   "123",
+   "232"
+  ],
+  "answer": 0,
+  "why": "The lambda has its own copy of x (mutable), so it counts 2 then 3 while the outer x stays 1.",
+  "verify": true,
+  "id": "cpp-hard-mcq-5"
+ },
+ {
+  "lang": "cpp",
+  "level": "hard",
+  "kind": "mcq",
+  "q": "What is the time complexity of looking up a key in std::map?",
+  "code": null,
+  "options": [
+   "O(log n)",
+   "O(1)",
+   "O(n)",
+   "O(n²)"
+  ],
+  "answer": 0,
+  "why": "std::map is a balanced tree. unordered_map gives O(1) on average.",
+  "verify": false,
+  "id": "cpp-hard-mcq-6"
+ },
+ {
+  "lang": "cpp",
+  "level": "hard",
+  "kind": "mcq",
+  "q": "What does this print?",
+  "code": "#include <iostream>\nusing namespace std;\nvoid f() {\n  static int c = 0;\n  c++;\n  cout << c;\n}\nint main() {\n  f(); f(); f();\n}",
+  "options": [
+   "123",
+   "111",
+   "012",
+   "321"
+  ],
+  "answer": 0,
+  "why": "A static local keeps its value between calls.",
+  "verify": true,
+  "id": "cpp-hard-mcq-7"
+ },
+ {
+  "lang": "cpp",
+  "level": "hard",
+  "kind": "mcq",
+  "q": "Which of these causes undefined behaviour?",
+  "code": null,
+  "options": [
+   "Reading a[5] when int a[5]",
+   "Dividing 1.0 by 0.0",
+   "Adding two unsigned ints that wrap around",
+   "Calling an empty function"
+  ],
+  "answer": 0,
+  "why": "Out-of-bounds access is undefined behaviour; unsigned wrap-around is well-defined.",
+  "verify": false,
+  "id": "cpp-hard-mcq-8"
+ },
+ {
+  "lang": "cpp",
+  "level": "easy",
+  "kind": "task",
+  "title": "Add two numbers",
+  "statement": "Read two integers and print their sum.",
+  "io": "Input: two integers a and b separated by a space.\nOutput: a + b.",
+  "examples": [
+   {
+    "input": "3 4",
+    "output": "7"
+   },
+   {
+    "input": "-5 12",
+    "output": "7"
+   }
+  ],
+  "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    // write your code here\n    return 0;\n}\n",
+  "hint": "Use cin >> a >> b to read both numbers. Use long long for big values.",
+  "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    long long a, b;\n    cin >> a >> b;\n    cout << a + b << endl;\n    return 0;\n}",
+  "tests": [
+   {
+    "input": "3 4",
+    "output": "7"
+   },
+   {
+    "input": "-5 12",
+    "output": "7"
+   },
+   {
+    "input": "100 200",
+    "output": "300"
+   }
+  ],
+  "id": "cpp-easy-task-1"
+ },
+ {
+  "lang": "cpp",
+  "level": "easy",
+  "kind": "task",
+  "title": "Even or odd",
+  "statement": "Read an integer and print Even or Odd.",
+  "io": "Input: one integer n.\nOutput: the word Even or the word Odd.",
+  "examples": [
+   {
+    "input": "4",
+    "output": "Even"
+   },
+   {
+    "input": "7",
+    "output": "Odd"
+   }
+  ],
+  "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    // write your code here\n    return 0;\n}\n",
+  "hint": "n % 2 == 0 means even. Note that -3 % 2 is -1 in C++, not 1, so test for == 0.",
+  "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n    cout << (n % 2 == 0 ? \"Even\" : \"Odd\") << endl;\n    return 0;\n}",
+  "tests": [
+   {
+    "input": "4",
+    "output": "Even"
+   },
+   {
+    "input": "7",
+    "output": "Odd"
+   },
+   {
+    "input": "0",
+    "output": "Even"
+   },
+   {
+    "input": "-3",
+    "output": "Odd"
+   }
+  ],
+  "id": "cpp-easy-task-2"
+ },
+ {
+  "lang": "cpp",
+  "level": "easy",
+  "kind": "task",
+  "title": "Largest of three",
+  "statement": "Read three integers and print the largest.",
+  "io": "Input: three integers separated by spaces.\nOutput: the largest one.",
+  "examples": [
+   {
+    "input": "1 2 3",
+    "output": "3"
+   },
+   {
+    "input": "9 4 7",
+    "output": "9"
+   }
+  ],
+  "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    // write your code here\n    return 0;\n}\n",
+  "hint": "Keep a variable for the best value so far and compare it with each number.",
+  "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int a, b, c;\n    cin >> a >> b >> c;\n    int m = a;\n    if (b > m) m = b;\n    if (c > m) m = c;\n    cout << m << endl;\n    return 0;\n}",
+  "tests": [
+   {
+    "input": "1 2 3",
+    "output": "3"
+   },
+   {
+    "input": "9 4 7",
+    "output": "9"
+   },
+   {
+    "input": "-1 -5 -3",
+    "output": "-1"
+   }
+  ],
+  "id": "cpp-easy-task-3"
+ },
+ {
+  "lang": "cpp",
+  "level": "medium",
+  "kind": "task",
+  "title": "Reverse a line",
+  "statement": "Read a whole line of text and print it reversed.",
+  "io": "Input: one line of text (may contain spaces).\nOutput: the same line written backwards.",
+  "examples": [
+   {
+    "input": "hello world",
+    "output": "dlrow olleh"
+   },
+   {
+    "input": "abc",
+    "output": "cba"
+   }
+  ],
+  "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    // write your code here\n    return 0;\n}\n",
+  "hint": "cin >> stops at spaces — use getline(cin, s) to read the full line.",
+  "solution": "#include <iostream>\n#include <string>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    string s;\n    getline(cin, s);\n    reverse(s.begin(), s.end());\n    cout << s << endl;\n    return 0;\n}",
+  "tests": [
+   {
+    "input": "hello world",
+    "output": "dlrow olleh"
+   },
+   {
+    "input": "abc",
+    "output": "cba"
+   },
+   {
+    "input": "a b c",
+    "output": "c b a"
+   }
+  ],
+  "id": "cpp-medium-task-1"
+ },
+ {
+  "lang": "cpp",
+  "level": "medium",
+  "kind": "task",
+  "title": "Count vowels",
+  "statement": "Read a line and print how many vowels it has.",
+  "io": "Input: one line of text.\nOutput: the number of vowels (a, e, i, o, u in either case).",
+  "examples": [
+   {
+    "input": "hello world",
+    "output": "3"
+   },
+   {
+    "input": "XYZ",
+    "output": "0"
+   }
+  ],
+  "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    // write your code here\n    return 0;\n}\n",
+  "hint": "Loop over every character and use tolower() so you only compare with five letters.",
+  "solution": "#include <iostream>\n#include <string>\n#include <cctype>\nusing namespace std;\n\nint main() {\n    string s;\n    getline(cin, s);\n    int count = 0;\n    for (char ch : s) {\n        char c = tolower(ch);\n        if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') count++;\n    }\n    cout << count << endl;\n    return 0;\n}",
+  "tests": [
+   {
+    "input": "hello world",
+    "output": "3"
+   },
+   {
+    "input": "XYZ",
+    "output": "0"
+   },
+   {
+    "input": "Programming Language",
+    "output": "7"
+   }
+  ],
+  "id": "cpp-medium-task-2"
+ },
+ {
+  "lang": "cpp",
+  "level": "medium",
+  "kind": "task",
+  "title": "Factorial",
+  "statement": "Read n (0 ≤ n ≤ 20) and print n!.",
+  "io": "Input: one integer n.\nOutput: n factorial. Remember 0! = 1.",
+  "examples": [
+   {
+    "input": "5",
+    "output": "120"
+   },
+   {
+    "input": "0",
+    "output": "1"
+   }
+  ],
+  "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    // write your code here\n    return 0;\n}\n",
+  "hint": "20! does not fit in an int — use long long.",
+  "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n    long long result = 1;\n    for (int i = 2; i <= n; i++) result *= i;\n    cout << result << endl;\n    return 0;\n}",
+  "tests": [
+   {
+    "input": "5",
+    "output": "120"
+   },
+   {
+    "input": "0",
+    "output": "1"
+   },
+   {
+    "input": "20",
+    "output": "2432902008176640000"
+   }
+  ],
+  "id": "cpp-medium-task-3"
+ },
+ {
+  "lang": "cpp",
+  "level": "hard",
+  "kind": "task",
+  "title": "Count the primes",
+  "statement": "Read n and print how many prime numbers are ≤ n.",
+  "io": "Input: one integer n (1 ≤ n ≤ 1000000).\nOutput: the count of primes up to and including n.",
+  "examples": [
+   {
+    "input": "10",
+    "output": "4"
+   },
+   {
+    "input": "1",
+    "output": "0"
+   }
+  ],
+  "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    // write your code here\n    return 0;\n}\n",
+  "hint": "Trial division for each number is too slow for 1,000,000. Use the Sieve of Eratosthenes.",
+  "solution": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n    vector<bool> isPrime(n + 1, true);\n    isPrime[0] = false;\n    if (n >= 1) isPrime[1] = false;\n    for (long long i = 2; i * i <= n; i++)\n        if (isPrime[i])\n            for (long long j = i * i; j <= n; j += i) isPrime[j] = false;\n    int count = 0;\n    for (int i = 0; i <= n; i++) if (isPrime[i]) count++;\n    cout << count << endl;\n    return 0;\n}",
+  "tests": [
+   {
+    "input": "10",
+    "output": "4"
+   },
+   {
+    "input": "1",
+    "output": "0"
+   },
+   {
+    "input": "100",
+    "output": "25"
+   },
+   {
+    "input": "1000000",
+    "output": "78498"
+   }
+  ],
+  "id": "cpp-hard-task-1"
+ },
+ {
+  "lang": "cpp",
+  "level": "hard",
+  "kind": "task",
+  "title": "Nth Fibonacci",
+  "statement": "Print the nth Fibonacci number (F0 = 0, F1 = 1).",
+  "io": "Input: one integer n (0 ≤ n ≤ 90).\nOutput: F(n).",
+  "examples": [
+   {
+    "input": "10",
+    "output": "55"
+   },
+   {
+    "input": "0",
+    "output": "0"
+   }
+  ],
+  "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    // write your code here\n    return 0;\n}\n",
+  "hint": "Keep only the last two values in a loop. F(90) needs long long.",
+  "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n    long long a = 0, b = 1;\n    for (int i = 0; i < n; i++) {\n        long long next = a + b;\n        a = b;\n        b = next;\n    }\n    cout << a << endl;\n    return 0;\n}",
+  "tests": [
+   {
+    "input": "10",
+    "output": "55"
+   },
+   {
+    "input": "0",
+    "output": "0"
+   },
+   {
+    "input": "1",
+    "output": "1"
+   },
+   {
+    "input": "90",
+    "output": "2880067194370816120"
+   }
+  ],
+  "id": "cpp-hard-task-2"
+ },
+ {
+  "lang": "cpp",
+  "level": "hard",
+  "kind": "task",
+  "title": "Balanced brackets",
+  "statement": "Check whether a string of brackets ()[]{} is balanced.",
+  "io": "Input: one line made of the characters ( ) [ ] { }.\nOutput: YES if every bracket is closed in the right order, otherwise NO.",
+  "examples": [
+   {
+    "input": "()[]{}",
+    "output": "YES"
+   },
+   {
+    "input": "([)]",
+    "output": "NO"
+   }
+  ],
+  "starter": "#include <iostream>\nusing namespace std;\n\nint main() {\n    // write your code here\n    return 0;\n}\n",
+  "hint": "Use a stack: push opening brackets, and when you see a closing one it must match the top of the stack.",
+  "solution": "#include <iostream>\n#include <stack>\n#include <string>\nusing namespace std;\n\nint main() {\n    string s;\n    cin >> s;\n    stack<char> st;\n    for (char c : s) {\n        if (c == '(' || c == '[' || c == '{') st.push(c);\n        else {\n            if (st.empty()) { cout << \"NO\" << endl; return 0; }\n            char t = st.top(); st.pop();\n            if ((c == ')' && t != '(') || (c == ']' && t != '[') || (c == '}' && t != '{')) {\n                cout << \"NO\" << endl; return 0;\n            }\n        }\n    }\n    cout << (st.empty() ? \"YES\" : \"NO\") << endl;\n    return 0;\n}",
+  "tests": [
+   {
+    "input": "()[]{}",
+    "output": "YES"
+   },
+   {
+    "input": "([)]",
+    "output": "NO"
+   },
+   {
+    "input": "(((",
+    "output": "NO"
+   },
+   {
+    "input": "{[()]}",
+    "output": "YES"
+   }
+  ],
+  "id": "cpp-hard-task-3"
+ }
+]
