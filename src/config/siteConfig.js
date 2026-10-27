@@ -13,9 +13,9 @@ export const SITE = {
 // Where students/customers send money. Empty rows are hidden automatically.
 // ⚠ Replace the placeholder values below with your real account details.
 export const PAYMENT_ACCOUNTS = [
-  { method: "JazzCash",  title: "CodeBuild Academy", number: "03XX-XXXXXXX" },
-  { method: "Easypaisa", title: "CodeBuild Academy", number: "03XX-XXXXXXX" },
-  { method: "Bank Transfer", title: "CodeBuild Academy", number: "PKXX XXXX XXXX XXXX XXXX XXXX", bank: "Your Bank Name" },
+  { method: "JazzCash",  title: "Shahida", number: "0323-4886113" },
+  { method: "Easypaisa", title: "Shahida", number: "0323-4886113" },
+  { method: "Bank Transfer", title: "Haroon latif", number: "00300 11085 4618", bank: "Meezan bank" },
 ];
 
 // Course registration fee shown on the enrollment form (set null to hide)

@@ -48,7 +48,7 @@ export const KidsOffer = () => (
         <div>
           <div className="v2-eyebrow">Premium certification</div>
           <h3 className="v2-h2">A certificate worth framing</h3>
-          <p className="v2-lead">Every child who completes the 7 days receives a premium certificate with a unique ID that anyone can check on our <Link to="/Certificate-verification" style={{ color: "var(--cb-accent)" }}>verification page</Link>.</p>
+          <p className="v2-lead">Every child who completes the course will receive a premium certificate with a unique ID that anyone can check on our <Link to="/Certificate-verification" style={{ color: "var(--cb-accent)" }}>Certificate verification page</Link>.</p>
         </div>
       </div>
     </div>
