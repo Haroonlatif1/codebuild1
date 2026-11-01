@@ -13,7 +13,7 @@ const courses = [
       { label: "Machine Learning from Scratch",               tag: "" },
       { label: "Data Analysis with Python",                   tag: "" },
       { label: "AI Prompt Engineering",                      tag: "New" },
-      { label: "AI for kids",                     tag: "" },
+      { label: "AI for kids 3 months",                     tag: "" },
       { label: "AI for Business",                     tag: "" },
       { label: "Robotics & Automation",                     tag: "" },
       

@@ -81,6 +81,6 @@ export const KIDS = [
 export const QUALIFICATIONS = ["Matric / O-Level", "Intermediate / A-Level", "Bachelor’s (in progress)", "Bachelor’s (completed)", "Master’s or above", "Other"];
 export const KIDS_EXPERIENCE = ["I have not used a computer much", "I play games / watch videos on a tablet or computer", "I have tried coding (Scratch, Code.org, etc.)"];
 
-export const KIDS_DEVICE = ["Laptop or computer", "Tablet", "Phone only", "Not right now"];
+export const KIDS_DEVICE = ["Laptop or computer", "Tablet", "Phone only"];
 export const KIDS_INTERNET = ["Yes, always", "Sometimes", "No"];
 export const KIDS_TYPING = ["Not yet", "A little, slowly", "Yes, comfortably"];

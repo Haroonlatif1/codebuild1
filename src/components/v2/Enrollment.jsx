@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./v2.css";
-import { COURSE_GROUPS } from "./courses";
+import { COURSE_GROUPS, priceOf, pkr } from "./courses";
 import { PAYMENT_ACCOUNTS, REGISTRATION_FEE, SITE } from "../../config/siteConfig";
 import { JpegDrop, Tick, validateJpeg, uploadProof, sendWeb3 } from "./shared";
 import { supabase } from "../supabase/SupabaseClient";
@@ -54,7 +54,7 @@ const Enrollment = ({ course, onCourseChange }) => {
       const proofUrl = await uploadProof(file, "enrollments");
       const payload = {
         subject: `New enrollment: ${f.name} – ${course}`, from_name: "CodeBuild Enrollment",
-        name: f.name, age: f.age, email: f.email, phone: f.phone, city: f.city, course,
+        name: f.name, age: f.age, email: f.email, phone: f.phone, city: f.city, course, fee: priceOf(course) ? pkr(priceOf(course).price) : "-",
         payment_screenshot: proofUrl || "(attached to this email)",
       };
       const data = await sendWeb3(payload, proofUrl ? null : file);
@@ -89,8 +89,8 @@ const Enrollment = ({ course, onCourseChange }) => {
             <div className="enr-done" role="status">
               <Tick />
               <h3>Application received</h3>
-              <p>Thank you, {f.name.split(" ")[0]}. We’ll verify your payment and message you on WhatsApp ({f.phone}) with your batch details, usually within a few hours or contact us 03284452954</p>
-              <p style={{ marginTop: 18 }}><a className="v2-btn ghost" href="offeredcourses">Explore other programs too</a></p>
+              <p>Thank you, {f.name.split(" ")[0]}. We’ll verify your payment and message you on WhatsApp ({f.phone}) with your batch details, usually within a few hours.</p>
+              <p style={{ marginTop: 18 }}><a className="v2-btn ghost" href="#demo">Watch the free demo</a></p>
             </div>
           ) : (
             <form onSubmit={submit} noValidate>
@@ -136,6 +136,13 @@ const Enrollment = ({ course, onCourseChange }) => {
                   ))}
                 </select>
               </div>
+              {(() => { const pr = priceOf(course); return pr ? (
+                <div className="enr-fee" aria-live="polite">
+                  <span>Course fee</span>
+                  {pr.original && <s>{pkr(pr.original)}</s>}
+                  <b>{pkr(pr.price)}</b>
+                  {pr.off > 0 && <em>Save {pr.off}%</em>}
+                </div>) : <p className="enr-fee-note">Course fee is confirmed on WhatsApp before you pay.</p>; })()}
 
               <div className="enr-step"><i>3</i> Payment</div>
               {REGISTRATION_FEE ? <p style={{ margin: "0 0 12px", color: "var(--cb-mute)" }}>Registration fee: <strong style={{ color: "#fff" }}>PKR {Number(REGISTRATION_FEE).toLocaleString()}</strong></p> : null}

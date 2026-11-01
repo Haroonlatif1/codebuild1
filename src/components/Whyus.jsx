@@ -1,410 +1,115 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { CountUp } from "./v2/CoursesFx";
+
+const Icon = ({ children }) => (
+  <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{children}</svg>
+);
+const ICONS = {
+  globe: <Icon><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.6 2.7 3.9 5.7 3.9 9s-1.3 6.3-3.9 9c-2.6-2.7-3.9-5.7-3.9-9S9.4 5.7 12 3z" /></Icon>,
+  trainer: <Icon><circle cx="9" cy="8" r="3.4" /><path d="M2.8 20c.4-3.6 3-5.6 6.2-5.6 1.4 0 2.6.3 3.6 1M16 17l2 2 4-4.2" /></Icon>,
+  tools: <Icon><path d="M14.7 6.3a4 4 0 0 0 5 5L11 20a2.1 2.1 0 0 1-3-3l8.7-8.7z" transform="translate(-1.5 -1)" /><path d="M5 5l3.2 3.2M4 9l5-5" /></Icon>,
+  cert: <Icon><rect x="3" y="4" width="18" height="12" rx="1.5" /><path d="M7 8.5h10M7 12h5" /><circle cx="16.5" cy="18" r="2.4" /><path d="M15.2 20l-.7 2 2-.8 2 .8-.7-2" /></Icon>,
+  clock: <Icon><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3.2 2" /></Icon>,
+  rocket: <Icon><path d="M12 15l-3-3a22 22 0 0 1 2.5-5A11 11 0 0 1 21 3c0 3-1 6.5-4 9.5a22 22 0 0 1-5 2.5z" /><path d="M9 12H4s.5-3 2-4c1.6-1 4 0 4 0M12 15v5s3-.5 4-2c1-1.600 0-4 0-4" /><circle cx="16" cy="8" r="1" /></Icon>,
+};
 
 const whyUsData = [
-  {
-    icon: "🌐",
-    title: "International Recognition",
-    desc: "CodeBuild Academy is globally recognized, with alumni working at leading tech firms across 20+ countries.",
-  },
-  {
-    icon: "👨‍💻",
-    title: "Industry Expert Trainers",
-    desc: "Learn from working professionals with 10+ years of real-world experience — not just academics.",
-  },
-  {
-    icon: "🛠️",
-    title: "Hands-On Project Learning",
-    desc: "Every course is built around live projects, giving you a portfolio that speaks louder than a certificate.",
-  },
-  {
-    icon: "📜",
-    title: "Globally Accredited Certificates",
-    desc: "Our certificates are recognized by employers worldwide, adding real weight to your resume.",
-  },
-  {
-    icon: "🕐",
-    title: "Flexible Schedules",
-    desc: "Morning, evening, or weekend batches — we fit around your life, not the other way around.",
-  },
-  {
-    icon: "🚀",
-    title: "Career Placement Support",
-    desc: "From resume reviews to mock interviews and job referrals, we stand by you until you land the job.",
-  },
+  { icon: "globe", title: "International Recognition", desc: "CodeBuild Academy is globally recognized, with alumni working at leading tech firms across 20+ countries." },
+  { icon: "trainer", title: "Industry Expert Trainers", desc: "Learn from working professionals with 10+ years of real-world experience — not just academics." },
+  { icon: "tools", title: "Hands-On Project Learning", desc: "Every course is built around live projects, giving you a portfolio that speaks louder than a certificate." },
+  { icon: "cert", title: "Globally Accredited Certificates", desc: "Our certificates are recognized by employers worldwide, adding real weight to your resume." },
+  { icon: "clock", title: "Flexible Schedules", desc: "Morning, evening, or weekend batches — we fit around your life, not the other way around." },
+  { icon: "rocket", title: "Career Placement Support", desc: "From resume reviews to mock interviews and job referrals, we stand by you until you land the job." },
 ];
 
 const stats = [
   { value: "1200+", label: "Students Trained" },
-  { value: "95%",  label: "Placement Rate" },
-  { value: "3",  label: "Countries Reached" },
-  { value: "20+",  label: "Courses Offered" },
+  { value: "95%", label: "Placement Rate" },
+  { value: "3", label: "Countries Reached" },
+  { value: "20+", label: "Courses Offered" },
 ];
 
-const WhyUs = () => {
-  const [visible, setVisible] = useState([]);
-  const cardRefs = useRef([]);
+const css = `
+.wy{position:relative;padding:110px 24px 100px;background:#08080e;overflow:hidden;font-family:"Dosis",sans-serif;color:#fff;isolation:isolate}
+.wy-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.16;z-index:-2}
+.wy::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(60% 50% at 85% 0%,rgba(255,165,0,.16),transparent 70%),radial-gradient(50% 40% at 0% 100%,rgba(255,165,0,.09),transparent 70%),linear-gradient(#08080e,rgba(8,8,14,.7) 40%,#08080e)}
+.wy-in{max-width:1180px;margin:0 auto}
+.wy-top{display:grid;grid-template-columns:1.2fr .8fr;gap:56px;align-items:end;margin-bottom:56px}
+.wy-eyebrow{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:#ffa500;margin-bottom:16px}
+.wy-eyebrow::before{content:"";width:28px;height:2px;background:#ffa500}
+.wy-title{font-family:"Bebas Neue",sans-serif;font-weight:400;font-size:clamp(46px,6.4vw,88px);line-height:.96;letter-spacing:.01em;margin:0 0 20px}
+.wy-title span{color:#ffa500;background:linear-gradient(100deg,#ffa500,#ffe0a0 50%,#ffa500);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:wy-shine 5s linear infinite}
+@keyframes wy-shine{to{background-position:-200% 0}}
+.wy-sub{color:rgba(255,255,255,.62);font-size:18px;line-height:1.6;max-width:54ch;margin:0;font-weight:500}
+.wy-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.wy-stat{padding:20px 22px;border:1px solid rgba(255,255,255,.09);border-radius:10px;background:linear-gradient(145deg,rgba(255,255,255,.06),rgba(255,255,255,.015));backdrop-filter:blur(8px)}
+.wy-stat b{display:block;font-family:"Bebas Neue",sans-serif;font-weight:400;font-size:46px;line-height:1;color:#ffa500;letter-spacing:.02em}
+.wy-stat>span{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.wy-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.wy-card{position:relative;padding:32px 28px 30px;border-radius:12px;background:#0f0f17;border:1px solid rgba(255,255,255,.08);overflow:hidden;opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.8,.2,1),border-color .3s;--mx:50%;--my:50%}
+.wy-card.in{opacity:1;transform:none}
+.wy-card::before{content:"";position:absolute;inset:0;background:radial-gradient(380px circle at var(--mx) var(--my),rgba(255,165,0,.16),transparent 60%);opacity:0;transition:opacity .3s;pointer-events:none}
+.wy-card:hover{border-color:rgba(255,165,0,.45);transform:translateY(-4px)}.wy-card:hover::before{opacity:1}
+.wy-num{position:absolute;top:18px;right:22px;font-family:"Bebas Neue",sans-serif;font-size:44px;line-height:1;color:rgba(255,255,255,.06);letter-spacing:.04em}
+.wy-ico{width:54px;height:54px;border-radius:12px;display:grid;place-items:center;color:#ffa500;background:rgba(255,165,0,.1);border:1px solid rgba(255,165,0,.3);margin-bottom:22px;transition:.3s}
+.wy-card:hover .wy-ico{background:#ffa500;color:#0a0a0f;transform:rotate(-6deg) scale(1.06)}
+.wy-card h3{font-size:22px;font-weight:700;line-height:1.25;margin:0 0 10px}
+.wy-card p{margin:0;color:rgba(255,255,255,.6);font-size:16.5px;line-height:1.6}
+.wy-card::after{content:"";position:absolute;left:28px;bottom:0;height:3px;width:0;background:#ffa500;transition:width .4s ease}.wy-card:hover::after{width:64px}
+.wy-cta{margin-top:56px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;padding:28px 34px;border-radius:12px;border:1px solid rgba(255,165,0,.4);background:linear-gradient(100deg,rgba(255,165,0,.14),rgba(255,165,0,.03))}
+.wy-cta p{margin:0;font-family:"Bebas Neue",sans-serif;font-size:clamp(28px,3.6vw,40px);letter-spacing:.02em}
+.wy-btn{display:inline-flex;align-items:center;gap:10px;background:#ffa500;color:#0a0a0f;border:2px solid #ffa500;font-weight:800;letter-spacing:.12em;text-transform:uppercase;font-size:14px;padding:15px 28px;border-radius:4px;text-decoration:none;transition:.2s}
+.wy-btn:hover{background:transparent;color:#ffa500}.wy-btn svg{transition:transform .2s}.wy-btn:hover svg{transform:translateX(4px)}
+@media(max-width:980px){.wy-top{grid-template-columns:1fr;gap:32px}.wy-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.wy{padding:72px 16px 64px}.wy-grid{grid-template-columns:1fr}.wy-stat b{font-size:38px}.wy-cta{padding:22px}}
+@media(prefers-reduced-motion:reduce){.wy-title span{animation:none}.wy-card{opacity:1;transform:none;transition:none}}
+`;
 
+const WhyUs = () => {
+  const [seen, setSeen] = useState([]);
+  const refs = useRef([]);
   useEffect(() => {
-    const observers = cardRefs.current.map((ref, i) => {
-      if (!ref) return null;
-      const obs = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting)
-            setVisible((prev) => [...new Set([...prev, i])]);
-        },
-        { threshold: 0.15 }
-      );
-      obs.observe(ref);
-      return obs;
-    });
-    return () => observers.forEach((o) => o && o.disconnect());
+    const io = new IntersectionObserver((es) => es.forEach(e => { if (e.isIntersecting) { const i = +e.target.dataset.i; setSeen(p => p.includes(i) ? p : [...p, i]); io.unobserve(e.target); } }), { threshold: 0.15 });
+    refs.current.forEach(el => el && io.observe(el)); return () => io.disconnect();
   }, []);
+  const spot = (e) => { const r = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`); e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`); };
 
   return (
     <>
-      <style>{`
-        /* =====================================================
-           WHY US — CodeBuild Academy
-           All selectors scoped under .cb-whyus
-        ===================================================== */
-        @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@400;600;700;800&family=Syne:wght@400;700;800&display=swap');
-
-        /* ---------- section wrapper ---------- */
-        .cb-whyus {
-          position: relative;
-          padding: 90px 20px 80px;
-          overflow: hidden;
-          font-family: "Dosis", sans-serif;
-          background: #0a0a0f;
-        }
-
-        /* grain overlay */
-        .cb-whyus::after {
-          content: "";
-          position: absolute;
-          inset: 0;
-          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-          opacity: 0.3;
-          pointer-events: none;
-          z-index: 0;
-        }
-
-        /* ---------- ambient orbs ---------- */
-        .cb-whyus__orb {
-          position: absolute;
-          border-radius: 50%;
-          filter: blur(110px);
-          pointer-events: none;
-          z-index: 0;
-        }
-        .cb-whyus__orb--1 {
-          width: 500px; height: 500px;
-          background: rgba(255, 165, 0, 0.11);
-          top: -140px; left: -130px;
-        }
-        .cb-whyus__orb--2 {
-          width: 380px; height: 380px;
-          background: rgba(255, 165, 0, 0.07);
-          bottom: 30px; right: -110px;
-        }
-        .cb-whyus__orb--3 {
-          width: 240px; height: 240px;
-          background: rgba(255, 200, 80, 0.05);
-          top: 48%; left: 48%;
-          transform: translate(-50%, -50%);
-        }
-
-        /* ---------- header ---------- */
-        .cb-whyus__header {
-          position: relative;
-          z-index: 1;
-          text-align: center;
-          margin-bottom: 64px;
-        }
-        .cb-whyus__eyebrow {
-          display: inline-block;
-          font-size: 11px;
-          font-weight: 700;
-          letter-spacing: 3.5px;
-          text-transform: uppercase;
-          color: #ffa500;
-          border: 1px solid rgba(255, 165, 0, 0.28);
-          padding: 5px 18px;
-          border-radius: 20px;
-          margin-bottom: 20px;
-          background: rgba(255, 165, 0, 0.06);
-          backdrop-filter: blur(8px);
-          -webkit-backdrop-filter: blur(8px);
-        }
-        .cb-whyus__title {
-          font-family: "Syne", sans-serif;
-          font-size: clamp(28px, 5vw, 50px);
-          font-weight: 800;
-          color: #ffffff;
-          line-height: 1.15;
-          margin: 0 0 16px;
-        }
-        .cb-whyus__title span {
-          color: #ffa500;
-        }
-        .cb-whyus__subtitle {
-          color: rgba(255, 255, 255, 0.42);
-          font-size: 16px;
-          max-width: 520px;
-          margin: 0 auto;
-          line-height: 1.78;
-        }
-        .cb-whyus__divider {
-          width: 56px;
-          height: 3px;
-          background: linear-gradient(90deg, #ffa500, transparent);
-          border-radius: 2px;
-          margin: 22px auto 0;
-        }
-
-        /* ---------- stats row ---------- */
-        .cb-whyus__stats {
-          position: relative;
-          z-index: 1;
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: center;
-          gap: 14px;
-          margin-bottom: 68px;
-        }
-        .cb-whyus__stat {
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 165, 0, 0.16);
-          border-radius: 14px;
-          padding: 20px 32px;
-          text-align: center;
-          min-width: 138px;
-          backdrop-filter: blur(18px);
-          -webkit-backdrop-filter: blur(18px);
-          box-shadow:
-            0 4px 24px rgba(0, 0, 0, 0.35),
-            inset 0 1px 0 rgba(255, 255, 255, 0.05);
-          transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
-        }
-        .cb-whyus__stat:hover {
-          border-color: rgba(255, 165, 0, 0.5);
-          transform: translateY(-5px);
-          box-shadow:
-            0 14px 36px rgba(0, 0, 0, 0.4),
-            0 0 24px rgba(255, 165, 0, 0.09),
-            inset 0 1px 0 rgba(255, 255, 255, 0.07);
-        }
-        .cb-whyus__stat-value {
-          font-family: "Syne", sans-serif;
-          font-size: 30px;
-          font-weight: 800;
-          color: #ffa500;
-          line-height: 1;
-        }
-        .cb-whyus__stat-label {
-          font-size: 11px;
-          color: rgba(255, 255, 255, 0.42);
-          margin-top: 6px;
-          letter-spacing: 0.9px;
-          text-transform: uppercase;
-        }
-
-        /* ---------- cards grid ---------- */
-        .cb-whyus__grid {
-          position: relative;
-          z-index: 1;
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-          gap: 22px;
-          max-width: 1100px;
-          margin: 0 auto;
-        }
-
-        /* glass card */
-        .cb-whyus__card {
-          position: relative;
-          background: transparent;
-          border: 1px solid rgba(255, 255, 255, 0.07);
-          border-radius: 18px;
-          padding: 32px 28px;
-          backdrop-filter: blur(22px);
-          -webkit-backdrop-filter: blur(22px);
-          box-shadow:
-            0 8px 32px rgba(0, 0, 0, 0.45),
-            inset 0 1px 0 rgba(255, 255, 255, 0.05),
-            inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-          transition: border-color 0.35s, transform 0.35s, box-shadow 0.35s;
-          cursor: default;
-          opacity: 0;
-          transform: translateY(32px);
-          overflow: hidden;
-        }
-
-        /* glass inner highlight */
-        .cb-whyus__card::after {
-          content: "";
-          position: absolute;
-          top: 0; left: 0; right: 0;
-          height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-        }
-
-        /* orange top-bar on hover */
-        .cb-whyus__card::before {
-          content: "";
-          position: absolute;
-          top: -1px; left: 0;
-          height: 2px;
-          width: 0;
-          background: linear-gradient(90deg, #ffa500, rgba(255,165,0,0.15));
-          border-radius: 18px 18px 0 0;
-          transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-          z-index: 2;
-        }
-        .cb-whyus__card:hover::before { width: 100%; }
-
-        .cb-whyus__card.cb-visible {
-          animation: cb-fadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        }
-        .cb-whyus__card:hover {
-          border-color: rgba(255, 165, 0, 0.3);
-          transform: translateY(-8px);
-          box-shadow:
-            0 24px 56px rgba(0, 0, 0, 0.55),
-            0 0 32px rgba(255, 165, 0, 0.07),
-            inset 0 1px 0 rgba(255, 255, 255, 0.07);
-        }
-
-        .cb-whyus__card-icon {
-          font-size: 38px;
-          margin-bottom: 16px;
-          display: inline-block;
-          line-height: 1;
-          filter: drop-shadow(0 0 10px rgba(255, 165, 0, 0.25));
-          transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-        .cb-whyus__card:hover .cb-whyus__card-icon {
-          transform: scale(1.18) rotate(-6deg);
-        }
-        .cb-whyus__card-title {
-          font-family: "Syne", sans-serif;
-          font-size: 17px;
-          font-weight: 700;
-          color: #ffffff;
-          margin: 0 0 10px;
-        }
-        .cb-whyus__card-desc {
-          font-size: 14px;
-          color: rgba(255, 255, 255, 0.45);
-          line-height: 1.82;
-          margin: 0;
-        }
-
-        /* ---------- CTA ---------- */
-        .cb-whyus__cta {
-          position: relative;
-          z-index: 1;
-          text-align: center;
-          margin-top: 62px;
-        }
-        .cb-whyus__cta-text {
-          color: rgba(255, 255, 255, 0.38);
-          font-size: 14px;
-          margin-bottom: 18px;
-          letter-spacing: 0.5px;
-        }
-        .cb-whyus__cta-btn {
-          display: inline-block;
-          padding: 13px 42px;
-          background: linear-gradient(135deg, #ffa500, #e08900);
-          color: #0a0a0f;
-          font-family: "Dosis", sans-serif;
-          font-weight: 800;
-          font-size: 15px;
-          border: 1px solid transparent;
-          border-radius: 8px;
-          cursor: pointer;
-          letter-spacing: 0.8px;
-          text-decoration: none;
-          box-shadow: 0 4px 22px rgba(255, 165, 0, 0.22);
-          transition: background 0.3s, color 0.3s, border-color 0.3s, transform 0.2s, box-shadow 0.3s;
-        }
-        .cb-whyus__cta-btn:hover {
-          background: transparent;
-          color: #fff;
-          border-color: rgba(255, 255, 255, 0.45);
-          box-shadow: none;
-          transform: translateY(-2px);
-        }
-
-        /* ---------- keyframe ---------- */
-        @keyframes cb-fadeUp {
-          from { opacity: 0; transform: translateY(32px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ---------- responsive ---------- */
-        @media (max-width: 576px) {
-          .cb-whyus { padding: 60px 14px 60px; }
-          .cb-whyus__grid { grid-template-columns: 1fr; }
-          .cb-whyus__stat { min-width: 110px; padding: 14px 20px; }
-          .cb-whyus__stat-value { font-size: 24px; }
-        }
-      `}</style>
-
-      <section className="cb-whyus">
-        <div className="cb-whyus__orb cb-whyus__orb--1" />
-        <div className="cb-whyus__orb cb-whyus__orb--2" />
-        <div className="cb-whyus__orb cb-whyus__orb--3" />
-
-        {/* header */}
-        <div className="cb-whyus__header">
-          <span className="cb-whyus__eyebrow">Why CodeBuild Academy</span>
-          <h2 className="cb-whyus__title">
-            We Don't Just Train.<br />
-            We <span>Build Careers.</span>
-          </h2>
-          <p className="cb-whyus__subtitle">
-            Join thousands of students who chose CodeBuild Academy to launch
-            their international IT career — with real skills, real projects, and
-            real results.
-          </p>
-          <div className="cb-whyus__divider" />
-        </div>
-
-        {/* stats */}
-        <div className="cb-whyus__stats">
-          {stats.map((s) => (
-            <div className="cb-whyus__stat" key={s.label}>
-              <div className="cb-whyus__stat-value">{s.value}</div>
-              <div className="cb-whyus__stat-label">{s.label}</div>
+      <style>{css}</style>
+      <section className="wy" aria-labelledby="wy-h">
+        <video className="wy-bg" src="/media/bg-ambient-1.mp4" poster="/media/bg-ambient-1.jpg" autoPlay muted loop playsInline aria-hidden="true" />
+        <div className="wy-in">
+          <div className="wy-top">
+            <div>
+              <div className="wy-eyebrow">Why CodeBuild Academy</div>
+              <h2 className="wy-title" id="wy-h">We Don't Just Train.<br />We <span>Build Careers.</span></h2>
+              <p className="wy-sub">Join thousands of students who chose CodeBuild Academy to launch their international IT career — with real skills, real projects, and real results.</p>
             </div>
-          ))}
-        </div>
-
-        {/* cards */}
-        <div className="cb-whyus__grid">
-          {whyUsData.map((item, i) => (
-            <div
-              key={i}
-              className={`cb-whyus__card${visible.includes(i) ? " cb-visible" : ""}`}
-              ref={(el) => (cardRefs.current[i] = el)}
-              style={{ animationDelay: `${i * 0.09}s` }}
-            >
-              <div className="cb-whyus__card-icon">{item.icon}</div>
-              <h3 className="cb-whyus__card-title">{item.title}</h3>
-              <p className="cb-whyus__card-desc">{item.desc}</p>
+            <div className="wy-stats">
+              {stats.map(s => (
+                <div className="wy-stat" key={s.label}><b><CountUp value={s.value} /></b><span>{s.label}</span></div>))}
             </div>
-          ))}
-        </div>
+          </div>
 
-        {/* CTA */}
-        <div className="cb-whyus__cta">
-          <p className="cb-whyus__cta-text">Ready to start your IT journey?</p>
-          <Link to="/offeredcourses" className="cb-whyus__cta-btn">
-            Enroll Now →
-          </Link>
+          <div className="wy-grid">
+            {whyUsData.map((it, i) => (
+              <article key={it.title} data-i={i} ref={el => (refs.current[i] = el)} onMouseMove={spot}
+                className={`wy-card${seen.includes(i) ? " in" : ""}`} style={{ transitionDelay: `${(i % 3) * 90}ms` }}>
+                <span className="wy-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+                <div className="wy-ico">{ICONS[it.icon]}</div>
+                <h3>{it.title}</h3>
+                <p>{it.desc}</p>
+              </article>))}
+          </div>
+
+          <div className="wy-cta">
+            <p>Ready to start your IT journey?</p>
+            <Link to="/offeredcourses" className="wy-btn">Enroll Now
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </Link>
+          </div>
         </div>
       </section>
     </>

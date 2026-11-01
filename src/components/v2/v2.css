@@ -420,7 +420,7 @@
 .kd-head{text-align:center;margin-bottom:34px}
 .kd-stage{position:relative;aspect-ratio:16/9;border-radius:8px;overflow:hidden;border:1px solid var(--cb-line);box-shadow:0 40px 100px rgba(0,0,0,.6);background:#000}
 .kd-stage video,.kd-stage iframe{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:cover}
-.kd-stage video{opacity:.55}
+.kd-stage video{opacity:1}
 .kd-cover{position:absolute;inset:0;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;text-align:center;padding:24px;background:radial-gradient(circle,rgba(7,7,15,.2),rgba(7,7,15,.75))}
 .kd-cover strong{font-family:"Bebas Neue";font-weight:400;font-size:clamp(30px,5vw,56px);letter-spacing:.02em}.kd-cover span{color:var(--cb-mute);max-width:44ch;font-size:17px}
 .kd-play{width:92px;height:92px;border-radius:50%;border:0;background:var(--cb-accent);display:grid;place-items:center;cursor:pointer;box-shadow:0 0 0 12px rgba(255,165,0,.18);transition:.2s}
@@ -471,3 +471,23 @@
 .ko-sticky:hover{animation-play-state:paused}
 @media(max-width:600px){.ko-sticky{left:10px!important;right:60px!important;gap:8px}.ai-fab{right:10px;width:38px;height:38px}}
 @media(prefers-reduced-motion:reduce){.ko-sticky,.ko-sticky .v2-btn{animation:none}}
+
+/* course fee on enrollment form */
+.enr-fee{display:flex;align-items:baseline;flex-wrap:wrap;gap:10px;margin:-4px 0 6px;padding:12px 14px;border:1px solid rgba(255,165,0,.35);border-radius:4px;background:rgba(255,165,0,.05)}
+.enr-fee span{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cb-mute);margin-right:auto}
+.enr-fee s{color:var(--cb-dim);font-size:16px;font-weight:600}.enr-fee b{font-family:"Bebas Neue";font-weight:400;font-size:30px;line-height:1;color:#fff;letter-spacing:.02em}
+.enr-fee em{font-style:normal;background:var(--cb-ok);color:#06281a;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:3px}
+.enr-fee-note{margin:-4px 0 6px;color:var(--cb-dim);font-size:13.5px}
+
+/* demo modal + autoplay hint */
+.da-back{position:fixed;inset:0;z-index:10001;display:grid;place-items:center;padding:20px;background:rgba(3,3,8,.72);backdrop-filter:blur(4px);animation:da-fade .25s ease}
+@keyframes da-fade{from{opacity:0}to{opacity:1}}
+.da-modal{position:relative;width:min(400px,100%);text-align:center;background:#101018;border:1px solid var(--cb-line);border-top:3px solid var(--cb-accent);border-radius:8px;padding:30px 26px 24px;color:#fff;font-family:"Dosis",sans-serif;box-shadow:0 30px 90px rgba(0,0,0,.7);animation:da-in .35s cubic-bezier(.2,.9,.3,1.15)}
+@keyframes da-in{from{opacity:0;transform:translateY(16px) scale(.95)}to{opacity:1;transform:none}}
+.da-ico{width:58px;height:58px;margin:0 auto 14px;border-radius:50%;background:var(--cb-accent);display:grid;place-items:center;box-shadow:0 0 0 9px rgba(255,165,0,.16)}
+.da-ico svg{width:26px;fill:#0a0a0f;margin-left:3px}
+.da-modal h2{font-size:24px;font-weight:700;line-height:1.2;margin:0 0 8px}
+.da-modal p{color:var(--cb-mute);font-size:16px;line-height:1.5;margin:0 0 20px}
+.da-act{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.da-act .v2-btn{padding:12px 18px;font-size:13px}
+.da-mx{position:absolute;top:8px;right:10px;width:28px;height:28px;border:0;background:none;color:var(--cb-mute);font:400 24px/1 sans-serif;cursor:pointer}.da-mx:hover{color:#fff}
+.da-hint{position:absolute;left:12px;bottom:12px;z-index:3;background:rgba(0,0,0,.65);color:#fff;font:600 12px "Dosis",sans-serif;padding:5px 10px;border-radius:3px;pointer-events:none}

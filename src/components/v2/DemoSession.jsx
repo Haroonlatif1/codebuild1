@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import { useSeenOnce, autoSrc, SoundHint } from "./DemoAuto";
 import "./v2.css";
 import { DEMO_VIDEO, SITE } from "../../config/siteConfig";
 import { useSetting } from "./settings";
@@ -18,23 +19,27 @@ const PlayIcon = () => (
 const DemoSession = () => {
   const saved = useSetting("demo_video", null);
   const v = saved ? (saved.enabled === false ? null : saved) : DEMO_VIDEO;
-  const [playing, setPlaying] = useState(false);
+  const [clicked, setPlaying] = useState(false);
+  const stage = useRef(null);
+  const seen = useSeenOnce(stage);
+  const playing = clicked || (seen && !!v?.url);
   const media = v?.url ? embed(v.url) : null;
 
   return (
-    <section className="v2 demo" id="demo" aria-labelledby="demo-h">
+    <section className="v2 demo" id="demo" data-hasvideo={v?.url ? "true" : "false"} aria-labelledby="demo-h">
       <div className="v2-wrap demo-head">
         <div>
-          <div className="v2-eyebrow">Free demo session of 3 months course</div>
+          <div className="v2-eyebrow">Free demo session</div>
           <h2 className="v2-h2" id="demo-h">Sit in on a class<br />before you enroll</h2>
         </div>
         <p className="v2-lead" style={{ margin: 0 }}>Watch how our instructors teach — the pace, the projects, the way questions are handled. No sign-up needed.</p>
       </div>
-      <div className="demo-stage">
+      <div className="demo-stage" ref={stage}>
+        {media && playing && <SoundHint />}
         {media ? (playing ? (
           media.kind === "iframe"
-            ? <iframe src={media.src} title={v.title || "Demo session"} allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowFullScreen />
-            : <video src={media.src} controls autoPlay playsInline poster={v.poster || undefined} />
+            ? <iframe src={autoSrc(media.src)} title={v.title || "Demo session"} allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowFullScreen />
+            : <video src={media.src} controls autoPlay muted playsInline poster={v.poster || undefined} />
         ) : (
           <div className="demo-poster" role="button" tabIndex={0} aria-label={`Play ${v.title || "demo session"}`}
             style={{ backgroundImage: `url(${v.poster || media.poster || "/media/bg-ambient-1.jpg"})` }}

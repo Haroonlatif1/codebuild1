@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import Enrollment from "./v2/Enrollment"
-import DemoSession from "./v2/DemoSession"
 import Assessment from "./v2/Assessment"
 import { HowItWorks, Faq } from "./v2/HomeExtras"
+import { DemoPopup } from "./v2/DemoAuto"
 import { KidsOffer, KidsDemo, StickyEnroll } from "./v2/KidsOffer"
 import { DEFAULT_COURSE } from "./v2/courses"
 import { useSeo } from "./v2/seo"
@@ -110,7 +110,6 @@ const Home = () => {
       <KidsOffer />
       <KidsDemo />
       <VideoReviews />
-      {/* <DemoSession /> */}
       <Assessment course={course} onEnroll={enrollIn} />
       <HowItWorks />
       <WhyUs />
@@ -120,6 +119,7 @@ const Home = () => {
       <Faq />
 
       <StickyEnroll />
+      <DemoPopup />
 
       {/* Small AI icon – opens the ElevenLabs assistant only when clicked */}
       {aiOpen && (

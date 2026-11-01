@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import "./v2.css";
-import { GENERAL_ADULT, BY_CAT, KIDS, QUALIFICATIONS, KIDS_EXPERIENCE, KIDS_DEVICE, KIDS_INTERNET, KIDS_TYPING } from "./assessmentData";
+import { GENERAL_ADULT, BY_CAT, KIDS, QUALIFICATIONS, KIDS_EXPERIENCE, KIDS_DEVICE, KIDS_TYPING } from "./assessmentData";
 import { courseCat } from "./courses";
 import { sendWeb3 } from "./shared";
 import { SITE } from "../../config/siteConfig";
@@ -17,7 +17,7 @@ const Chips = ({ label, opts, value, onChange }) => (
 const Assessment = ({ course, onEnroll }) => {
   const [mode, setMode] = useState("kids"); // AI for Kids is the default tab
   const [stage, setStage] = useState("profile"); // profile | quiz | result
-  const [p, setP] = useState({ age: "", qual: QUALIFICATIONS[1], know: 10, kidExp: KIDS_EXPERIENCE[0], parent: "", device: KIDS_DEVICE[0], internet: KIDS_INTERNET[0], typing: KIDS_TYPING[0] });
+  const [p, setP] = useState({ age: "", qual: QUALIFICATIONS[1], know: 10, kidExp: KIDS_EXPERIENCE[0], parent: "", device: KIDS_DEVICE[0], typing: KIDS_TYPING[0] });
   const [err, setErr] = useState("");
   const [qs, setQs] = useState([]);
   const [i, setI] = useState(0);
@@ -51,7 +51,7 @@ const Assessment = ({ course, onEnroll }) => {
   const result = useMemo(() => {
     if (stage !== "result") return null;
     if (kids) {
-      const noDevice = p.device === KIDS_DEVICE[3], noNet = p.internet === KIDS_INTERNET[2], phoneOnly = p.device === KIDS_DEVICE[2];
+      const noDevice = false, noNet = false, phoneOnly = p.device === KIDS_DEVICE[2];
       const start = p.kidExp === KIDS_EXPERIENCE[2] ? "Beginner+ (has tried coding)" : p.kidExp === KIDS_EXPERIENCE[1] ? "Beginner" : "Beginner (starting from scratch)";
       return { kid: true, ready: !(noDevice || noNet), noDevice, noNet, phoneOnly, level: start };
     }
@@ -62,11 +62,12 @@ const Assessment = ({ course, onEnroll }) => {
     const blended = Math.round(quizPct * 0.75 + selfPct * 0.25);
     const level = blended >= 70 ? "Intermediate" : blended >= 40 ? "Beginner+" : "Absolute Beginner";
     const gen = qs.filter(q => q.gen), gr = gen.filter(q => ans[qs.indexOf(q)] === q.a).length;
-    const noDevice = kids && p.device === KIDS_DEVICE[3];
-    const noNet = kids && p.internet === KIDS_INTERNET[2];
+    const noDevice = false;
+    const noNet = false;
     const ready = !(noDevice || noNet);
     const phoneOnly = kids && p.device === KIDS_DEVICE[2];
-    return { right, total, quizPct, selfPct, blended, level, gr, gt: gen.length, ready, noDevice, noNet, phoneOnly };
+    const needsBasics = quizPct < 40;
+    return { needsBasics, right, total, quizPct, selfPct, blended, level, gr, gt: gen.length, ready, noDevice, noNet, phoneOnly };
   }, [stage, qs, ans, p, kids]);
 
   const advice = result && !result.kid && (result.level === "Intermediate"
@@ -79,7 +80,7 @@ const Assessment = ({ course, onEnroll }) => {
     try {
       await sendWeb3({
         subject: `Skill check result – ${label} (${kids ? "Kids" : "Adult"})`, from_name: "CodeBuild Skill Check",
-        course: label, audience: kids ? "Kids" : "Adult", age: p.age, qualification: kids ? "-" : p.qual, parent_or_guardian: p.parent || "-", device: kids ? p.device : "-", internet: kids ? p.internet : "-", keyboard: kids ? p.typing : "-",
+        course: label, audience: kids ? "Kids" : "Adult", age: p.age, qualification: kids ? "-" : p.qual, parent_or_guardian: p.parent || "-", device: kids ? p.device : "-", keyboard: kids ? p.typing : "-",
         ...(result.kid ? { eligible: result.ready ? "Yes" : "Almost (needs device/internet)", experience: p.kidExp, recommended_level: result.level }
           : { self_rated_knowledge: `${result.selfPct}%`, quiz_score: `${result.right}/${result.total}`, blended: `${result.blended}%`, recommended_level: result.level }),
       });
@@ -94,7 +95,7 @@ const Assessment = ({ course, onEnroll }) => {
         <div className="asm-head">
           <div className="v2-eyebrow">Quick skill check · {kids ? "1 minute" : "3 minutes"}</div>
           <h2 className="v2-h2" id="asm-h">Find out if you’re ready</h2>
-          <p className="v2-lead">{kids ? "Four quick questions for parents and kids. There’s no test — we just check your child is ready to join." : "A few simple questions about computers and your chosen course. There’s no pass or fail — we use it to place you in the right batch."}</p>
+          <p className="v2-lead">{kids ? "A few quick questions for parents and kids. There’s no test — we just check your child is ready to join." : "A few simple questions about computers and your chosen course. There’s no pass or fail — we use it to place you in the right batch."}</p>
         </div>
         <div className="asm-card">
           <div className="asm-tabs" role="tablist">
@@ -116,7 +117,6 @@ const Assessment = ({ course, onEnroll }) => {
                 {kids ? (
                   <>
                     <Chips id="a-dev" label="Do you have a laptop, computer, tablet or phone at home?" opts={KIDS_DEVICE} value={p.device} onChange={v => setP({ ...p, device: v })} />
-                    <Chips id="a-net" label="Is there internet (Wi-Fi or mobile data) at home?" opts={KIDS_INTERNET} value={p.internet} onChange={v => setP({ ...p, internet: v })} />
                     <Chips id="a-typ" label="Can you use a keyboard?" opts={KIDS_TYPING} value={p.typing} onChange={v => setP({ ...p, typing: v })} />
                     <Chips id="a-ke" label="Which sentence describes you best?" opts={KIDS_EXPERIENCE} value={p.kidExp} onChange={v => setP({ ...p, kidExp: v })} />
                   </>
@@ -167,17 +167,21 @@ const Assessment = ({ course, onEnroll }) => {
 
             {stage === "result" && result && !result.kid && (
               <div className="asm-result" role="status">
-                <span className={`asm-badge${result.level === "Absolute Beginner" ? " warn" : ""}`}>You are eligible</span>
+                <span className={`asm-badge${result.needsBasics || result.level === "Absolute Beginner" ? " warn" : ""}`}>{result.needsBasics ? "Still eligible" : "You are eligible"}</span>
                 <div className="asm-score">{result.right}<small>/{result.total}</small></div>
-                <h3>{`You’re eligible for ${label}`}</h3>
-                <p>Recommended starting level: <strong style={{ color: "#fff" }}>{result.level}</strong>. {advice}</p>
+                <h3>{result.needsBasics ? `You are still eligible for ${label}` : `You’re eligible for ${label}`}</h3>
+                {result.needsBasics
+                  ? <p>But first you need to complete a <strong style={{ color: "#fff" }}>1-week initial basic training program</strong>. Contact us now for details.</p>
+                  : <p>Recommended starting level: <strong style={{ color: "#fff" }}>{result.level}</strong>. {advice}</p>}
                 <div className="asm-break">
                   <div><b>{result.quizPct}%</b><span>Quiz score</span></div>
                   <div><b>{result.selfPct}%</b><span>Self-rated</span></div>
                   <div><b>{result.blended}%</b><span>Overall</span></div>
                 </div>
                 <div className="asm-actions">
-                  <button className="v2-btn" onClick={() => onEnroll(label)}>Enroll in this course</button>
+                  {result.needsBasics
+                    ? <a className="v2-btn" href={`https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(`Hi CodeBuild Academy, I took the skill check for ${label} and scored ${result.right}/${result.total}. Please tell me about the 1-week basic training program.`)}`} target="_blank" rel="noopener noreferrer">Contact now</a>
+                    : <button className="v2-btn" onClick={() => onEnroll(label)}>Enroll in this course</button>}
                   <button className="v2-btn ghost" onClick={report} disabled={sent}>{sent ? "Sent to our team" : "Send my result to the academy"}</button>
                   <button className="v2-btn ghost" onClick={() => { setStage("profile"); setErr(""); }}>Retake</button>
                 </div>
