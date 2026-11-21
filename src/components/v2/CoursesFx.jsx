@@ -162,3 +162,62 @@ export const cfxCss = `
 @keyframes cfx-shine{to{background-position:-200% 0}}
 @media(prefers-reduced-motion:reduce){.cfx-cube,.cfx-ring,.cfx-orbit,.cfx-floor>div,.cfx-track,.coc-feature,.coc-feature-price span,.coc-hero-h1 em{animation:none!important}.cfx-tilt{transform:none!important}}
 `;
+
+/** Modern, fully responsive overrides for the Offered Courses page */
+export const cfxModern = `
+
+.coc-wrap{overflow:visible;overflow-x:clip}
+.coc-hero{padding:clamp(56px,9vw,104px) clamp(16px,4vw,32px) clamp(40px,6vw,64px)}
+.coc-hero-h1{font-size:clamp(44px,9vw,104px)!important;letter-spacing:.02em!important}
+.coc-hero-sub{font-size:clamp(15px,2vw,18px)!important;color:rgba(255,255,255,.6)!important;max-width:520px!important}
+.coc-stats{display:grid!important;grid-template-columns:repeat(3,1fr);gap:10px;border:0!important;background:none!important;max-width:560px!important;overflow:visible!important;width:100%}
+.coc-stat{border:1px solid rgba(255,255,255,.1)!important;border-radius:14px;background:linear-gradient(145deg,rgba(255,255,255,.07),rgba(255,255,255,.02));backdrop-filter:blur(8px);padding:16px 10px!important;min-width:0!important}
+.coc-stat-n{font-size:clamp(26px,5vw,36px)!important}.coc-stat-l{font-size:11px!important;color:rgba(255,255,255,.5)!important}
+.coc-body{padding:0 clamp(16px,3vw,32px) 80px!important}
+.coc-section-label-text{font-size:14px!important;color:rgba(255,255,255,.45)!important}
+.coc-toolbar{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:26px}
+.coc-toolbar .coc-pills{margin:0!important;flex:1 1 420px}
+.coc-pills button{border-radius:999px!important;padding:9px 18px!important;font-size:13px!important}
+.coc-search{flex:0 1 280px;min-width:200px;width:100%;max-width:100%;background:#0e0e16;border:1px solid rgba(255,255,255,.12);border-radius:999px;color:#fff;font:600 15px "Dosis",sans-serif;padding:11px 18px;outline:none;transition:.2s}
+.coc-search:focus{border-color:#ffa500;box-shadow:0 0 0 3px rgba(255,165,0,.15)}
+.coc-empty{color:rgba(255,255,255,.55);padding:30px 0}
+.coc-grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr))!important;gap:clamp(12px,1.6vw,20px)!important}
+.coc-card{border-radius:16px!important;background:linear-gradient(180deg,#13131c,#0d0d14)!important;border-color:rgba(255,255,255,.09)!important}
+.cfx-tilt::after{border-radius:16px}
+.coc-card-img-wrap{height:clamp(150px,16vw,184px)!important}
+.coc-card-img{opacity:.9!important;filter:saturate(.9) brightness(.9)!important}
+.coc-card-tag{top:12px!important;right:12px!important;font-size:10px!important;padding:4px 11px!important;border-radius:999px!important}
+.coc-card-name{font-size:clamp(19px,2vw,22px)!important;line-height:1.2}
+.coc-meta{display:flex;flex-wrap:wrap;gap:6px!important}
+.coc-meta span{font-size:12px!important;font-weight:700;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.06);color:rgba(255,255,255,.7)!important;border:1px solid rgba(255,255,255,.07)}
+.coc-meta span::before,.coc-meta span::after{display:none!important;content:none!important}
+.coc-skill{border-radius:999px!important;font-size:11px!important}
+.coc-price b{font-size:30px!important}
+.coc-card-footer{gap:8px;padding:0 16px 16px!important;display:flex;border-top:0!important}
+.coc-card-btn{border-radius:10px!important;border:1px solid rgba(255,255,255,.14)!important;font-size:12.5px!important;padding:12px 10px!important;flex:1}
+.coc-card-btn{white-space:nowrap;letter-spacing:.05em!important}
+.coc-card-btn.primary{background:#ffa500!important;border-color:#ffa500!important;color:#0a0a0f!important;flex:1.5}
+.coc-card-btn.primary:hover{background:transparent!important;color:#ffa500!important}
+.coc-feature{border-radius:18px!important;padding:clamp(22px,3vw,34px)!important;gap:22px!important}
+.coc-feature h2{font-size:clamp(30px,4.6vw,44px)!important}
+.coc-feature-price b{font-size:clamp(40px,6vw,56px)!important}
+.coc-cta{padding-left:clamp(16px,4vw,32px)!important;padding-right:clamp(16px,4vw,32px)!important}
+/* syllabus modal */
+.coc-modal-back{position:fixed;inset:0;z-index:10002;display:grid;place-items:center;padding:16px;background:rgba(3,3,8,.75);backdrop-filter:blur(5px);animation:coc-fade .25s ease}
+@keyframes coc-fade{from{opacity:0}to{opacity:1}}
+.coc-modal{position:relative;width:min(480px,100%);max-height:calc(100vh - 32px);overflow:auto;background:#101018;border:1px solid rgba(255,255,255,.1);border-top:3px solid #ffa500;border-radius:14px;padding:clamp(22px,4vw,32px);box-shadow:0 30px 90px rgba(0,0,0,.7);animation:coc-pop .35s cubic-bezier(.2,.9,.3,1.15)}
+@keyframes coc-pop{from{opacity:0;transform:translateY(16px) scale(.96)}to{opacity:1;transform:none}}
+.coc-modal-x{position:absolute;top:10px;right:12px;width:30px;height:30px;border:0;background:none;color:rgba(255,255,255,.55);font:400 26px/1 sans-serif;cursor:pointer}.coc-modal-x:hover{color:#fff}
+.coc-modal-eyebrow{font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#ffa500;margin-bottom:8px}
+.coc-modal h2{font-family:"Bebas Neue",sans-serif;font-weight:400;font-size:clamp(28px,5vw,36px);letter-spacing:.02em;line-height:1.05;margin:0 28px 6px 0}
+.coc-modal-meta{color:rgba(255,255,255,.5)!important;font-size:14px!important;font-weight:600;margin:0 0 14px!important}
+.coc-modal p{color:rgba(255,255,255,.72);font-size:16px;line-height:1.6;margin:0 0 18px}
+.coc-modal-sub{font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:10px}
+.coc-modal-skills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:22px}
+.coc-modal-skills span{font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;background:rgba(255,165,0,.1);border:1px solid rgba(255,165,0,.3);color:#ffb83d}
+.coc-modal-act{display:flex;gap:10px;flex-wrap:wrap}
+.coc-modal-act .coc-card-btn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;flex:1 1 160px;text-transform:uppercase;font-weight:800;color:rgba(255,255,255,.8)}
+.coc-modal-act .coc-card-btn.primary{color:#0a0a0f}
+@media(max-width:700px){.coc-feature{flex-direction:column;align-items:flex-start!important}.coc-feature-price{align-items:flex-start!important;text-align:left!important}.coc-search{flex-basis:100%;max-width:none}.coc-stats{gap:8px}}
+@media(max-width:420px){.coc-stat{padding:12px 6px!important}.coc-stat-l{letter-spacing:.06em!important;font-size:10px!important}.coc-card-footer{flex-wrap:wrap}.coc-card-btn{flex:1 1 100%}}
+`;

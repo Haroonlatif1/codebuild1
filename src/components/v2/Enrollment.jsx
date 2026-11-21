@@ -1,3 +1,4 @@
+import Robot3D from "./Robot3D";
 import React, { useState } from "react";
 import "./v2.css";
 import { COURSE_GROUPS, priceOf, pkr } from "./courses";
@@ -82,6 +83,16 @@ const Enrollment = ({ course, onCourseChange }) => {
             <li><b>03</b><div><strong>Get your batch details on WhatsApp</strong><span>We confirm your class timing, instructor and joining link.</span></div></li>
           </ul>
           <div className="enr-photos">{PHOTOS.map(([s, a]) => <img key={s} src={s} alt={a} loading="lazy" />)}</div>
+          <div className="enr-mascot">
+            <div className="enr-mascot-art">
+              <Robot3D fallbackSrc="/codebuild-robot.webp" alt="CodeBuild Academy robot mascot waving hello" />
+            </div>
+            <div className="enr-bubble">
+              <strong>Hi, I’m here to help!</strong>
+              <span>Not sure which course suits you or your child? Ask us on WhatsApp and we will point you in the right direction.</span>
+              <a className="v2-btn" href={`https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent("Hi CodeBuild Academy, I need help choosing a course.")}`} target="_blank" rel="noopener noreferrer">Chat on WhatsApp</a>
+            </div>
+          </div>
         </div>
 
         <div className="enr-card">

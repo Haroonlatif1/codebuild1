@@ -2,10 +2,10 @@ import { motion } from 'framer-motion';
 import { useNavigate, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faChevronRight, faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { useState, useRef } from 'react';
-import { HeroScene, CountUp, Tilt, Ticker, cfxCss } from './v2/CoursesFx';
+import { useState, useRef, useEffect } from 'react';
+import { HeroScene, CountUp, Tilt, Ticker, cfxCss, cfxModern } from './v2/CoursesFx';
 import { priceOf, pkr } from './v2/courses';
-import { KIDS_OFFER } from '../config/siteConfig';
+import { KIDS_OFFER, SITE } from '../config/siteConfig';
 import { useSeo } from './v2/seo';
 
 /* ─── data ────────────────────────────────────────────────────── */
@@ -119,7 +119,7 @@ const css = `
     min-height: 100vh;
     font-family: "Dosis", sans-serif;
     color: #fff;
-    overflow-x: hidden;
+    overflow-x: clip;
     width: 100%;
     box-sizing: border-box;
   }
@@ -548,7 +548,7 @@ const CourseCard = ({ course, index, onEnroll, onSyllabus, animDelay }) => {
         <div className="coc-card-name">{course.name}</div>
         <div className="coc-card-desc">{course.desc}</div>
 
-        <div className="coc-meta"><span>{course.duration} {course.duration === 1 ? "month" : "months"}</span><span>{course.students} students</span><span>Live classes</span></div>
+        <div className="coc-meta"><span>{course.duration} {course.duration === 1 ? "month" : "months"}</span><span>Live classes</span><span>Certificate</span></div>
         <div className="coc-skills">
           {course.skills.map(s => (
             <span key={s} className="coc-skill">{s}</span>
@@ -568,7 +568,7 @@ const CourseCard = ({ course, index, onEnroll, onSyllabus, animDelay }) => {
         <button className="coc-card-btn primary" onClick={() => onEnroll(course.label)}>
           Enroll Now <FontAwesomeIcon icon={faArrowRight} />
         </button>
-        <button className="coc-card-btn" onClick={onSyllabus}>
+        <button className="coc-card-btn" onClick={() => onSyllabus(course)}>
           <FontAwesomeIcon icon={faDownload} /> Syllabus
         </button>
       </div>
@@ -581,19 +581,26 @@ function OfferedCourses() {
   const navigate = useNavigate();
   const heroRef = useRef(null);
   const [cat, setCat] = useState('All');
+  const [q, setQ] = useState('');
   useSeo({ title: 'Courses – Web Development, AI, Python, Cyber Security', description: 'Live online IT courses with clear fees: full stack web development, AI, data science, Python, cyber security, mobile apps and more. Free demo class.', path: '/offeredcourses' });
   const cats = ['All', ...Array.from(new Set(courses.map(c => c.cat)))];
-  const shown = cat === 'All' ? courses : courses.filter(c => c.cat === cat);
+  const shown = courses.filter(c => (cat === 'All' || c.cat === cat) && `${c.name} ${c.desc} ${c.skills.join(' ')}`.toLowerCase().includes(q.trim().toLowerCase()));
   const onEnroll   = (title) => navigate('/', { state: { title } });
-  const onSyllabus = () => {
-    alert("Updated outlines not available. Contact us on WhatsApp. Redirecting...");
-    setTimeout(() => navigate('/contactus'), 1000);
-  };
+  const [syl, setSyl] = useState(null);
+  const onSyllabus = (course) => setSyl(course);
+  useEffect(() => {
+    if (!syl) return;
+    const k = (e) => e.key === 'Escape' && setSyl(null);
+    window.addEventListener('keydown', k);
+    const prev = document.body.style.overflow; document.body.style.overflow = 'hidden';
+    return () => { window.removeEventListener('keydown', k); document.body.style.overflow = prev; };
+  }, [syl]);
 
   return (
     <>
       <style>{css}</style>
       <style>{cfxCss}</style>
+      <style>{cfxModern}</style>
       <div className="coc-wrap">
 
         {/* hero */}
@@ -614,7 +621,7 @@ function OfferedCourses() {
             Industry-leading programs by working professionals. Real skills, real careers.
           </p>
           <div className="coc-stats">
-            {[["1000+","Students"],["95%","Placed"],["20+","Courses"],["7+","Departments"]].map(([n, l]) => (
+            {[["1000+","Students"],["20+","Courses"],["7+","Departments"]].map(([n, l]) => (
               <div className="coc-stat" key={l}>
                 <div className="coc-stat-n"><CountUp value={n} /></div>
                 <div className="coc-stat-l">{l}</div>
@@ -641,10 +648,14 @@ function OfferedCourses() {
             <div className="coc-section-label-line" />
             <span className="coc-section-label-count">{shown.length} available</span>
           </div>
-          <div className="coc-pills" role="tablist" aria-label="Course categories">
-            {cats.map(c => <button key={c} role="tab" aria-selected={cat === c} className={cat === c ? 'on' : ''} onClick={() => setCat(c)}>{c}</button>)}
+          <div className="coc-toolbar">
+            <div className="coc-pills" role="tablist" aria-label="Course categories">
+              {cats.map(c => <button key={c} role="tab" aria-selected={cat === c} className={cat === c ? 'on' : ''} onClick={() => setCat(c)}>{c}</button>)}
+            </div>
+            <input className="coc-search" type="search" placeholder="Search courses or skills" aria-label="Search courses" value={q} onChange={e => setQ(e.target.value)} />
           </div>
 
+          {shown.length === 0 && <p className="coc-empty">No courses match “{q}”. Try another word or clear the filter.</p>}
           <div className="coc-grid">
             {shown.map((course, i) => (
               <Tilt key={course.name}>
@@ -659,6 +670,25 @@ function OfferedCourses() {
             ))}
           </div>
         </div>
+
+
+        {syl && (
+          <div className="coc-modal-back" onMouseDown={(e) => e.target === e.currentTarget && setSyl(null)}>
+            <div className="coc-modal" role="dialog" aria-modal="true" aria-labelledby="coc-m-t">
+              <button className="coc-modal-x" onClick={() => setSyl(null)} aria-label="Close">×</button>
+              <div className="coc-modal-eyebrow">Course syllabus</div>
+              <h2 id="coc-m-t">{syl.name}</h2>
+              <p className="coc-modal-meta">{syl.duration} {syl.duration === 1 ? 'month' : 'months'} · Live classes · Certificate</p>
+              <p>We keep our course outlines up to date, so the latest syllabus is sent to you directly on WhatsApp. It takes a minute and you can ask questions at the same time.</p>
+              <div className="coc-modal-sub">You will cover</div>
+              <div className="coc-modal-skills">{syl.skills.map(k => <span key={k}>{k}</span>)}</div>
+              <div className="coc-modal-act">
+                <a className="coc-card-btn primary" href={`https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(`Hi CodeBuild Academy, please send me the latest syllabus for ${syl.name}.`)}`} target="_blank" rel="noopener noreferrer">Get syllabus on WhatsApp</a>
+                <Link className="coc-card-btn" to="/contactus">Contact us</Link>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* CTA */}
         <motion.div
