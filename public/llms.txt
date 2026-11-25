@@ -1,0 +1,28 @@
+# CodeBuild Academy
+
+> CodeBuild Academy is an online IT academy in Lahore, Pakistan. It teaches web development, AI, Python, data science, cyber security and mobile apps through live online classes, with a certificate on completion. Courses for adults and for kids aged 6 to 16. A free demo class is available.
+
+Contact: +92 328 4452954 (also on WhatsApp) | contact@codebuildacademy.com
+Last updated: 2026-11-22
+
+## Key pages
+- [Home](https://codebuildacademy.com/): Enrollment form, free skill check, how classes work, FAQ and student reviews.
+- [Courses and fees](https://codebuildacademy.com/offeredcourses): Every course with fee in PKR, duration, skills taught, and answers to "how much does it cost".
+- [AI for Kids, 7-day course](https://codebuildacademy.com/ai-kids-enroll): 7-day AI course for ages 6 to 16 covering AI bots, AI storybooks, AI video and prompt engineering, with certificate.
+- [Products](https://codebuildacademy.com/Products): Learning products and resources.
+- [About us](https://codebuildacademy.com/aboutus): Who we are and how we teach.
+- [Contact](https://codebuildacademy.com/contactus): Phone, email, WhatsApp and address.
+- [Certificate verification](https://codebuildacademy.com/Certificate-verification): Check that a CodeBuild Academy certificate is genuine.
+- [Daily challenge](https://codebuildacademy.com/daily-challenge): Free daily coding challenge.
+- [Practice](https://codebuildacademy.com/practice): Free practice problems.
+- [Blog](https://codebuildacademy.com/blog): Articles on learning to code and AI.
+
+## Optional
+- [Terms](https://codebuildacademy.com/terms)
+- [Privacy policy](https://codebuildacademy.com/privacy-policy)
+
+## Profiles
+- [Facebook](https://www.facebook.com/profile.php?id=61563588339796)
+- [LinkedIn](https://www.linkedin.com/company/codebuild-academy)
+- [YouTube](https://www.youtube.com/@CodeBuildAcademy)
+- [Instagram](https://www.instagram.com/codebuild1)

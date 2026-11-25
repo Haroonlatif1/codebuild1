@@ -1,6 +1,29 @@
+# Open to search engines and AI crawlers.
 User-agent: *
-Disallow: /cbdadmin
-Disallow: /checkout
 Allow: /
 
-Sitemap: https://codebuild.pk/sitemap.xml
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://codebuildacademy.com/sitemap.xml

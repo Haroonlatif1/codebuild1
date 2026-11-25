@@ -2,11 +2,12 @@ import { motion } from 'framer-motion';
 import { useNavigate, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faChevronRight, faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { HeroScene, CountUp, Tilt, Ticker, cfxCss, cfxModern } from './v2/CoursesFx';
 import { priceOf, pkr } from './v2/courses';
 import { KIDS_OFFER, SITE } from '../config/siteConfig';
 import { useSeo } from './v2/seo';
+import { coursesGraph, buildQa, CourseAnswers, LastUpdated } from './v2/schema';
 
 /* ─── data ────────────────────────────────────────────────────── */
 const courses = [
@@ -582,7 +583,8 @@ function OfferedCourses() {
   const heroRef = useRef(null);
   const [cat, setCat] = useState('All');
   const [q, setQ] = useState('');
-  useSeo({ title: 'Courses – Web Development, AI, Python, Cyber Security', description: 'Live online IT courses with clear fees: full stack web development, AI, data science, Python, cyber security, mobile apps and more. Free demo class.', path: '/offeredcourses' });
+  const qa = useMemo(() => buildQa(courses, priceOf), []);
+  useSeo({ title: 'Courses – Web Development, AI, Python, Cyber Security', description: 'Live online IT courses with clear fees: full stack web development, AI, data science, Python, cyber security, mobile apps and more. Free demo class.', path: '/offeredcourses', jsonLd: coursesGraph(courses, priceOf, qa) });
   const cats = ['All', ...Array.from(new Set(courses.map(c => c.cat)))];
   const shown = courses.filter(c => (cat === 'All' || c.cat === cat) && `${c.name} ${c.desc} ${c.skills.join(' ')}`.toLowerCase().includes(q.trim().toLowerCase()));
   const onEnroll   = (title) => navigate('/', { state: { title } });
@@ -689,6 +691,8 @@ function OfferedCourses() {
             </div>
           </div>
         )}
+
+        <CourseAnswers qa={qa} />
 
         {/* CTA */}
         <motion.div

@@ -66,13 +66,6 @@ const getYTThumb = (url = "") => {
    ✦ WebGL nebula + mouse parallax + energy core — all intact
 ════════════════════════════════════════════════════════════════════ */
 
-/* ─── TAG → EMOJI MAP ─────────────────────────────────────────────── */
-const TAG_EMOJI = {
-  Backend:"🖥️","AI/ML":"🧠",Security:"🔐",Web3:"⛓️",React:"⚛️",
-  Hardware:"🤖",Python:"🐍",Mobile:"📱",Data:"📊",Office:"💼",
-  Frontend:"⚡",Blockchain:"🔗",Default:"🎓",
-};
-
 /* ─── CSS ─────────────────────────────────────────────────────────── */
 const css = `
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dosis:wght@400;500;600;700;800&display=swap');
@@ -252,7 +245,6 @@ const css = `
   opacity:0.35;
   z-index:1;
 }
-.ci-card-top-emoji { position:relative; z-index:2; filter:drop-shadow(0 0 12px var(--cc)); }
 .ci-card-tag {
   position:absolute; top:8px; left:8px;
   font-size:7px; font-weight:800;
@@ -767,9 +759,6 @@ const ClassInsights = () => {
                     <div className="ci-card-top">
                       {clip.thumb_url && <img className="ci-card-thumb" src={clip.thumb_url} alt=""/>}
                       <div className="ci-card-tag">{clip.tag}</div>
-                      <span className="ci-card-top-emoji">
-                        {TAG_EMOJI[clip.tag] || TAG_EMOJI.Default}
-                      </span>
                       <div className="ci-card-dur">{clip.duration}</div>
                     </div>
                     <div className="ci-card-body">

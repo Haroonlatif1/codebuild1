@@ -17,7 +17,7 @@ export const FAQS = [
   { q: "How do I pay and how long does confirmation take?", a: "Pay by bank transfer, JazzCash or Easypaisa and upload the screenshot (JPEG) with your application. We verify it and message you on WhatsApp, normally within a few hours." },
   { q: "Can I watch a class before enrolling?", a: "Yes. There is a free demo session video on the home page, and you can also message us on WhatsApp to ask about the next live demo." },
   { q: "Is there a course for kids?", a: "Yes, AI for Kids is designed for ages 6 to 16. Use the kids skill check to see if your child is ready. All it needs is a laptop, tablet or phone and an internet connection." },
-  { q: "What do I need to attend?", a: "A laptop or desktop, a stable internet connection and a WhatsApp number. For some courses you may need free software, which we tell you about before you start." },
+  { q: "What do I need to attend?", a: "A laptop , desktop or phone and a internet connection and a WhatsApp number. For some courses you may need free software, which we tell you about before you start." },
   { q: "Will I get a certificate?", a: "Yes. Completed courses receive a certificate that anyone can verify on our Certificate Verification page." },
   { q: "What if the course is not right for me?", a: "Tell us as early as possible. Our refund and rescheduling terms are on the Terms page, and we will always explain them before you pay." },
   { q: "Who will answer my questions?", a: "A real person on WhatsApp – not a ticket queue. Scheduling, questions and updates are all handled by our team." },
@@ -29,7 +29,7 @@ export const WHY_CHOOSE = [
   { title: "On your schedule", text: "Sessions are agreed around your work and your timezone, and moved when something comes up. There is no batch to keep up with." },
   { title: "Your app, not an exercise", text: "You bring the idea. Everything you build is yours, for your own work or your own customers, and it is live on the internet by the end." },
   { title: "A workflow you keep", text: "The point is not one app. It is knowing how to direct AI well enough to build the next one without us." },
-  { title: "Honest about the cost", text: "The one thing not included is a Claude subscription, and we say so before you pay rather than after." },
+  { title: "Honest about the cost", text: "The one thing not included is a Claude subscription" },
   { title: "A human on WhatsApp", text: "Scheduling, questions and updates handled by a person, not a ticket queue." },
 ];
 

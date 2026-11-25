@@ -7,12 +7,12 @@ import { DemoPopup } from "./v2/DemoAuto"
 import { KidsOffer, KidsDemo, StickyEnroll } from "./v2/KidsOffer"
 import { DEFAULT_COURSE } from "./v2/courses"
 import { useSeo } from "./v2/seo"
+import { homeGraph, LastUpdated } from "./v2/schema"
 import Reviews from "./Reviews"
 import WhyUs from './Whyus'
 import ClassInsights from './Classinsights'
 import VideoReviews from './VideoReviews'
 import Blog from './Blog'
-
 import Competition from './Competition'
 
 const Home = () => {
@@ -24,7 +24,7 @@ const Home = () => {
     title: "IT Courses in Pakistan – Web Development, AI & Programming",
     description: "CodeBuild Academy offers live online IT courses in web development, AI, Python, cyber security and more for kids and adults. Free demo class, skill check and easy enrollment.",
     path: "/",
-    jsonLd: { "@context": "https://schema.org", "@type": "EducationalOrganization", name: "CodeBuild Academy", url: "https://codebuild.pk", logo: "https://codebuild.pk/ll.png", telephone: "+92 328 4452954", sameAs: [] },
+    jsonLd: homeGraph(),
   })
   const enrollIn = (c) => { setCourse(c); document.getElementById('enroll')?.scrollIntoView({ behavior: 'smooth' }) }
 
@@ -118,6 +118,7 @@ const Home = () => {
       <ClassInsights />
       <div className='h-50'><Reviews /></div>
       <Faq />
+      <LastUpdated />
 
       <StickyEnroll />
       <DemoPopup />
