@@ -119,7 +119,6 @@ const Home = () => {
       <div className='h-50'><Reviews /></div>
       <Faq />
       <LastUpdated />
-
       <StickyEnroll />
       <DemoPopup />
 

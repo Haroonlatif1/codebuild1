@@ -31,7 +31,6 @@ export const personNodes = () =>
     ...(p.sameAs?.length ? { sameAs: p.sameAs } : {}),
   }));
 
-// Reviews are text testimonials with no star value, so no rating or aggregateRating is invented.
 export const reviewNodes = () =>
   REVIEWS.map((r) => ({
     "@type": "Review",
@@ -60,10 +59,8 @@ export const courseNode = (c, price) => ({
     : {}),
 });
 
-// Home: organization + instructors + reviews in one @graph.
 export const homeGraph = () => ({ "@context": CTX, "@graph": [orgNode(), ...personNodes(), ...reviewNodes()] });
 
-// Courses page: organization + people + every course + the visible Q&A as FAQPage.
 export const coursesGraph = (courses, priceOf, qa) => ({
   "@context": CTX,
   "@graph": [
@@ -80,10 +77,12 @@ export const coursesGraph = (courses, priceOf, qa) => ({
 export const fmtDate = (iso = LAST_UPDATED) =>
   new Date(iso + "T00:00:00Z").toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
 
-/** Visible "Last updated" line with a machine-readable <time>. */
 export function LastUpdated({ date = LAST_UPDATED, className = "" }) {
   return (
-    <p className={`lu ${className}`} style={{ margin: "14px auto", textAlign: "center", fontSize: 13, color: "#6b7280" }}>
+    <p
+      className={`lu ${className}`}
+      style={{ margin: "14px 0 0", textAlign: "center", fontSize: 13, color: "#6b7280" }}
+    >
       Last updated: <time dateTime={date}>{fmtDate(date)}</time>
     </p>
   );
@@ -93,7 +92,6 @@ const money = (n) => `PKR ${Number(n).toLocaleString("en-US")}`;
 const months = (n) => `${n} ${n === 1 ? "month" : "months"}`;
 const list = (a) => (a.length > 1 ? `${a.slice(0, -1).join(", ")} and ${a[a.length - 1]}` : a[0] || "");
 
-/** Builds direct-answer Q&A text from the same data the course cards use. */
 export function buildQa(courses, priceOf) {
   return courses.map((c) => {
     const p = priceOf(c.label);
@@ -106,7 +104,7 @@ export function buildQa(courses, priceOf) {
 }
 
 const css = `
-.qa{max-width:1100px;margin:56px auto;padding:0 16px}
+.qa{max-width:1100px;margin:56px auto 0;padding:0 16px}
 .qa h2{font-size:clamp(1.4rem,3vw,2rem);margin:0 0 6px}
 .qa-lead{color:#6b7280;margin:0 0 22px;max-width:70ch}
 .qa-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
@@ -114,9 +112,9 @@ const css = `
 .qa-item h3{font-size:1rem;margin:0 0 8px;line-height:1.35}
 .qa-item p{margin:0 0 8px;line-height:1.55;font-size:.93rem}
 .qa-facts{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.82rem;color:#6b7280;margin:0;padding:0;list-style:none}
+.qa > .lu{margin:18px 0 0 !important}
 `;
 
-/** Answer-first Q&A rendered as plain HTML text (crawlable by AI engines). */
 export function CourseAnswers({ qa }) {
   return (
     <section className="qa" aria-labelledby="qa-h">
@@ -136,7 +134,7 @@ export function CourseAnswers({ qa }) {
           </article>
         ))}
       </div>
-      <LastUpdated />
+      <LastUpdated className="qa-lu" />
     </section>
   );
 }
